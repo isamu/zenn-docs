@@ -1,5 +1,5 @@
 ---
-title: "Firebase9 Vue.js 3 Turorial"
+title: "FriendlyEats-vue3 - Firebase9 Vue.js 3 Turorial"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, Vue.js, JavaScript]
