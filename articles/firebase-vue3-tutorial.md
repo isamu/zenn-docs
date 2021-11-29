@@ -96,7 +96,7 @@ FriendlyEats-vue3は、Vue 3を使ったFirebase / Cloud Firestoreのチュー�
 ### ソースコードを取得する
 以下のコマンドを使って GitHub レポジトリをクローンします
 
-```
+```sh
 git clone https://github.com/isamu/FriendlyEats-vue3
 ```
 * 自分の変更をGitHubで管理したい場合には、Forkしてcloneしてください
@@ -106,7 +106,7 @@ git clone https://github.com/isamu/FriendlyEats-vue3
 以後、このディレクトリ内でコマンドラインを実行してください。
 
 
-```
+```sh
 cd FriendlyEats-vue3
 ```
 
@@ -114,7 +114,7 @@ cd FriendlyEats-vue3
 
 npmのパッケージをインストールします。
 
-```
+```sh
 npm install
 ```
 ### Firebaseの設定を取得し firebase.js を書き換える
@@ -142,7 +142,7 @@ Note: CLIをインストールするには、通常NodeJSに付属しているnp
 
 1 . 次のnpmコマンドを実行して、CLIをインストールします。
 
-```
+```sh
 npm -g install firebase-tools
 ```
 
@@ -150,7 +150,7 @@ npm -g install firebase-tools
 
 2 . 次のコマンドを実行して、CLIが正しくインストールされたことを確認します。
 
-```
+```sh
 firebase --version
 ```
 
@@ -158,7 +158,7 @@ Firebase CLIのバージョンがv9.0.0以降であることを確認してく�
 
 3 . 次のコマンドを実行して、Firebase CLIを認証します。
 
-```
+```sh
 firebase login
 ```
 
@@ -169,7 +169,7 @@ Firebase Hostingのアプリの設定をアプリのローカルディレクト�
 
 5 . 次のコマンドを実行して、アプリをFirebaseプロジェクトに関連付けます。
 
-```
+```sh
 firebase use --add
 ```
 
@@ -183,13 +183,13 @@ firebase use --add
 
 1 . 次のコマンドをローカルのCLIで実行します:
 
-```
+```sh
 npm run serve
 ```
 
 2 . 成功すると次の文を含むメッセージが表示されます
 
-```
+```sh
   - Local:   http://localhost:8080/ 
 ```
 
@@ -353,7 +353,7 @@ export const getRestaurant = (id) => {
 
 すべての「点心（Dim Sum）」レストランを取得する簡単なクエリの例を次に示します。
 
-```
+```js
 let filteredQuery = query(collection('restaurants'), where('category', '==', 'Dim Sum');
 ```
 
@@ -398,7 +398,7 @@ export const getFilteredRestaurants = (filters) => {
 
 ここで、ブラウザでFriendlyEatsアプリを更新し、価格や都市などのカテゴリでフィルタリングできることを確認しようとしても、まだ完全には動きません。検索結果は「Your Cloud Firestore has no documents in /restaurants/」と表示されます。また、ブラウザのJavaScriptコンソールに次のようなエラーが表示される場合があります。
 
-```
+```sh
 The query requires an index. You can create it here: https://console.firebase.google.com/project/.../database/firestore/indexes?create_index=...
 ```
 
@@ -414,7 +414,7 @@ The query requires an index. You can create it here: https://console.firebase.go
 
 [firestore.indexes.json](https://github.com/isamu/FriendlyEats-vue3/blob/master/firestore.indexes.json)
 
-```
+```json
 {
  "indexes": [
    {
@@ -434,7 +434,7 @@ The query requires an index. You can create it here: https://console.firebase.go
 
 次のコマンドでこれらのインデックスをデプロイします。
 
-```
+```sh
 firebase deploy --only firestore:indexes
 ```
 数分後、インデックスが有効になり、エラーメッセージが消えます。
@@ -536,7 +536,7 @@ service cloud.firestore {
 
 FirebaseのConsoleを使うかわりに、Firebase CLIを使用してルールをFirebaseプロジェクトに展開できます。作業ディレクトリの[`firestore.rules`](https://github.com/firebase/friendlyeats-web/blob/master/firestore.rules)ファイルには、上記のルールが既に含まれています。これらのルールをローカル環境からFirebaseにデプロイするには、次のコマンドを実行します。
 
-```
+```sh
 firebase deploy --only firestore:rules
 ```
 
@@ -546,7 +546,7 @@ firebase deploy --only firestore:rules
 
 まず、Vueをビルドします。
 
-```
+```sh
 npm run build
 ```
 
@@ -554,13 +554,13 @@ npm run build
 
 つぎに Cloud Firebase へデプロイします。
 
-```
+```sh
 firebase deploy --only hosting
 ```
 
 以下のように表示されるとデプロイ成功です。
 
-```
+```sh
 ✔  Deploy complete!
 
 Project Console: https://console.firebase.google.com/project/friendlyeats-vue/overview
