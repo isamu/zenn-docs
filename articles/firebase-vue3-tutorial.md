@@ -321,7 +321,7 @@ Firebaseコンソールに移動して、レストランを手動で削除する
 
 Note: `getDocs()`メソッドを使用することにより、更新通知を常時リアルタイムに受け取るのではなく、Cloud Firestoreからドキュメントを一度だけ取得することもできます。
 
-![data](http://to-kyo.to/~isamu/code/11.png =250x)
+![data](http://to-kyo.to/~isamu/code/11.jpg =250x)
 
 ## データを取得する
 
