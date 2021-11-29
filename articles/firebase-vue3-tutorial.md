@@ -230,7 +230,7 @@ Firestoreデータは、コレクション、ドキュメント、フィール�
 
 [FriendlyEats.Data.js](https://github.com/isamu/FriendlyEats-vue3/blob/master/src/components/FriendlyEats.Data.js#L5-L9.js)
 
-```
+```js
 export const addRestaurant = (data) => {
   return addDoc(collection(db, "restaurants"), data);
 };
@@ -278,7 +278,7 @@ Firebaseコンソールの「Cloud Firestore」タブに移動すると、`resta
 
 [FriendlyEats.Data.js](https://github.com/isamu/FriendlyEats-vue3/blob/master/src/components/FriendlyEats.Data.js#L11-L15.js)
 
-```
+```js
 export const getAllRestaurants = () => {
   return query(collection(db, "restaurants"), orderBy("avgRating", "desc"), limit(50));
 };
@@ -294,7 +294,7 @@ export const getAllRestaurants = () => {
 
 [FriendlyEats.Data.js](https://github.com/isamu/FriendlyEats-vue3/blob/master/src/components/FriendlyEats.Data.js#L18-L22.js)
 
-```
+```js
 export const getDocumentsInQuery = (query, renderer) => {
   return onSnapshot(query, (snapshot) => {
     if (!snapshot.size) return renderer.empty();
@@ -334,7 +334,7 @@ Note: `getDocs()`メソッドを使用することにより、更新通知を常
 
 [FriendlyEats.Data.js](https://github.com/isamu/FriendlyEats-vue3/blob/master/src/components/FriendlyEats.Data.js#L25-L29.js)
 
-```
+```js
 export const getRestaurant = (id) => {
   return getDoc(doc(db, `restaurants/${id}`));
 };
@@ -369,7 +369,7 @@ let filteredQuery = query(collection('restaurants'), where('category', '==', 'Di
 
 [FriendlyEats.Data.js](https://github.com/isamu/FriendlyEats-vue3/blob/master/src/components/FriendlyEats.Data.js#L32-L36.js)
 
-```
+```js
 export const getFilteredRestaurants = (filters) => {
   let q = collection(db, 'restaurants');
 
@@ -457,7 +457,7 @@ firebase deploy --only firestore:indexes
 
 [FriendlyEats.Data.js](https://github.com/isamu/FriendlyEats-vue3/blob/master/src/components/FriendlyEats.Data.js#L39-L43.js)
 
-```
+```js
 export const addRating = (restaurantID, rating) => {
   const restaurantCollection = collection(db, 'restaurants');
   const restaurantDoc = doc(restaurantCollection, restaurantID);
