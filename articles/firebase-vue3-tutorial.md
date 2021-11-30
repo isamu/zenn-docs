@@ -14,7 +14,7 @@ FriendlyEats-vue3は、 FriendlyEats-vueをベースにVue3とFirebase SDK v9に
 
 https://github.com/isamu/FriendlyEats-vue3
 
-## FriendlyEats-vue3 について
+## 1. FriendlyEats-vue3 について
 
 FriendlyEats-vue3は、Vue 3を使ったFirebase / Cloud Firestoreのチュートリアル用のアプリです。Cloud Firestoreを学習するために最小限のプログラムをするだけでCloud Firestoreを使ったアプリケーションを作ることができます。
 
@@ -32,7 +32,7 @@ FriendlyEats-vue3は、Vue 3を使ったFirebase / Cloud Firestoreのチュー�
 - Node.jsとnpm \- Nodeはversion 14をお薦めします
 - IDEやテキストエディタ。たとえば Emacs, vim, WebStorm, Atom, VS Code, Sublime などからお好きなものを選んでください
 
-## Firebase projectの作成と設定
+## 2. Firebase projectの作成と設定
 
 ### Firebase projectを作成する
 1. [Firebaseのコンソール](https://console.firebase.google.com)上で「プロジェクトを追加」をクリックします
@@ -134,7 +134,7 @@ Firebaseのコンソールから設定を取得し、src/firebase/firebase.js �
 IDE（WebStorm、Atom、Sublime、Visual Studio Code ...）を使用している場合、📁FriendlyEats-vue3ディレクトリを開くかインポートします。このディレクトリには、レストラン情報とオススメ情報を表示するアプリの未完成なモックコードが含まれています。チュートリアルを通してこのアプリを実装していくので、このモックコードを編集できる必要があります。
 
 
-## Firebase CLI (コマンドラインツール)のインストール
+## 4. Firebase CLI (コマンドラインツール)のインストール
 
 Firebaseコマンドラインインターフェイス（CLI）を使用すると、Webアプリをローカルで開発したり、Firebase Hostingにデプロイすることができます。
 
@@ -178,7 +178,7 @@ firebase use --add
 
 7 . コマンドラインの残りの指示に従ってください。
 
-## Vueをローカルで起動する
+## 5. Vueをローカルで起動する
 アプリで実際に作業を開始する準備ができました！アプリをローカルで実行しましょう！
 
 1 . 次のコマンドをローカルのCLIで実行します:
@@ -204,7 +204,7 @@ Vueサーバがローカルで起動しています。 ブラウザ http://local
 ![anon](http://to-kyo.to/~isamu/code/7.png)
 
 
-## Cloud Firestoreへデータの書き込み
+## 6. Cloud Firestoreへデータの書き込み
 
 このセクションでは、Cloud Firestoreにデータを書き込みます。Firebaseコンソール上で手動でデータ入力を行うこともできますが、Cloud Firestoreの基本的な書き込みを学習する為に、アプリ自体でデータ生成/入力を行います。
 
@@ -265,7 +265,7 @@ Firebaseコンソールの「Cloud Firestore」タブに移動すると、`resta
 次のセクションでは、Cloud Firestoreからデータを取得してアプリに表示する方法を学習します。
 
 
-## Cloud Firestore のデータを表示
+## 7. Cloud Firestore のデータを表示
 
 このセクションでは、Cloud Firestoreからデータを取得してアプリに表示する方法を学習します。 2つの重要な手順は、クエリの作成とスナップショットリスナーの追加です。このリスナーには、クエリに一致するすべての既存データが通知され、更新をリアルタイムで受信します。
 
@@ -323,7 +323,7 @@ Note: `getDocs()`メソッドを使用することにより、更新通知を常
 
 ![data](http://to-kyo.to/~isamu/code/11.jpg =250x)
 
-## データを取得する
+## 8. データを取得する
 
 ここまでは、`onSnapshot`を使用して更新をリアルタイムで取得する方法を実装しました。
 つぎは、アプリ内の特定のレストランをクリックした時にトリガーされる機能を実装しましょう。
@@ -347,7 +347,7 @@ export const getRestaurant = (id) => {
 現時点では評価を追加することはできませんが、この機能はチュートリアルの後半で実装します。
 
 
-## データのソートと絞り込み
+## 9. データのソートと絞り込み
 
 今のところ、アプリにはレストランのリストが表示されていますが、ユーザーがニーズに基づいてフィルタリングする方法はありません。このセクションでは、Cloud Firestoreの高度なクエリを使用してフィルタリングを有効にします。
 
@@ -406,7 +406,7 @@ The query requires an index. You can create it here: https://console.firebase.go
 
 次のセクションでは、このアプリケーションに必要なインデックスを作成してデプロイします。
 
-## Cloud Firestoreにindexを追加
+## 10. Cloud Firestoreにindexを追加
 
 アプリ内のすべてのパスを探索し、各インデックス作成リンクをたどる必要がない場合は、Firebase CLIを使用して多数のインデックスを一度に簡単に展開できます。
 
@@ -442,7 +442,7 @@ firebase deploy --only firestore:indexes
 
 > Tip: Cloud Firestoreのインデックスの詳細については、ドキュメントをご覧ください。
 
-## トランザクションを使ってデータの書き込み
+## 11. トランザクションを使ってデータの書き込み
 このセクションでは、ユーザーがレストランにレビューを書き込みする機能を実装します。
 
 今までのところ、書き込みはすべてアトミックで比較的単純です。もし書き込みエラーが発生した場合でも、おおむね単にユーザーに再試行を促すか、でなければアプリ自身が自動的に再試行するでしょう。
@@ -487,7 +487,7 @@ export const addRating = (restaurantID, rating) => {
 
 >警告：サーバーでトランザクションが失敗すると、コールバックも繰り返し再実行されます。アプリの状態を変更するロジックをトランザクションコールバック内に配置しないでください。
 
-## データを守る
+## 12. データを守る
 
 このチュートリアルの最初に、アプリのセキュリティルールをテストモードに設定し、自由に読み書きできるようにしました。
 実際のアプリケーションでは、望ましくないデータの読み込みや変更を防ぐために、よりきめ細かいルールを設定する必要があります。
@@ -542,7 +542,7 @@ firebase deploy --only firestore:rules
 
 > 重要：セキュリティルールの詳細については、[セキュリティルールのドキュメント](https://firebase.google.com/docs/firestore/security/get-started)をご覧ください。
 
-## デプロイ
+## 13. デプロイ
 
 まず、Vueをビルドします。
 
@@ -569,7 +569,7 @@ Hosting URL: https://friendlyeats-vue.firebaseapp.com
 
 Hosting URLをブラウザで見てみましょう。作成したアプリケーションが見えます！
 
-## まとめ
+## 14. まとめ
 このチュートリアルでは、Cloud Firestoreで基本的な、そして高度な読み取りと書き込みを行う方法と、セキュリティルールでデータアクセスを保護する方法を学びました。
 
 Cloud Firestore の詳細については、次のリソースをご覧ください:
