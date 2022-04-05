@@ -45,16 +45,17 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
 ## Authentication
   - AuthenticationはFirebaseのものではなく、GCPのIdentity Platform を使うのがよい
 ## Storage
-  - write権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
+  - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
+  - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
 ## Hosting
   - 必要なら開発系にアクセス制限(IPや認証)を設定する
     - express経由等の設定が必要。簡易ならweb層で
 ##  Function
   - 一般的なバックエンドのセキュリティ対策をする
     - 変数チェック、権限チェック、インジェクション
-    - rate limitを導入する
-    - Functionsのログに秘匿情報を出さないようにする
-    - 必要ならFunctionsの操作ログを自前で実装する
+  - rate limitを導入する
+  - Functionsのログに秘匿情報を出さないようにする
+  - 必要ならFunctionsの操作ログを自前で実装する
 
 # API Key
   - API Keyは公開可能なものと、そうでないものは区別して厳重に管理
