@@ -42,8 +42,14 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
     - 基本は不要なデータは取らないようにする
     - 不要になった個人情報は定期的に削除する
   - Firestore全体のバックアップを設定する
+    - [データのエクスポートをスケジュールする](https://firebase.google.com/docs/firestore/solutions/schedule-export)
+
 ## Authentication
   - AuthenticationはFirebaseのものではなく、GCPのIdentity Platform を使うのがよい
+    - Identity Platformを使うと、多要素認証,ブロッキング関数などが使える
+    - Firebase Authenticationと互換性がある
+    - [Identity Platform と Firebase Authentication の違い](https://cloud.google.com/identity-platform/docs/product-comparison?)
+
 ## Storage
   - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
   - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
