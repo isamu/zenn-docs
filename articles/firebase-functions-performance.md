@@ -65,8 +65,8 @@ exports.JpFunc = functions
 
 - Functions内ではFirebaseの他サービスを極力使わない
 - 同期関数ではなく非同期関数で処理する
- - Triggerを利用する
- - Functionsでレスポンスは返すが、処理は非同期で続ける
+  - Triggerを利用する
+  - Functionsでレスポンスは返すが、処理は非同期で続ける
 - 定期的にFunctionsを呼び出して、Hot standbyの状態を維持する
 - Firestoreは、別のライブラリを使って処理する
   - 上記チケット内でgRPCを使わないFirestoreのライブラリが紹介されていました
