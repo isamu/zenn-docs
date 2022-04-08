@@ -1,5 +1,5 @@
 ---
-title: "Firebase Functions for Firebaseは遅い？"
+title: "Cloud Functions for Firebaseは遅い？"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, Functions, Firestore, gRPC]
