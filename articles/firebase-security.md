@@ -49,6 +49,9 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
     - Identity Platformを使うと、多要素認証,ブロッキング関数などが使える
     - Firebase Authenticationと互換性がある
     - [Identity Platform と Firebase Authentication の違い](https://cloud.google.com/identity-platform/docs/product-comparison?)
+  - 認証の仕組みとしては、OAuth2.0プロバイダーが最も安全
+    - Google, Appleの認証を使えないか検討をする
+    - email/password認証を使う場合は、ブルートフォース攻撃を防ぐために、サインインエンドポイントの割り当ての制限をする
 
 ## Storage
   - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
@@ -61,16 +64,22 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
     - 変数チェック、権限チェック、インジェクション
   - rate limitを導入する
   - Functionsのログに秘匿情報を出さないようにする
+  - 環境変数に機密情報を入れない
+    - Cloud Functionsは関数の呼び出し間で環境を再利用するため、機密情報を環境に保存しない
+    - Cloud SecretManagerを使う
   - 必要ならFunctionsの操作ログを自前で実装する
+  - DoS攻撃で課金が増える可能性があるので、インスタンスの最大数の上限を設定しておく
 
 # API Key
   - API Keyは公開可能なものと、そうでないものは区別して厳重に管理
   - 公開可能なものは、設定を確認しておく（アクセス可能な範囲等）
   - 秘匿な鍵は厳重に管理。仕組みとしてGitに登録できないようにするなど。
 
-  
+# バックエンドサービスの監視とアラートを設定する
+   - Firestore, Hosting, Storageは監視とアラートの設定を追加
+
 # その他
   - NodeやPackageなどは、なるべく最新のバージョンに上げる
   - audit logで取れるものはとっておく。
   - オープンソースであればCodeQLを利用する
-  
+  - FirestoreやStorageのTriggerでFunctionsを呼び出すときは、Loopしていないか確認をする
