@@ -83,3 +83,9 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
   - audit logで取れるものはとっておく。
   - オープンソースであればCodeQLを利用する
   - FirestoreやStorageのTriggerでFunctionsを呼び出すときは、Loopしていないか確認をする
+
+
+# Firebaseへの要望
+  - HostingやfuncitonsにWAFが欲しい
+  - もっと詳細なAudit logが欲しい
+  - クラウドレベルで、各種サービスへのにIP制限などの機能がほしい
