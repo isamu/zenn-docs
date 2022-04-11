@@ -51,7 +51,7 @@ exports.processPayment = functions
 Functions secretsは、実際にはGoogle Cloud Secret Managerで情報を管理しているので、若干のコストがかかります。 6 個のシークレット、１シークレットあたり毎月 10,000 回のアクセス オペレーションまでは無料で、それ以外が、アクセス オペレーション 10,000 回あたり $0.03かかります。
 詳しくは[Secret Manager の料金](https://cloud.google.com/secret-manager/pricing)を参照してください。
 
-試してみると、
+実際に登録を試してみると、
 ```
 $ firebase functions:secrets:set TEST
 
@@ -59,6 +59,7 @@ Error: HTTP Error: 403, Secret Manager API has not been used in project xxxxxxxx
 ```
 と、まずはSecret Manager APIを有効にする必要があります。
 
+エラーメッセージにあるurlを開き、enable APIで有効にします。有効にした後、再度登録を試してみます。
 
 ```
 $ firebase functions:secrets:set TEST
