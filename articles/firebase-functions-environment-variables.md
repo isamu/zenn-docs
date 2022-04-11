@@ -1,5 +1,5 @@
 ---
-title: "functions:secrets:setが追加され、Cloud Functions for Firebaseのconfigを使った環境変数が非推奨になった話"
+title: "functions:secrets:setが追加され、Functionsのconfigを使った環境変数が非推奨になった話"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, Security, Functions]
