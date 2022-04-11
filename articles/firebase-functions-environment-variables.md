@@ -12,7 +12,8 @@ published: true
 > CloudFunctionの環境変数に機密情報を入れないでください
 >多くの場合、自己ホスト型のNode.jsアプリでは、環境変数を使用して秘密鍵などの機密情報を含めます。 CloudFunctionsではこれを行わないでください。 Cloud Functionsは関数の呼び出し間で環境を再利用するため、機密情報を環境に保存しないでください。
 
-とありました。以前は、`functions:config:set` で秘匿情報を登録し、 `functions.config().some.key`で取り出すという方法が一般的だったのですが、いつに間にか推奨させないようになっていました。「呼び出し間で環境を再利用」とあるので、コンテナを共有あるいは使い回しをし、古い設定が残るようです。以前からこの問題があったのか、それともコンテナの効率化で変更になったのか理由はわかりませんが、新しい方法が用意されたようです。
+とありました。(2022/04/11)
+以前は、`functions:config:set` で秘匿情報を登録し、 `functions.config().some.key`で取り出すという方法が一般的だったのですが、いつに間にか推奨させないようになっていました。「呼び出し間で環境を再利用」とあるので、コンテナを共有あるいは使い回しをし、古い設定が残るようです。以前からこの問題があったのか、それともコンテナの効率化で変更になったのか理由はわかりませんが、新しい方法が用意されたようです。
 
 Firebaseのドキュメントの[環境を構成する](https://firebase.google.com/docs/functions/config-env)を見てみると、npmの `firebase-functions v3.18.0`と、CLIの`firebase-tools v 10.2.0`の組み合わせで、秘匿情報は functions:secrets:setを使って管理するようになったようです。その他にも、このバージョンから.envを使った環境変数の設定をサポートをするようになったようです。秘匿ではない情報はこちらで管理すると楽ですね。
 
@@ -51,6 +52,7 @@ Functions secretsは、実際にはGoogle Cloud Secret Managerで情報を管理
 詳しくは[Secret Manager の料金](https://cloud.google.com/secret-manager/pricing)を参照してください。
 
 `functions:config`で管理していた情報は、やはめに`functions:secrets:set`に移行したほうが良さそうです
+使わなくなった config内の変数は`firebase functions:config:unset paramname`で削除する必要があるのでお忘れなく。
 
 
 
