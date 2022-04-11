@@ -59,12 +59,60 @@ Error: HTTP Error: 403, Secret Manager API has not been used in project xxxxxxxx
 ```
 と、まずはSecret Manager APIを有効にする必要があります。
 
+
 ```
 $ firebase functions:secrets:set TEST
 ? Enter a value for TEST [hidden]
 ✔  Created a new secret version projects/998434940151/secrets/TEST/versions/1
 ```
 登録できました。
+
+他、使い方は
+
+```
+$ firebase functions:secrets:access TEST
+xxx
+```
+先程登録した値。setではhiddenでしたがここでは生データが確認できます
+
+
+```
+$ firebase functions:secrets:get TEST
+┌─────────┬─────────┐
+│ Version │ State   │
+├─────────┼─────────┤
+│ 1       │ ENABLED │
+└─────────┴─────────┘
+```
+バージョン管理
+
+```
+$ firebase functions:secrets:prune TEST
+```
+
+Destroys unused secrets
+
+```
+$ firebase functions:secrets:destroy TEST
+```
+
+Destroy a secret. Defaults to destroying the latest version.
+
+```
+$ firebase functions:secrets:destroy TEST
+? Are you sure you want to destroy TEST@1 Yes
+i  Destroyed secret version TEST@1
+i  No active secret versions left. Destroying secret TEST
+```
+削除
+
+```
+firebase functions:secrets:get TEST
+Error: HTTP Error: 404, Secret [projects/998434940151/secrets/TEST] not found.
+```
+削除したのでない。
+
+
 
 
 `functions:config`で管理していた情報は、やはめに`functions:secrets:set`に移行したほうが良さそうです
