@@ -41,15 +41,31 @@ exports.processPayment = functions
 
 基本的には、firebase functions:config:set と似たような方法で使うことができます。
 
-
 [firebase-functionsのChangeLog](https://github.com/firebase/firebase-functions/releases/tag/v3.18.0)をみると、
 
 >Add new runtime option for setting secrets.
 
 とありますね。
 
+
 Functions secretsは、実際にはGoogle Cloud Secret Managerで情報を管理しているので、若干のコストがかかります。 6 個のシークレット、１シークレットあたり毎月 10,000 回のアクセス オペレーションまでは無料で、それ以外が、アクセス オペレーション 10,000 回あたり $0.03かかります。
 詳しくは[Secret Manager の料金](https://cloud.google.com/secret-manager/pricing)を参照してください。
+
+試してみると、
+```
+$ firebase functions:secrets:set TEST
+
+Error: HTTP Error: 403, Secret Manager API has not been used in project xxxxxxxxxx before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/secretmanager.googleapis.com/overview?project=xxxxxxxxxx then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+```
+と、まずはSecret Manager APIを有効にする必要があります。
+
+```
+$ firebase functions:secrets:set TEST
+? Enter a value for TEST [hidden]
+✔  Created a new secret version projects/998434940151/secrets/TEST/versions/1
+```
+登録できました。
+
 
 `functions:config`で管理していた情報は、やはめに`functions:secrets:set`に移行したほうが良さそうです
 使わなくなった config内の変数は`firebase functions:config:unset paramname`で削除する必要があるのでお忘れなく。
