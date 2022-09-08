@@ -24,6 +24,10 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
   
 # Firebase
 
+## App Check
+  - App Checkを導入してバックエンドに対しての不正なアクセスを防ぐ
+    - https://firebase.google.com/docs/app-check
+
 ## Firestore
   - Firestoreはsecurity rulesをしっかり設定する
     - 全世界に読み書き権限を与えない。使わない場合は、全部読み書きできないようにしておく。
@@ -57,6 +61,7 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
   - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
   - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
 ## Hosting
+  - HTTP Headerを設定して、不正なリクエストを防ぐ(Functionsでexpressを使っている場合は、そちらも忘れずに)
   - 必要なら開発系にアクセス制限(IPや認証)を設定する
     - express経由等の設定が必要。簡易ならweb層で
 ##  Function
