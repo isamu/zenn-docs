@@ -62,6 +62,20 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
   - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
 ## Hosting
   - HTTP Headerを設定して、不正なリクエストを防ぐ(Functionsでexpressを使っている場合は、そちらも忘れずに)
+```
+    "headers": [{
+        "source": "**",
+        "headers": [
+          { "key" : "Access-Control-Allow-Origin", "value" : "*" },
+          { "key" : "X-Frame-Options", "value" : "deny" },
+          { "key" : "X-Content-Type-Options", "value" : "nosniff" },
+          { "key" : "X-XSS-Protection", "value" : "1; mode=block" },
+          { "key" : "X-Permitted-Cross-Domain-Policies", "value" : "none" },
+          { "key" : "Referrer-Policy", "value": "no-referrer" }
+        ]
+    }]
+```
+  
   - 必要なら開発系にアクセス制限(IPや認証)を設定する
     - express経由等の設定が必要。簡易ならweb層で
 ##  Function
