@@ -27,7 +27,7 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
 ## App Check
   - App Checkを導入してバックエンドに対しての不正なアクセスを防ぐ
     - https://firebase.google.com/docs/app-check
-
+    
 ## Firestore
   - Firestoreはsecurity rulesをしっかり設定する
     - 全世界に読み書き権限を与えない。使わない場合は、全部読み書きできないようにしておく。
@@ -81,7 +81,7 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
 ##  Function
   - 一般的なバックエンドのセキュリティ対策をする
     - 変数チェック、権限チェック、インジェクション
-  - rate limitを導入する
+  - APIのDoS対策にrate limitを導入する
   - Functionsのログに秘匿情報を出さないようにする
   - 環境変数に機密情報を入れない
     - Cloud Functionsは関数の呼び出し間で環境を再利用するため、機密情報を環境に保存しない
@@ -91,6 +91,8 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
 
 # API Key
   - API Keyは公開可能なものと、そうでないものは区別して厳重に管理
+    - firebaseConfigは公開可能
+    - Firebase Admin SDKのprivate keyは絶対に公開しない。アプリやwebに組み込まない。レポジトリにも登録しない。
   - 公開可能なものは、設定を確認しておく（アクセス可能な範囲等）
   - 秘匿な鍵は厳重に管理。仕組みとしてGitに登録できないようにするなど。
 
@@ -99,6 +101,7 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
 
 # その他
   - NodeやPackageなどは、なるべく最新のバージョンに上げる
+    - GithubのDependabot alertsなどを有効にして、脆弱性のあるパッケージは確認して、影響がある内容であれば必ずバージョンを上げる。
   - audit logで取れるものはとっておく。
   - オープンソースであればCodeQLを利用する
   - FirestoreやStorageのTriggerでFunctionsを呼び出すときは、Loopしていないか確認をする
