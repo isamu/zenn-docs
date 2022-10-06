@@ -9,7 +9,8 @@ published: true
 Firebaseでサービスを公開するときに、最低限必要なセキュリティーのポイントをまとめています。
 
 # GCPインフラ
-  - Firebaseで使うGoogle Accountは個人のアカウントを使わないでcloud identityのものを使う
+  - Firebaseで使うGoogle Accountは個人のアカウントを使わないでCloud Identityのものを使う
+  - 管理権限の不正ログインがないか確認するため、Cloud Identityのaudit logで定期的にログインのログを確認する
   - Google Accountの2FA(MFA)は、必ず有効にする
   - パスワードなども制限できるなら、ランダムな文字列の組み合わせで推測できないようにする
     - 定期的な更新は推奨しない
@@ -17,17 +18,17 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
     - 複数のユーザでアカウント共有禁止。
   - Firebaseの管理権限をもったユーザは最小限に保つ。与える権限は必要最小に。
     - 不要になったユーザは定期的に無効にする
-  - IAM, Service keyの権限  
-  - Firebaseへのアクセス(ログイン)したときに通知が来るように設定をする
-    - Cloud Run + triggerで通知をするなど
-  - cloud identityのログインは定期的にaudit logで確認する
+  - IAM, Service keyの権限も定期的に見直しをする
+  - Firebaseへのアクセス(ログイン)や各種操作をしたときにEventarcを使って通知が来るように設定をする
+    - Cloud Run + Triggerで通知をするなど
   
 # Firebase
 
 ## App Check
   - App Checkを導入してバックエンドに対しての不正なアクセスを防ぐ
     - https://firebase.google.com/docs/app-check
-    
+    - reCAPTCHA3などで、正しいリクエスト以外を弾くしくみ
+
 ## Firestore
   - Firestoreはsecurity rulesをしっかり設定する
     - 全世界に読み書き権限を与えない。使わない場合は、全部読み書きできないようにしておく。
@@ -87,14 +88,17 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
     - Cloud Functionsは関数の呼び出し間で環境を再利用するため、機密情報を環境に保存しない
     - Cloud SecretManagerを使う
   - 必要ならFunctionsの操作ログを自前で実装する
+    - functions.logger.logを使って、Cloud loggingで参照しやすいように。
   - DoS攻撃で課金が増える可能性があるので、インスタンスの最大数の上限を設定しておく
 
 # API Key
   - API Keyは公開可能なものと、そうでないものは区別して厳重に管理
     - firebaseConfigは公開可能
     - Firebase Admin SDKのprivate keyは絶対に公開しない。アプリやwebに組み込まない。レポジトリにも登録しない。
+  - AWSの外部のシステムと連携してfirebaseのリソースを操作する場合は、private keyではなくWorkload Identityを使えるか検討する
+    - https://cloud.google.com/iam/docs/workload-identity-federation
   - 公開可能なものは、設定を確認しておく（アクセス可能な範囲等）
-  - 秘匿な鍵は厳重に管理。仕組みとしてGitに登録できないようにするなど。
+  - 秘匿な鍵は厳重に管理。仕組みとして.gitignoreを使うなどしてGitに登録できないようにする。
 
 # バックエンドサービスの監視とアラートを設定する
    - Firestore, Hosting, Storageは監視とアラートの設定を追加
