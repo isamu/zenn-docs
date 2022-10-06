@@ -57,7 +57,8 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
   - 認証の仕組みとしては、OAuth2.0プロバイダーが最も安全
     - Google, Appleの認証を使えないか検討をする
     - email/password認証を使う場合は、ブルートフォース攻撃を防ぐために、サインインエンドポイントの割り当ての制限をする
-
+  - Identity Toolkit APIのquotaを設定する
+  
 ## Storage
   - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
   - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
@@ -90,7 +91,8 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
   - 必要ならFunctionsの操作ログを自前で実装する
     - functions.logger.logを使って、Cloud loggingで参照しやすいように。
   - DoS攻撃で課金が増える可能性があるので、インスタンスの最大数の上限を設定しておく
-
+    - maxInstancesを指定する
+    
 # API Key
   - API Keyは公開可能なものと、そうでないものは区別して厳重に管理
     - firebaseConfigは公開可能
