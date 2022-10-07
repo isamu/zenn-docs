@@ -83,6 +83,10 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
 ##  Function
   - 一般的なバックエンドのセキュリティ対策をする
     - 変数チェック、権限チェック、インジェクション
+  - ユーザ属性の管理
+    - 例えば特権ユーザを作るなら、customClaimを使うなどして、他のユーザがFunctionsを叩いても動作しないようにする
+    - email認証のユーザとSMS認証のユーザで動作を変えるならauth.token.phone_numberとauth.token.emailを確認する
+    - email確認済みのユーザかauth.token.email_verifiedで確認する、など
   - APIのDoS対策にrate limitを導入する
   - Functionsのログに秘匿情報を出さないようにする
   - 環境変数に機密情報を入れない
