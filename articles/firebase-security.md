@@ -101,7 +101,7 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
   - API Keyは公開可能なものと、そうでないものは区別して厳重に管理
     - firebaseConfigは公開可能
     - Firebase Admin SDKのprivate keyは絶対に公開しない。アプリやwebに組み込まない。レポジトリにも登録しない。
-  - AWSの外部のシステムと連携してfirebaseのリソースを操作する場合は、private keyではなくWorkload Identityを使えるか検討する
+  - AWS/GitHubの外部のシステムと連携してfirebaseのリソースを操作する場合は、private keyではなくWorkload Identityを使えるか検討する
     - https://cloud.google.com/iam/docs/workload-identity-federation
   - 公開可能なものは、設定を確認しておく（アクセス可能な範囲等）
   - 秘匿な鍵は厳重に管理。仕組みとして.gitignoreを使うなどしてGitに登録できないようにする。
