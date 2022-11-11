@@ -68,7 +68,7 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
     "headers": [{
         "source": "**",
         "headers": [
-          { "key" : "Access-Control-Allow-Origin", "value" : "*" },
+          { "key" : "Content-Security-Policy", "value": "frame-ancestors 'none'"},
           { "key" : "X-Frame-Options", "value" : "deny" },
           { "key" : "X-Content-Type-Options", "value" : "nosniff" },
           { "key" : "X-XSS-Protection", "value" : "1; mode=block" },
