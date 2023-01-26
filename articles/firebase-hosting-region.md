@@ -4,6 +4,7 @@ emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, VueJs, JavaScript]
 published: true
+publication_name: "singularity"
 ---
 
 

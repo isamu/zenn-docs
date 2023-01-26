@@ -4,6 +4,7 @@ emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, Functions, Firestore, gRPC]
 published: true
+publication_name: "singularity"
 ---
 
 FirebaseでFucntionsをクライアントから同期的に呼びだすと、応答にとても時間がかかることがあります。特にFunctionsの関数がデフォルトの設定の場合、数時間の時間を空けて呼び出すと、通常ならすぐに応答する関数も4秒以上かかることがあります。それらを改善するいくつかの方法を試したのでまとめます

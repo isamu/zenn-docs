@@ -4,6 +4,7 @@ emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, Security, Functions]
 published: true
+publication_name: "singularity"
 ---
 
 [Firebaseのセキュリティチェックリスト](https://firebase.google.com/support/guides/security-checklist)を見ていると、

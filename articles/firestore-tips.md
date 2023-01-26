@@ -4,6 +4,7 @@ emoji: "🔥"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, Firestore, GCP, JavaScript]
 published: true
+publication_name: "singularity"
 ---
 
 Firestoreでサービスを設計するときに事前に知っておくと良いポイントです。
