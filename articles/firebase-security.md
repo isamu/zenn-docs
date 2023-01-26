@@ -4,6 +4,7 @@ emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [Firebase, Security, JavaScript]
 published: true
+publication_name: "singularity"
 ---
 
 Firebaseでサービスを公開するときに、最低限必要なセキュリティーのポイントをまとめています。
