@@ -8,6 +8,8 @@ publication_name: "singularity"
 ---
 
 Firebaseでサービスを公開するときに、最低限必要なセキュリティーのポイントをまとめています。
+Firebaseは、現在もすごい勢いで開発が進んでいるので、セキュリティーに関するポイントやノウハウも日々更新されます。最新のドキュメントや、変更点を調べることをおすすめします。この記事を含め、ネットの記事は古い可能性があります。2022年前後でも、App Check導入、Cross service Rulesの導入、AuthenticationのIdentity Platform導入、Workload Identity連携の導入など、日々更新されています。
+
 
 # GCPインフラ
   - Firebaseで使うGoogle Accountは個人のアカウントを使わないでCloud Identityのものを使う
@@ -21,13 +23,19 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
     - 不要になったユーザは定期的に無効にする
   - IAM, Service keyの権限も定期的に見直しをする
   - Firebaseへのアクセス(ログイン)や各種操作をしたときにEventarcを使って通知が来るように設定をする
-    - Cloud Run + Triggerで通知をするなど
-  
+    - Cloud Run + Triggerで通知をするなど [参考になる記事](https://medium.com/google-cloud-jp/eventarc-が-ga-になったので-試しに-firebase-console-へのアクセスをトリガーに-cloud-run-を実行してみる-540c7352ed70)
+  - firebaseのCI用の認証トークンはCI等では使わない
+    - `firebase login:ci`で生成されるトークン
+    - 以下の特徴のため、漏れると危険
+      - グーグルアカウントに紐付いている強力なトークン
+      - トークンを取り消すにはトークンの情報が必要なので保存しておく必要がある
+      - 今までに発行したトークンの一覧を確認する方法がない
+
 # Firebase
 
 ## App Check
   - App Checkを導入してバックエンドに対しての不正なアクセスを防ぐ
-    - https://firebase.google.com/docs/app-check
+    - [公式ドキュメント](https://firebase.google.com/docs/app-check)
     - reCAPTCHA3などで、正しいリクエスト以外を弾くしくみ
 
 ## Firestore
@@ -63,6 +71,8 @@ Firebaseでサービスを公開するときに、最低限必要なセキュリ
 ## Storage
   - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
   - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
+  - 2022/09にリリースされた(Cross service Rules)[https://firebase.blog/posts/2022/09/announcing-cross-service-security-rules] による、Storage.rulesからfirestoreを参照できるようになったので、そちらを使う
+  
 ## Hosting
   - HTTP Headerを設定して、不正なリクエストを防ぐ(Functionsでexpressを使っている場合は、そちらも忘れずに)
 ```
