@@ -34,7 +34,8 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
 # Firebase
 
 ## App Check
-  - App Checkを導入してバックエンドに対しての不正なアクセスを防ぐ
+  - Firebaseは公開されているapi keyなどを使えばどこからでもアクセスができる
+  - App Checkを導入することにより、バックエンドに対してのアクセス元を制限できる
     - [公式ドキュメント](https://firebase.google.com/docs/app-check)
     - reCAPTCHA3などで、正しいリクエスト以外を弾くしくみ
 
@@ -42,6 +43,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
   - Firestoreはsecurity rulesをしっかり設定する
     - 全世界に読み書き権限を与えない。使わない場合は、全部読み書きできないようにしておく。
     - ユーザの権限ごとに読み書きをしっかり設定する
+      - customClaim, email認証などを使って権限をわける
     - ユーザが更新すべきでない、参照すべきでないデータは、Functionsで読み書きすることも考える
       - Firebaseは基本的にはクライアントで読み書きするが、必要なときにはFunctionsを使う
   - １つのdocumentに、ユーザが書き換え可能なものと、システムが更新するものは極力混ぜない
@@ -91,6 +93,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
   
   - 必要なら開発系にアクセス制限(IPや認証)を設定する
     - express経由等の設定が必要。簡易ならweb層で
+
 ##  Function
   - 一般的なバックエンドのセキュリティ対策をする
     - 変数チェック、権限チェック、インジェクション
@@ -112,6 +115,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
   - API Keyは公開可能なものと、そうでないものは区別して厳重に管理
     - firebaseConfigは公開可能
     - Firebase Admin SDKのprivate keyは絶対に公開しない。アプリやwebに組み込まない。レポジトリにも登録しない。
+    - `firebase login:ci`で生成されるトークンは使わない
   - AWS/GitHubの外部のシステムと連携してfirebaseのリソースを操作する場合は、private keyではなくWorkload Identityを使えるか検討する
     - https://cloud.google.com/iam/docs/workload-identity-federation
   - 公開可能なものは、設定を確認しておく（アクセス可能な範囲等）
@@ -121,12 +125,14 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
    - Firestore, Hosting, Storageは監視とアラートの設定を追加
 
 # その他
-  - NodeやPackageなどは、なるべく最新のバージョンに上げる
+  - Node.jsやnpmのpackageなどは、なるべく最新のバージョンに上げる
     - GithubのDependabot alertsなどを有効にして、脆弱性のあるパッケージは確認して、影響がある内容であれば必ずバージョンを上げる。
   - audit logで取れるものはとっておく。
-  - オープンソースであればCodeQLを利用する
+    - インフラ周りはCloud Logging
+    - functionsのログは、functions.loggerを活用
+  - オープンソースであればCodeQLを利用するして、脆弱性の静的診断をする
   - FirestoreやStorageのTriggerでFunctionsを呼び出すときは、Loopしていないか確認をする
-
+    - 無限課金される
 
 # Firebaseへの要望
   - HostingやfuncitonsにWAFが欲しい
