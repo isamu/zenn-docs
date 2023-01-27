@@ -73,7 +73,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
 ## Storage
   - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
   - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
-  - 2022/09にリリースされた(Cross service Rules)[https://firebase.blog/posts/2022/09/announcing-cross-service-security-rules] による、Storage.rulesからfirestoreを参照できるようになったので、そちらを使う
+  - 2022/09にリリースされた[Cross service Rules](https://firebase.blog/posts/2022/09/announcing-cross-service-security-rules) による、Storage.rulesからfirestoreを参照できるようになったので、そちらを使う
   
 ## Hosting
   - HTTP Headerを設定して、不正なリクエストを防ぐ(Functionsでexpressを使っている場合は、そちらも忘れずに)
