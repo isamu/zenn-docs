@@ -10,6 +10,8 @@ publication_name: "singularity"
 Firebaseでサービスを公開するときに、最低限必要なセキュリティーのポイントをまとめています。
 Firebaseは、現在もすごい勢いで開発が進んでいるので、セキュリティーに関するポイントやノウハウも日々更新されます。最新のドキュメントや、変更点を調べることをおすすめします。この記事を含め、ネットの記事は古い可能性があります。2022年前後でも、App Check導入、Cross service Rulesの導入、AuthenticationのIdentity Platform導入、Workload Identity連携の導入など、日々更新されています。
 
+公式の[Firebaseのセキュリティチェックリスト](https://firebase.google.com/support/guides/security-checklist)は必ず目を通しましょう。
+
 
 # GCPインフラ
   - Firebaseで使うGoogle Accountは個人のアカウントを使わないでCloud Identityのものを使う
@@ -46,6 +48,8 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
       - customClaim, email認証などを使って権限をわける
     - ユーザが更新すべきでない、参照すべきでないデータは、Functionsで読み書きすることも考える
       - Firebaseは基本的にはクライアントで読み書きするが、必要なときにはFunctionsを使う
+    - 再帰ワイルドカード (`{document=**}`)
+      - 再帰ワイルドカードが定義されていると、そのルールが定義よりも深い階層全て適用されるため、想定をしていない権限が許可されている事があるので、利用には注意する
   - １つのdocumentに、ユーザが書き換え可能なものと、システムが更新するものは極力混ぜない
     - 混ざった場合には security ruleでユーザがその項目を更新したり、create時にその項目を勝手に設定できないように気を付ける
     - create時にdefault値が必要な場合には、Triggerを使ってcreate時にsetするなど。
@@ -69,7 +73,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
     - Google, Appleの認証を使えないか検討をする
     - email/password認証を使う場合は、ブルートフォース攻撃を防ぐために、サインインエンドポイントの割り当ての制限をする
   - Identity Toolkit APIのquotaを設定する
-  
+
 ## Storage
   - Storage.rulesでwrite権限やファイルサイズ、ファイル種別の制限をして、ユーザが不法なファイルをアップロードできないようにする。
   - uploadされた画像は、resizeなどをして、そのときにexifを削除して他のユーザへ表示するようにして、オリジナルの画像は表示させない
