@@ -51,7 +51,7 @@ npm install
 
 `generative/contract/contracts` [以下](https://github.com/Cryptocoders-wtf/generative/tree/main/contract/contracts/)がスマートコントラクトのソースです。ここに[フルオンチェーンのサイト](https://fullyonchain.xyz/)にデプロイ済のNFTのコードがあります。本ドキュメントを読み終えた後は、他のコードを読むことでさらに理解が深まります。
 
-本稿で使用するサンプルは`generative/contract/contracts/samples/` にあります。全てのNFTの規格であるERC721を使ったスマートコントラクトです。NFTはほとんどの処理が共通で、画像の関する処理のみ異なります。Fully-On-Chain.solを使うSVGの画像処理は全てgeneratePathの関数内にあります。
+本稿で使用する[サンプル](https://github.com/Cryptocoders-wtf/generative/tree/main/contract/contracts/samples)は`generative/contract/contracts/samples/` にあります。全てのNFTの規格であるERC721を使ったスマートコントラクトです。NFTはほとんどの処理が共通で、画像の関する処理のみ異なります。Fully-On-Chain.solを使うSVGの画像処理は全てgeneratePathの関数内にあります。
 
 ## SimpleSVGToken
 SimpleSVGToken.solは[SVGライブラリ](https://github.com/Cryptocoders-wtf/generative/tree/main/contract/contracts/packages/graphics#svg-elements)を使うサンプルです。
