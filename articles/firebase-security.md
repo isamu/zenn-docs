@@ -24,6 +24,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
   - Firebaseの管理権限をもったユーザは最小限に保つ。与える権限は必要最小に。
     - 不要になったユーザは定期的に無効にする
   - IAM, Service keyの権限も定期的に見直しをする
+  - Security Command Centerを有効にして定期的に問題がないか確認をする
   - Firebaseへのアクセス(ログイン)や各種操作をしたときにEventarcを使って通知が来るように設定をする
     - Cloud Run + Triggerで通知をするなど [参考になる記事](https://medium.com/google-cloud-jp/eventarc-が-ga-になったので-試しに-firebase-console-へのアクセスをトリガーに-cloud-run-を実行してみる-540c7352ed70)
   - firebaseのCI用の認証トークンはCI等では使わない
