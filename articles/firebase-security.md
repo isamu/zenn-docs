@@ -14,7 +14,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
 
 
 # GCPインフラ
-  - Firebaseで使うGoogle Accountは個人のアカウントを使わないでCloud Identityのものを使う
+  - Firebaseで使うGoogle Accountは個人のアカウントを使わないでGoogle Workspace/Cloud Identityのものを使う
   - 管理権限の不正ログインがないか確認するため、Cloud Identityのaudit logで定期的にログインのログを確認する
   - Google Accountの2FA(MFA)は、必ず有効にする
   - パスワードなども制限できるなら、ランダムな文字列の組み合わせで推測できないようにする
@@ -25,6 +25,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
     - 不要になったユーザは定期的に無効にする
   - IAM, Service keyの権限も定期的に見直しをする
   - Security Command Centerを有効にして定期的に問題がないか確認をする
+    - 有料プランだと年間300万円かかるので、無料のプランで。
   - Firebaseへのアクセス(ログイン)や各種操作をしたときにEventarcを使って通知が来るように設定をする
     - Cloud Run + Triggerで通知をするなど [参考になる記事](https://medium.com/google-cloud-jp/eventarc-が-ga-になったので-試しに-firebase-console-へのアクセスをトリガーに-cloud-run-を実行してみる-540c7352ed70)
   - firebaseのCI用の認証トークンはCI等では使わない
@@ -33,7 +34,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
       - グーグルアカウントに紐付いている強力なトークン
       - トークンを取り消すにはトークンの情報が必要なので保存しておく必要がある
       - 今までに発行したトークンの一覧を確認する方法がない
-
+    - 
 # Firebase
 
 ## App Check
@@ -121,7 +122,7 @@ Firebaseは、現在もすごい勢いで開発が進んでいるので、セキ
     - firebaseConfigは公開可能
     - Firebase Admin SDKのprivate keyは絶対に公開しない。アプリやwebに組み込まない。レポジトリにも登録しない。
     - `firebase login:ci`で生成されるトークンは使わない
-  - AWS/GitHubの外部のシステムと連携してfirebaseのリソースを操作する場合は、private keyではなくWorkload Identityを使えるか検討する
+  - AWS/GitHubの外部のシステムと連携してfirebaseのリソースを操作する場合は、private keyではなくWorkload Identity 連携を使えるか検討する
     - https://cloud.google.com/iam/docs/workload-identity-federation
   - 公開可能なものは、設定を確認しておく（アクセス可能な範囲等）
   - 秘匿な鍵は厳重に管理。仕組みとして.gitignoreを使うなどしてGitに登録できないようにする。
