@@ -2,7 +2,7 @@
 title: "Firebase Functionsで新たにサポートされたPythonをSetupし、更にTypeScriptと共存させる"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [Firebase, Python, JavaScript, Typescript]
+topics: [Firebase, Python, JavaScript, Typescript, cloudfunctions]
 published: true
 publication_name: "singularity"
 ---
