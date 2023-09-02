@@ -305,4 +305,7 @@ SlashGPTの機能をテストする自動テストです。主に開発者向け
 これで一通りの使い方の説明は終わりです。
 用意されているagentをsampleを使って、試してください！
 
+### 関連記事
+
+- [SlashGPTのFunction callingの動作原理](https://zenn.dev/singularity/articles/slashgpt_spacex)
 
