@@ -8,7 +8,9 @@ publication_name: "singularity"
 ---
 
 [SlashGPT](https://github.com/snakajima/SlashGPT/)は、No CodeでLLMエージェント/LLMアプリを作成、利用できるツールです。
-利用できるLLMは事前に用意されているOpenAIのAPI経由でのGPT3.5, GPT4や、palm, llama2 などがありますが、プラグインを書くことにより、簡単に他のLLMを使うことも可能です。LLM独自の動作部分だけプラグインを記述することにより、SlashGPTのすべての機能をそのLLMで使うことが可能となります。API経由でのLLM利用だけでなく、オープンソースで公開されているLLMモデルをlocal環境で呼び出すことも可能です。
+利用できるLLMは事前に用意されているOpenAIのAPI経由でのGPT3.5, GPT4や、palm, llama2 などがありますが、プラグインを書くことにより、簡単に他のLLMを使うことも可能です。
+
+LLM独自の動作部分だけプラグインを記述することにより、SlashGPTのすべての機能をそのLLMで使うことが可能となります。API経由でのLLM利用だけでなく、オープンソースで公開されているLLMモデルをlocal環境で呼び出すことも可能です。
 
 今回はLLMを追加するために、LLMプラグインの作り方と、設定方法を解説します。
 
@@ -19,22 +21,24 @@ publication_name: "singularity"
 
 このモデルは、[huggingface](https://huggingface.co/)で配布されていますが、SlashGPTでhuggingfaceを使うプラグインは[plugins/engine/from_pretrained.py](https://github.com/isamu/SlashGPT/blob/main/plugins/engine/from_pretrained.py) に用意されています。
 
-実装の処理が同じであれば、このプラグインをそのまま使うことができますが、プロンプトの作り方と、modelに渡すパラメーターが異なるので、新しいプラグインとして追加が必要です。
+実装の処理が同じであれば、このプラグインをそのまま使うことができますが、プロンプトの作り方とmodelに渡すパラメーターが異なるので、新しいプラグインとして追加が必要です。
 
-from_pretrained.pyをコピーしてfrom_pretrained2.pyを作ります。クラス名は、LLMEngineFromPretrained2とします。
+from_pretrained.pyをコピーしてfrom_pretrained2.pyを作ります。
+クラス名は、LLMEngineFromPretrained2とします。
 bilingual-gpt-neox-4b-instruction-sftの使い方は、bilingual-gpt-neox-4b-instruction-sftの[README](https://huggingface.co/rinna/bilingual-gpt-neox-4b-instruction-sft/blob/main/README.md)に書いてありますが、from_pretrained.pyと異なるのは、
 
-- プロンプトのrole
-- tokenizer.encodeとmodel.generateにわたすパラメータ
+- プロンプトのRole
+- tokenizer.encodeとmodel.generateに渡すパラメータ
 
 なので、そこを変更します。変更点が気になる方は
 ```
 diff from_pretrained.py from_pretrained2.py
 ```
-で確認をしてください。
+で差分を確認をしてください。
 
 変更後のfrom_pretrained2.pyは[こちら](https://github.com/isamu/SlashGPT/blob/main/plugins/engine/from_pretrained2.py)です。
-これでプラグインの実装は終わりです。ほとんど、bilingual-gpt-neox-4b-instruction-sftのREADMEをコピーするだけです。
+これでプラグインの実装は終わりです。
+ほとんど、bilingual-gpt-neox-4b-instruction-sftのREADMEをコピーするだけです。
 
 動作が異なる新たなプラグインを作る場合でも、LLMEngineBaseを継承したクラスを作り、chat_completion methodを実装するだけです。
 
