@@ -147,6 +147,11 @@ SpaceXのCEOはElon Muskです。
 spacexのマニュフェストを参考にFunction callingを使って外部のAPIと連携するサンプルをみました。これを参考に、マニュフェストを変更することで、プログラムを一切書くとことなくFunction callingを使ったLLMエージェントを作成することが可能となります。
 
 
+### 関連記事
+
+- [SlashGPTの使い方](https://zenn.dev/singularity/articles/slashgpt_tutorial_1)
+- [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
+
 
 
 
