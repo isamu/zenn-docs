@@ -1,6 +1,6 @@
 ---
 title: "SlashGPTのFunction callingの動作原理"
-emoji: "🤖"
+emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [gpt, ChatGPT, LLM, Tech, OpenAI]
 published: true
