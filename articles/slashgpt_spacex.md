@@ -105,7 +105,7 @@ Who is CEO of SpaceX?
 
 が呼び出され、resource, functionsを含んだクエリーをOpenAIのLLMに投げます。
 
-すると
+すると,LLMからは
 
 ```
 {
