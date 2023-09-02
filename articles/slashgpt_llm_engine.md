@@ -117,6 +117,7 @@ VRヘッドセットにはさまざまな種類があり、仮想現実内でさ
 今回、SlashGPTのプラグイン機能を使って、localで動かすLLモデル、bilingual-gpt-neox-4b-instruction-sftを追加しました。
 簡単に実装ができました！！
 
+(本機能は、まだ本ブランチに取り込まれてないので、[forkしたレポジトリ](https://github.com/isamu/SlashGPT/)で試すことができます。)
 
 
 ### 関連記事
