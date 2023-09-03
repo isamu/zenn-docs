@@ -310,4 +310,4 @@ SlashGPTの機能をテストする自動テストです。主に開発者向け
 - [SlashGPTのマニュフェストファイルの解説](https://zenn.dev/singularity/articles/slashgpt_tutorial_2)
 - [SlashGPTのFunction callingの動作原理](https://zenn.dev/singularity/articles/slashgpt_spacex)
 - [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
-- [SlashGPTをペースにAgent同士が会話するプログラムを作る](https://zenn.dev/singularity/articles/slashgpt_agents)
+- [SlashGPTを使ってチョムスキーさんと田原さんを討論させる](https://zenn.dev/singularity/articles/slashgpt_agents)

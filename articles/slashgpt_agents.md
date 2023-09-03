@@ -1,5 +1,5 @@
 ---
-title: "SlashGPTをペースにAgent同士が会話するプログラムを作る"
+title: "SlashGPTを使ってチョムスキーさんと田原さんを討論させる"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [gpt, ChatGPT, LLM, Tech, OpenAI]
