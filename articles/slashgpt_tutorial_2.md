@@ -134,3 +134,9 @@ embeddings関連の設定
 
 実際のマニュフェストファイルは[こちら](https://github.com/snakajima/SlashGPT/tree/main/manifests/main)にあるので上記の説明を参考にこれらのファイルを参照してください。
 
+
+### 関連記事
+
+- [SlashGPTの使い方](https://zenn.dev/singularity/articles/slashgpt_tutorial_1)
+- [SlashGPTのFunction callingの動作原理](https://zenn.dev/singularity/articles/slashgpt_spacex)
+- [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
