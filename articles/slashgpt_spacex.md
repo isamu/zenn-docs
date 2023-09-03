@@ -77,7 +77,7 @@ resourceで定義されているので、promptの{resource}が置換されこ�
 ```
   "actions": {
     "call_graphQL": {
-      "graphQL": true,
+      "type": "graphQL",
       "url": "https://spacex-production.up.railway.app/graphql"
     }
   },
