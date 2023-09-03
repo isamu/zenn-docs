@@ -13,7 +13,7 @@ OpenAIから2023年6月に発表されたFunction callingにも対応し、プ�
 
 今回はspacexエージェントを例に、Function callingの使い方や動作原理を解説します。
 
-# funciton callingを使ったマニュフェストの定義
+# Function callingを使ったマニュフェストの定義
 
 SlashGPTのFunction callingの使い方を理解するには、事前に用意されているマニュフェストを参考にするのがよいです。
 ここでは例として`/spacex`で利用できるspacexエージェントのマニュフェストを参照します。
@@ -52,7 +52,7 @@ resourceで定義されているので、promptの{resource}が置換されこ�
 ```
   "functions": "./resources/functions/graphql.json"
 ```
-は、GPTに渡すfunction callingの定義で、LLMがクエリーに対して一致する情報があると、ここで定義した形式で情報を返してくれます。このファイルの中を見ると
+は、GPTに渡すFunction callingの定義で、LLMがクエリーに対して一致する情報があると、ここで定義した形式で情報を返してくれます。このファイルの中を見ると
 
 ```
 [
