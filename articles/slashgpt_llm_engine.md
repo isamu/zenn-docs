@@ -125,3 +125,4 @@ VRヘッドセットにはさまざまな種類があり、仮想現実内でさ
 - [SlashGPTの使い方](https://zenn.dev/singularity/articles/slashgpt_tutorial_1)
 - [SlashGPTのマニュフェストファイルの解説](https://zenn.dev/singularity/articles/slashgpt_tutorial_2)
 - [SlashGPTのFunction callingの動作原理](https://zenn.dev/singularity/articles/slashgpt_spacex)
+- [SlashGPTを使ってチョムスキーさんと田原さんを討論させる](https://zenn.dev/singularity/articles/slashgpt_agents)

@@ -140,3 +140,4 @@ embeddings関連の設定
 - [SlashGPTの使い方](https://zenn.dev/singularity/articles/slashgpt_tutorial_1)
 - [SlashGPTのFunction callingの動作原理](https://zenn.dev/singularity/articles/slashgpt_spacex)
 - [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
+- [SlashGPTを使ってチョムスキーさんと田原さんを討論させる](https://zenn.dev/singularity/articles/slashgpt_agents)

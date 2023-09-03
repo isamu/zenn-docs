@@ -152,7 +152,7 @@ spacexのマニュフェストを参考にFunction callingを使って外部のA
 - [SlashGPTの使い方](https://zenn.dev/singularity/articles/slashgpt_tutorial_1)
 - [SlashGPTのマニュフェストファイルの解説](https://zenn.dev/singularity/articles/slashgpt_tutorial_2)
 - [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
-
+- [SlashGPTを使ってチョムスキーさんと田原さんを討論させる](https://zenn.dev/singularity/articles/slashgpt_agents)
 
 
 
