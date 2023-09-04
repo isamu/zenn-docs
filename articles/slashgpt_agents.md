@@ -77,6 +77,8 @@ SlashGPTを使っておもしろいエージェントがアプリが作られる
 - [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
 - [SlashGPTのFunction callingの詳細](https://zenn.dev/singularity/articles/slashgpt_function_calling)
 
+- [SlashGPTで、No-CodeでAIエージェントを作る方法](https://zenn.dev/snakajima/articles/adf436f7f794b3) by 中島さん
+
 # ログ
 以下、OpenAIのGPT同士の会話です。決して本人の会話ではないので注意を。
 

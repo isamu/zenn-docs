@@ -142,3 +142,6 @@ embeddings関連の設定
 - [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
 - [SlashGPTを使ってチョムスキーさんと田原さんを討論させる](https://zenn.dev/singularity/articles/slashgpt_agents)
 - [SlashGPTのFunction callingの詳細](https://zenn.dev/singularity/articles/slashgpt_function_calling)
+
+- [SlashGPTで、No-CodeでAIエージェントを作る方法](https://zenn.dev/snakajima/articles/adf436f7f794b3) by 中島さん
+
