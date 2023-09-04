@@ -1,5 +1,5 @@
 ---
-title: "SlashGPTのFunction callingの詳細/Action編"
+title: "SlashGPTのFunction callingの詳細"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [gpt, ChatGPT, LLM, Tech, OpenAI]
