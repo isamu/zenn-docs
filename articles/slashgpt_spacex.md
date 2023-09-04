@@ -52,7 +52,7 @@ resourceで定義されているので、promptの{resource}が置換されこ�
 ```
   "functions": "./resources/functions/graphql.json"
 ```
-は、GPTに渡すFunction callingの定義で、LLMがクエリーに対して一致する情報があると、ここで定義した形式で情報を返してくれます。このファイルの中を見ると
+は、GPTに渡すFunction callingの定義で、LLMがクエリーに対して一致する情報があると、ここで定義した形式で情報を返してくれます。これがLLMに対してFunction callingを指定する肝となる部分です。このファイルの中を見ると
 
 ```
 [
@@ -72,7 +72,9 @@ resourceで定義されているので、promptの{resource}が置換されこ�
   }
 ]
 ```
-と、call_graphQLという名前で、queryという文字型のデータを含むオブジェクトを返すようになっています。コメントにあるようにgraphQLのendpointへのクエリーとなっています。さて、このcall_graphQLをどのように使うかというと、再びマニュフェストを見るとactionsに
+となっています。call_graphQLという関数名で、queryという文字型のデータを含むオブジェクトを返すようになっています。コメントにあるようにgraphQLのendpointへのクエリーとなっています。
+さて、LLMの返却値にこの結果が含まれているときに、このcall_graphQLをどのように使うかし調べます。
+再びマニュフェストを見るとactionsに
 
 ```
   "actions": {
@@ -82,8 +84,8 @@ resourceで定義されているので、promptの{resource}が置換されこ�
     }
   },
 ```
-と、定義されています。call_graphQLが返ってきた場合には、urlに定義しているendpoitnをgraphQLとして呼び出します。
-この呼び出した結果を再び、最初のユーザの質問と一緒にLLMになげることで、最終的な回答を作成します。
+と、定義されています。call_graphQLが返ってきた場合には、urlに定義しているendpointに対してgraphQLのクエリーで問い合わせをします。
+問い合わせた結果を、再び最初のユーザの質問と一緒にLLMになげることで、最終的な回答を作成します。
 
 
 # 実際の動作
