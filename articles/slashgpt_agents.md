@@ -75,7 +75,7 @@ SlashGPTを使っておもしろいエージェントがアプリが作られる
 - [SlashGPTのマニュフェストファイルの解説](https://zenn.dev/singularity/articles/slashgpt_tutorial_2)
 - [SlashGPTのFunction callingの動作原理](https://zenn.dev/singularity/articles/slashgpt_spacex)
 - [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
-
+- [SlashGPTのFunction callingの詳細](https://zenn.dev/singularity/articles/slashgpt_function_calling)
 
 # ログ
 以下、OpenAIのGPT同士の会話です。決して本人の会話ではないので注意を。

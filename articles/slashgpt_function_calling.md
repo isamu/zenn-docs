@@ -115,10 +115,20 @@ GPT: 1 USD is equivalent to 146.04441 JPY.
 
 #### graphQL
 
-actionに定義されているurlをgraphQLとして呼びます。
+type=graphQLの場合は、actionに定義されているurlをgraphQLとして呼びます。
 argumentsをそのまま渡すので、Function CallingでGraphQLに対応したデータを取得する必要があります。
 
-こちらの具体的な動作は[こちら](https://zenn.dev/singularity/articles/slashgpt_spacex#実際の動作)にあります。
+graphQLを使っている[spacex](https://github.com/snakajima/SlashGPT/blob/7ddb7b2b7c2421bb06387b73304d424e0efd1f69/manifests/main/spacex.json)のactionsの定義。
+```
+  "actions": {
+    "call_graphQL": {
+      "type": "graphQL",
+      "url": "https://spacex-production.up.railway.app/graphql"
+    }
+  },
+```
+
+具体的な動作は[こちら](https://zenn.dev/singularity/articles/slashgpt_spacex#実際の動作)にあります。
 
 #### data_url
 
@@ -327,4 +337,13 @@ GPT: The web page at https://www.bbc.com/news/live/world-europe-66049895 provide
 
 SlashGPTのFunction callingの動作を説明しました。
 マニュフェストでシンプルな設定をするだけで、Function callingを使った様々な動作をすることができます。
+
+
+### 関連記事
+
+- [SlashGPTの使い方](https://zenn.dev/singularity/articles/slashgpt_tutorial_1)
+- [SlashGPTのマニュフェストファイルの解説](https://zenn.dev/singularity/articles/slashgpt_tutorial_2)
+- [SlashGPTのFunction callingの動作原理](https://zenn.dev/singularity/articles/slashgpt_spacex)
+- [SlashGPTのプラグインを使って新しいLLMを追加する](https://zenn.dev/singularity/articles/slashgpt_llm_engine)
+- [SlashGPTを使ってチョムスキーさんと田原さんを討論させる](https://zenn.dev/singularity/articles/slashgpt_agents)
 
