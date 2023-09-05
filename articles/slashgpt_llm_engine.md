@@ -129,3 +129,4 @@ VRヘッドセットにはさまざまな種類があり、仮想現実内でさ
 - [SlashGPTのFunction callingの詳細](https://zenn.dev/singularity/articles/slashgpt_function_calling)
 
 - [SlashGPTで、No-CodeでAIエージェントを作る方法](https://zenn.dev/snakajima/articles/adf436f7f794b3) by 中島さん
+- [SlashGPT + Jupyter](https://zenn.dev/singularity/articles/718cba24bf1275) by kozayupapaさん

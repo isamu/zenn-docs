@@ -348,3 +348,4 @@ SlashGPTのFunction callingの動作を説明しました。
 - [SlashGPTを使ってチョムスキーさんと田原さんを討論させる](https://zenn.dev/singularity/articles/slashgpt_agents)
 
 - [SlashGPTで、No-CodeでAIエージェントを作る方法](https://zenn.dev/snakajima/articles/adf436f7f794b3) by 中島さん
+- [SlashGPT + Jupyter](https://zenn.dev/singularity/articles/718cba24bf1275) by kozayupapaさん
