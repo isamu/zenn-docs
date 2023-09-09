@@ -95,7 +95,7 @@ actionが指定されている場合は、actionに定義されているapiア�
 notebook, moduleが指定されている場合はPythonのコードが実行される
 
 - actions (object, optional): Template-based function processor (see details below)
-  - actionsのkeyとfunctionの???がマッチしたものが実行される
+  - actionsのkeyとfunctionの戻り値の関数名がマッチしたものが実行される
     - typeにより動作を指定する
       - rest
       - graphQL
