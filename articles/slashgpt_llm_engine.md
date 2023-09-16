@@ -36,7 +36,7 @@ diff from_pretrained.py from_pretrained2.py
 ```
 で差分を確認をしてください。
 
-変更後のfrom_pretrained2.pyは[こちら](https://github.com/isamu/SlashGPT/blob/main/plugins/engine/from_pretrained2.py)です。
+変更後のfrom_pretrained2.pyは[こちら](https://github.com/isamu/SlashGPT/blob/main/src/slashgpt/plugins/engine/from_pretrained.py)です。
 これでプラグインの実装は終わりです。
 ほとんど、bilingual-gpt-neox-4b-instruction-sftのREADMEをコピーするだけです。
 
@@ -46,7 +46,7 @@ diff from_pretrained.py from_pretrained2.py
 # プラグインを利用するための設定追加
 
 作成したLLMプラグインをSlashGPTで利用するには設定の変更が必要です。
-LLMの設定ファイルは [config/llm_config.py](https://github.com/isamu/SlashGPT/blob/main/config/llm_config.py) です。
+LLMの設定ファイルは [config/llm_config.py](https://github.com/isamu/SlashGPT/blob/main/src/slashgpt/config/llm_config.py) です。
 
 llm_modelsはSlashGPTのプロンプトで/llmコマンドでllmを指定したときに使われる設定、llm_engine_configsがLLMエンジンの設定です。
 
@@ -117,7 +117,6 @@ VRヘッドセットにはさまざまな種類があり、仮想現実内でさ
 今回、SlashGPTのプラグイン機能を使って、localで動かすLLモデル、bilingual-gpt-neox-4b-instruction-sftを追加しました。
 簡単に実装ができました！！
 
-(本機能は、まだ本ブランチに取り込まれてないので、[forkしたレポジトリ](https://github.com/isamu/SlashGPT/)で試すことができます。)
 
 
 ### 関連記事
