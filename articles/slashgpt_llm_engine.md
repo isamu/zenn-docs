@@ -19,7 +19,7 @@ LLM独自の動作部分だけプラグインを記述することにより、Sl
 
 今回は[bilingual-gpt-neox-4b-instruction-sft](https://huggingface.co/rinna/bilingual-gpt-neox-4b-instruction-sft/blob/main/README.md)をプラグインとして追加します。
 
-このモデルは、[huggingface](https://huggingface.co/)で配布されていますが、SlashGPTでhuggingfaceを使うプラグインは[plugins/engine/from_pretrained.py](https://github.com/isamu/SlashGPT/blob/main/plugins/engine/from_pretrained.py) に用意されています。
+このモデルは、[huggingface](https://huggingface.co/)で配布されていますが、SlashGPTでhuggingfaceを使うプラグインは[plugins/engine/from_pretrained.py](https://github.com/isamu/SlashGPT/blob/main/src/slashgpt/plugins/engine/from_pretrained.py) に用意されています。
 
 実装の処理が同じであれば、このプラグインをそのまま使うことができますが、プロンプトの作り方とmodelに渡すパラメーターが異なるので、新しいプラグインとして追加が必要です。
 
