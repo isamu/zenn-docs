@@ -92,7 +92,13 @@ https://github.com/isamu/SlashGPT/commit/e471e287f7346cadb7e431668aec1b2b19f2439
 
 ### 動作確認
 
-llmをrinnaに指定します。
+slashGPT起動時に、編集した設定を読み込むため、moduleの形式でoption指定をします。
+
+```
+./SlashGPT.py --llm-config config.llm_config
+```
+
+プロンプトでllmをrinnaに指定します。
 ```
 You(dispatcher): /llm rinna
 ```
