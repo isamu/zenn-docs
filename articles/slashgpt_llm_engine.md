@@ -19,13 +19,13 @@ LLM独自の動作部分だけプラグインを記述することにより、Sl
 
 今回は[bilingual-gpt-neox-4b-instruction-sft](https://huggingface.co/rinna/bilingual-gpt-neox-4b-instruction-sft/blob/main/README.md)をプラグインとして追加します。
 
-このモデルは、[huggingface](https://huggingface.co/)で配布されていますが、SlashGPTでhuggingfaceを使うプラグインは[plugins/engine/from_pretrained.py](https://github.com/isamu/SlashGPT/blob/main/src/slashgpt/plugins/engine/from_pretrained.py) に用意されています。
+このモデルは、[huggingface](https://huggingface.co/)で配布されていますが、SlashGPTでhuggingfaceを使うプラグインは[plugins/engine/from_pretrained.py](https://github.com/snakajima/SlashGPT/blob/main/src/slashgpt/plugins/engine/from_pretrained.py) に用意されています。
 
 実装の処理が同じであれば、このプラグインをそのまま使うことができますが、プロンプトの作り方とmodelに渡すパラメーターが異なるので、新しいプラグインとして追加が必要です。
 
 from_pretrained.pyをコピーしてfrom_pretrained2.pyを作ります。
 クラス名は、LLMEngineFromPretrained2とします。
-bilingual-gpt-neox-4b-instruction-sftの使い方は、bilingual-gpt-neox-4b-instruction-sftの[README](https://huggingface.co/rinna/bilingual-gpt-neox-4b-instruction-sft/blob/main/README.md)に書いてありますが、from_pretrained.pyと異なるのは、
+[bilingual-gpt-neox-4b-instruction-sft](https://huggingface.co/rinna/bilingual-gpt-neox-4b-instruction-sft)の使い方は、[bilingual-gpt-neox-4b-instruction-sft](https://huggingface.co/rinna/bilingual-gpt-neox-4b-instruction-sft)の[README](https://huggingface.co/rinna/bilingual-gpt-neox-4b-instruction-sft/blob/main/README.md)に書いてありますが、from_pretrained.pyと異なるのは、
 
 - プロンプトのRole
 - tokenizer.encodeとmodel.generateに渡すパラメータ
@@ -36,7 +36,7 @@ diff from_pretrained.py from_pretrained2.py
 ```
 で差分を確認をしてください。
 
-変更後のfrom_pretrained2.pyは[こちら](https://github.com/isamu/SlashGPT/blob/main/src/slashgpt/plugins/engine/from_pretrained.py)です。
+変更後のfrom_pretrained2.pyは[こちら](https://github.com/snakajima/SlashGPT/blob/main/src/slashgpt/plugins/engine/from_pretrained.py)です。
 これでプラグインの実装は終わりです。
 ほとんど、bilingual-gpt-neox-4b-instruction-sftのREADMEをコピーするだけです。
 
@@ -46,7 +46,7 @@ diff from_pretrained.py from_pretrained2.py
 # プラグインを利用するための設定追加
 
 作成したLLMプラグインをSlashGPTで利用するには設定の変更が必要です。
-LLMの設定ファイルは [config/llm_config.py](https://github.com/isamu/SlashGPT/blob/main/src/slashgpt/config/llm_config.py) です。
+LLMの設定ファイルは [config/llm_config.py](https://github.com/snakajima/SlashGPT/blob/main/src/slashgpt/config/llm_config.py) です。
 
 llm_modelsはSlashGPTのプロンプトで/llmコマンドでllmを指定したときに使われる設定、llm_engine_configsがLLMエンジンの設定です。
 
