@@ -92,7 +92,8 @@ https://github.com/isamu/SlashGPT/commit/e471e287f7346cadb7e431668aec1b2b19f2439
 
 ### 動作確認
 
-slashGPT起動時に、編集した設定を読み込むため、moduleの形式でoption指定をします。
+slashGPT起動時に、編集した設定を読み込むため、moduleの形式でoption指定をします。git cloneしたものであれば、`config/llm_config.py`に設定ファイルがあるのでmoduleは`config.llm_config`と指定します。
+
 
 ```
 ./SlashGPT.py --llm-config config.llm_config
