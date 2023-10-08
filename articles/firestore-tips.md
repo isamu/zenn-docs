@@ -26,6 +26,13 @@ const id = db.collection("hoge").doc().id
 ```
 として、書き込み前にidをとってdataにidを追加してから`setDoc`でデータを保存するとよい。
 
+# rules/indexで必要になりそうなデータは入れておく
+
+仕様変更等でrulesを変更する場合やcollectionGroupでデータを撮るようにしたときに、userIdやpathに含まれるid(例えばteamId, productIdなど）をdataの中に入れておいたほうがよい場合があります。
+あまり冗長にならない程度にそれらのデータは最初から入れておくと良いです。
+後で必要になった場合はバッチで入れることは可能ですが、慎重にデータを更新しないと事故の原因となるので要注意です。
+
+
 # データを分割する
 
  - Firestoreでは基本的にdocument全体でしかread/write制御できない
