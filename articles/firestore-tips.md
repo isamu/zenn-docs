@@ -28,7 +28,7 @@ const id = db.collection("hoge").doc().id
 
 # rules/indexで必要になりそうなデータは入れておく
 
-仕様変更等でrulesを変更する場合やcollectionGroupでデータを撮るようにしたときに、userIdやpathに含まれるid(例えばteamId, productIdなど）をdataの中に入れておいたほうがよい場合があります。
+仕様変更等でrulesを変更する場合やcollectionGroupでデータをとるようにしたときに、userIdやpathに含まれるid(例えばteamId, productIdなど）がdataの中に入っていたほうがよい場合があります。
 あまり冗長にならない程度にそれらのデータは最初から入れておくと良いです。
 後で必要になった場合はバッチで入れることは可能ですが、慎重にデータを更新しないと事故の原因となるので要注意です。
 
