@@ -1,5 +1,5 @@
 ---
-title: "SlashBotを使ってterminalでAIにコードレビューをさせるの巻"
+title: "SlashBotを使ってterminalでAIにコードレビューをさせる"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [gpt, ChatGPT, LLM, GitHub, OpenAI]
