@@ -34,8 +34,9 @@ cat_or_doc_agentに指定できるagentはSlashGPTのmanifestファイルで記�
 git diff hogeBranch |  slashbot codereview
 ```
 
-とブランチ間の差分をレビューすることができます。
+と現在のブランチと、hogeBranchのブランチ間の差分をコードレビューさせることができます。
 
+AIのよるレビューの例です。
 ```
 Agent(codereview): このコミットでは、次の変更が行われました。
 
