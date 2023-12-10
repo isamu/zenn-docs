@@ -22,13 +22,12 @@ cat dog | slashbot  cat_or_doc_agent
 
 cat_or_doc_agentに指定できるagentはSlashGPTのmanifestファイルで記述されたエージェントです。
 
-コードレビューをするエージェント、[codereview](https://github.com/snakajima/SlashGPT/blob/main/manifests/main/codereview.yml)と組み合わせると
+コードレビューをするエージェント [codereview](https://github.com/snakajima/SlashGPT/blob/main/manifests/main/codereview.yml)を使うと、gitの出力と組み合わせることにより、AIがコードレビューをします。
 
 ```
  git show c69f5eeb5944e9007dc6c79839f119a3290b242e  -U9999 | slashbot codereview
 ```
-のように特定のcommitをreviewしたり
-git に-U9999のoptionをつけると差分以外の情報も含んだソースを渡すことが出来ます。
+のように特定のcommitをコードレビューしたり (git に-U9999のoptionをつけると差分以外の情報も含んだソースを渡すことが出来ます)
 
 
 ```
