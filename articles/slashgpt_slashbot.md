@@ -74,6 +74,7 @@ OPENAI_API_KEY=sk-xxxxx
 ```
 のように設定を追加してください。
 
+AIに渡すプロントは [こちら](https://github.com/snakajima/SlashGPT/blob/main/manifests/main/codereview.yml#L2-L6) にあるので、改善案があればPull Requestをお待ちします。
 
 [SlashGPT リリースページ](https://pypi.org/project/slashgpt/0.0.7/)
 
