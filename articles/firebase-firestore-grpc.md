@@ -17,7 +17,7 @@ firebase-adminの[document](https://firebase.google.com/docs/reference/admin/nod
 
 Firestoreの初期化の説明部分に、特に説明はなく[シレっとoptionとして](https://firebase.google.com/docs/reference/admin/node/firebase-admin.firestore?hl=ja#initializefirestore)追加されていました。
 
-firebase-adminの(Release notes)[https://firebase.google.com/support/release-notes/admin/node#version_1140_-_15_december_2022]を見ると、version 11.4.0でこの対策が入ったようです。これより古いバージョンを使っている場合は、最新にupdateしてこのoptionを有効にすると幸せになれそうです。
+firebase-adminの[Release notes](https://firebase.google.com/support/release-notes/admin/node#version_1140_-_15_december_2022)を見ると、version 11.4.0でこの対策が入ったようです。これより古いバージョンを使っている場合は、最新にupdateしてこのoptionを有効にすると幸せになれそうです。
 
 
 改めてpreferRestの説明を見ると
