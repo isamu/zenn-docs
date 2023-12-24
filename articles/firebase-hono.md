@@ -8,7 +8,7 @@ publication_name: "singularity"
 ---
 
 
-Firebase functionsでwebサーバ、apiサーバを立てる場合、expressを使うことが多いと思います。Honoは軽量でパワフル、導入が用意なwebフレームワークです。expressのかわりのhonoを使ってみたいと思います。
+Firebase functionsでwebサーバ、apiサーバを立てる場合、expressを使うことが多いと思います。[Hono](https://hono.dev/)は軽量でパワフル、導入が用意なwebフレームワークです。expressのかわりのhonoを使ってみたいと思います。
 
 honoは Cloudflare Workers,  AWS Lambda, Lambda@Edgeなどで使うためのadapterが用意されています。その[adapter](https://github.com/honojs/hono/tree/main/src/adapter)を参考にすれば他の環境で動作させることが可能となります。
 
@@ -61,3 +61,9 @@ export const server = handle(app);
 
 と返ってきました。
 
+
+[この記事によれば](https://zenn.dev/yusukebe/articles/0c7fed0949e6f7)
+
+> Hono[炎] と名付けました。Cloud「flare」
+
+とありますが、「Fire」baseとも相性が良いようです。
