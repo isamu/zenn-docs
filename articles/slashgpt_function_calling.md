@@ -2,7 +2,7 @@
 title: "SlashGPTのFunction callingの詳細"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [gpt, ChatGPT, LLM, Tech, OpenAI, SlashGPT]
+topics: [ChatGPT, LLM, Tech, OpenAI, SlashGPT]
 published: true
 publication_name: "singularity"
 ---
