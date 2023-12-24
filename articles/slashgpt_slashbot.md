@@ -2,7 +2,7 @@
 title: "SlashBotを使ってterminalでAIにコードレビューをさせる"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [gpt, ChatGPT, LLM, GitHub, OpenAI]
+topics: [gpt, ChatGPT, LLM, GitHub, OpenAI, SlashGPT]
 published: true
 publication_name: "singularity"
 ---
