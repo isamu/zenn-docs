@@ -42,7 +42,7 @@ https://github.com/isamu/firebase-vue3-startup-kit
 4. Functionsなど課金が必要なサービスを使う場合はプラン変更
 5. 必要なfirebaseの設定を追加する
  - Hosting
-a - Authentication
+ - Authentication
  - Firestore Database
  - Storage
  - Functions
