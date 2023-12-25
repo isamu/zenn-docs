@@ -31,8 +31,20 @@ https://github.com/isamu/firebase-vue3-startup-kit
 
 1. レポジトリをforkするか、Use this templateでレポジトリを作る
 2. localにcloneする
+```
+git clone {your repository url}
+```
 3. yarn install
+```
+cd {your repository dirctory}
+yarn install
+```
+
 4. functionsを使う場合はfunctionsディレクトリーでyarn install
+```
+cd functions
+yarn install
+```
 
 # Firebaseの設定
 
