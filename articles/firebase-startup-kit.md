@@ -58,11 +58,19 @@ yarn install
 4. Functionsなど課金が必要なサービスを使う場合はプラン変更
 5. 必要なfirebaseの設定を追加する
  - Hosting
+   - webのhosting. Vueをアップロードしてブラウザから使う場合に必要。
+   - Funcitonsでwebサーバを使う場合も必要(Functionsの関数のみの場合は不要)
  - Authentication
+   - ユーザ認証。email/password, Google認証などのOAuth連携、電話認証など。
  - Firestore Database
+   - データベース
  - Storage
+   - ファイルの管理
  - Functions
+   - バックエンドサーバ
  - App Check
+   - FirestoreやFunctionsのセキュリティの仕組み
+   - 本番環境では有効にして、設定を追加したほうが良い
 
 6. firebaseのプロジェクト名をレポジトリの.firebasercのfir-vue-startup-kit部分にコピー
 7. Firebaseのcliをインストールしてない場合はインストールする
