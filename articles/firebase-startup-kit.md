@@ -8,6 +8,10 @@ publication_name: "singularity"
 ---
 
 FirebaseとVue3で爆速でwebサイトを作るfirebase-vue3-startup-kitの紹介です。
+FirebaseはGoogleが提供するモバイルおよびウェブ開発プラットフォームです。Web上で簡単に設定するだけで、hosting, 認証、databaseなどがすぐに、簡単に使えます。特にdatabaseのfirestoreはサーバいらずでフロントからセキュアに、簡単にデータの読み書きでき、websockのコードを書くことなしにリアルタイムのデータ変更を受けることができます（GraphQLのSubscription相当）
+Vueのreactiveな仕様ととても相性がよいので、この２つの組み合わせてwebを作ると爆速で、かつリアルタイムにデータが反映するサイトを構築できます。
+
+
 
 従来、FirebaseとVue3で環境を作る場合、
 
