@@ -204,7 +204,7 @@ skip_function_result: true
 ユーザからの問い合わせに対して、用意した3つのエージェントのうちふさわしいエージェントを選択し、そのエージェントにプロンプトを渡すように動作します。
 
 
-```
+```json
 {
   "title": "car Dispatcher",
   "about": "isamu",
@@ -241,7 +241,7 @@ https://github.com/isamu/SlashGPT/pull/29/files
 # 対話型カーナビの動作デモ
 
 起動してカーナビモードに
-```
+```bash
 Activating: Main Dispatcher
 Agent(dispatcher): I am a dispatcher agent. I will find the right agent for your question, and let it answer.
 You(dispatcher): /switch car
