@@ -11,7 +11,7 @@ CES2024でChatGPTを搭載したカーナビゲーションが紹介されてい
 
 https://www.youtube.com/watch?v=ToZAVlLqzmo&t=849s
 
-カーナビに普通に話しかけることにより、音声認識を使ってカーナビ、エアコン、オーディオなどの操作ができるようです。早速、テキストベースですが[SlashGPT](https://github.com/snakajima/SlashGPT)でChatGPTの部分を真似してみたいと思います。
+カーナビに普通に話しかけることにより、音声認識を使ってカーナビ、エアコン、オーディオなどの操作ができるようです。早速、テキストベースですが[SlashGPT](https://github.com/snakajima/SlashGPT)を使ってこのAIのChatGPT部分を真似してみたいと思います。
 
 
 まず、カーナビ、エアコン、オーディオの各エージェントを作ります。それぞれのエージェントはFunction callingを使って、ナビやエアコンのAPIを呼び出します。[manifests/main/home.json](https://github.com/snakajima/SlashGPT/blob/main/manifests/main/home.json) や[resources/functions/home.json](https://github.com/snakajima/SlashGPT/blob/main/resources/functions/home.json)を参考にして真似します。
