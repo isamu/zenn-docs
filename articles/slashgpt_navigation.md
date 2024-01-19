@@ -21,7 +21,7 @@ https://www.youtube.com/watch?v=ToZAVlLqzmo&t=849s
 
 ルート検索とPOI検索のAPIに対応。サンプルなので、それぞれのAPIが呼ばれたら、呼ばれたことがわかるダミーメッセージを表示します。
 
-```navi.yaml
+```yaml
 title: navigation
 description: navigation
 prompt: |
@@ -44,7 +44,7 @@ skip_function_result: true
 
 ### カーナビ用のFunction calling
 
-```navi.json
+```json
 [
   {
     "name": "search_route",
@@ -79,7 +79,7 @@ skip_function_result: true
 
 ### エアコン用のエージェントのmanifest.
 
-```air_conditioner.yml
+```yaml
 title: air conditioner
 description: air con
 prompt: |
@@ -104,7 +104,7 @@ skip_function_result: true
 
 on/offのスイッチと温度をセットするAPIを用意。
 
-```air_conditioner.json
+```json
 [
   {
     "name": "control_aircon",
@@ -141,7 +141,7 @@ on/offのスイッチと温度をセットするAPIを用意。
 ### オーディオ用のエージェントのmanifest.
 
 
-```music.yml
+```yaml
 title: audio
 description: audio
 prompt: |
@@ -165,7 +165,7 @@ skip_function_result: true
 ### オーディオ用のFunction calling
 
 音楽の再生、停止、一時停止と、次の曲、前の曲へ移動するAPIをサポートしています。
-```music.json
+```json
 [
   {
     "name": "control_audio",
