@@ -10,6 +10,8 @@ publication_name: "singularity"
 Paper AIは、arXivから興味のある論文を検索し、見つかった論文のabstractを要約しSlackへ投稿するAIボットです。FirebaseのCloud Functionsで動作します。
 [Singularity Society](https://www.singularitysociety.org/)で開催している半年間にわたるオンラインのハッカソン、[BootCamp](https://note.com/singsoc/n/n81886b75b852)のサブプロジェクトとして作成されました。
 
+[ソースはこちら](https://github.com/SingularitySociety/paper_ai/)
+
 
 # 動作の仕組み
 
