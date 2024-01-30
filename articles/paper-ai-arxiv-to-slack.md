@@ -20,6 +20,26 @@ FirebaseのCloud Funstions上で動作します
     - 定期的に起動され、arXivのAPIで新しい論文を取得する
     - 取得した論文のサマリーをFirestoreに保存する
 
+```TypeScript
+export const search_arxiv = async (db: admin.firestore.Firestore) => {
+  try {
+    const papers = await search_arxiv_papers();
+
+    for await (const data of papers) {
+      const id = data.id.replace("http://", "").replace(/\//g, "-");
+      data.authors = data.authors.map((author) => author.join(","));
+
+      const path = `/papers/${id}`;
+      const currentDoc = (await db.doc(path).get()).data();
+      if (!currentDoc) {
+        await db.doc(path).set(data);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+```
 - Firestoreに論文情報が保存されると、Triggerで関数が呼ばれ、保存された論文情報を元に、GPTに日本語で要約させます。要約した結果をSlaskに投稿します。
 
   - [arxiv_create_doc](https://github.com/SingularitySociety/paper_ai/blob/main/functions/src/functions/arxiv/create_doc.ts)
@@ -27,6 +47,45 @@ FirebaseのCloud Funstions上で動作します
     - 論文サマリーをLLMに投げて、必要な情報に変換
     - Slackへpushする
 
+```TypeScript
+export const createPaperEvent = async (
+  db: firebase.firestore.Firestore,
+  snap: firebase.firestore.QueryDocumentSnapshot,
+  context: EventContext,
+) => {
+  const data = snap.data();
+  const { paperId } = context.params;
+  if (!data) {
+    console.log("no data");
+    return;
+  }
+  const summary_data = await call_llm(data);
+  if (!summary_data) {
+    console.log("no summary");
+    return;
+  }
+  await db.doc(`summaries/${paperId}`).set({
+    summary: summary_data,
+    id: data.id,
+    title: data.title,
+  });
+  const message = formatPushMessage(summary_data, data);
+  await pushSlask(message);
+
+  return;
+};
+
+export const call_llm = async (data: firebase.firestore.DocumentData) => {
+  const text = `title: ${data.title}\nbody: ${data.summary}"`;
+
+  const res = await call_slashgpt(text);
+  if (res.result) {
+    return res.function_result;
+  }
+  return null;
+};
+
+```
 
 # 設定
 
@@ -76,6 +135,44 @@ firebase deploy --only functions --project=default
 Slackの投稿時に、formatPushMessageで整形をしています。
 
 この２つの関数は[lib/utils.ts](https://github.com/SingularitySociety/paper_ai/blob/main/functions/src/lib/utils.ts)にあります。
+
+```TypeScript
+export const search_arxiv_papers = async () => {
+  const papers = await search({
+    searchQueryParams: [
+      {
+        include: [{ name: "LLM" }],
+      },
+    ],
+    sortBy: "lastUpdatedDate",
+    sortOrder: "descending",
+    start: 0,
+    maxResults: 100,
+  });
+  return papers;
+};
+
+export const formatPushMessage = (
+  summary_data: LLMSummary,
+  data: firebase.firestore.DocumentData,
+) => {
+  const { title, keywords, issues, methods, results } = summary_data;
+  const base_title = data.title.replaceAll("\n", "");
+  return [
+    "------------------",
+    `${base_title} (${data.id})`,
+    "------------------",
+    "",
+    [
+      `📚内容: ${title}`,
+      `🔑キーワード: ${keywords}`,
+      `❓問題点: ${issues}`,
+      `⚒️手法:️ ${methods}`,
+      `⭐結果: ${results}`,
+    ].join("\n\n"),
+  ].join("\n");
+};
+```
 
 ### プロンプトのカスタマイズ
 
