@@ -97,9 +97,9 @@ export const call_llm = async (data: firebase.firestore.DocumentData) => {
 ### functions:secrets にOpenAIのsecret keyとSlack bot用のtoken/channnelをセットする
 
 [Slack apiのページ](https://api.slack.com/apps)のCreate New APPでアプリを作成します。
-![](/images/paper-ai-arxiv-to-slack/1.png)
+![](/images/paper-ai-arxiv-to-slack/11.png)
 作成したアプリのOAuth tokenをコピーし、SLACKTOKENとして登録します。
-![](/images/paper-ai-arxiv-to-slack/2.png)
+![](/images/paper-ai-arxiv-to-slack/12.png)
 
 SLACKCHANNELはbotが要約を出力するチャンネル。このチャンネルにbotを招待します。
 
@@ -122,7 +122,7 @@ firebase deploy --only functions --project=default
 
 正しく設定できていると、以下のようにSlackのチャンネルにpaper aiのbotが要約を投稿するようになります。
 
-![](/images/paper-ai-arxiv-to-slack/3.png)
+![](/images/paper-ai-arxiv-to-slack/13.png)
 
 初回実行時はOpenAIのAPIへのアクセスが大量になり、上限に引っかかってエラーになることがあります。２回目以降は差分となるので、エラーはほぼ出なくなります。
 
