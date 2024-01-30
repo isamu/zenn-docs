@@ -217,7 +217,7 @@ Paper AIを実際に動かすのは、FirebaseのFirestore, Functionsが必要�
  npx ts-node tests/format_data.ts
 ```
 
-# TODO
+# おわりに。
 
 以下TODOです。パッチ大歓迎です。
 
@@ -230,6 +230,5 @@ Paper AIを実際に動かすのは、FirebaseのFirestore, Functionsが必要�
   - Firebaseに入れている既存のデータをそのまま表示させる
   - LLMとの対話を可能にする＋そのログの表示
   - 検索キーワードの追加、削除、管理
-  - ユーザごとに特定のキーワードをいれておくと、検索結果にそのキーワードが含まれている場合に通知やメンションさせる
 
 
