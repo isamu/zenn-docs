@@ -7,7 +7,7 @@ published: true
 publication_name: "singularity"
 ---
 
-## epiCRealismとReActorでにバーチャルアイドルを作る
+## epiCRealismとReActorでバーチャルアイドルを作る
 
 Stable Diffusionを使って、人物の顔写真を元にバーチャルアイドルを作成します。
 
