@@ -67,3 +67,9 @@ Textを入れてGenerate。有名な夫人の画像を元に生成した画像�
 
 ## まとめ
 プラグラム不要で、簡単にできました！
+
+他のmodelやextensionを試すことで、バーチャルアイドルに限らず、Stable Diffusionを使った様々な画像生成AIが使えそうです。
+
+シンギュラリティ・ソサエティは、このように生成AIを使い、AIの検証やサービス、アプリケーションを作るコミュニティです。
+
+https://singularitysociety.org/
