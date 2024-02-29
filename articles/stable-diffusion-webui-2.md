@@ -1,5 +1,5 @@
 ---
-title: "写真を使ってバーチャルアイドルを作る (Stable Diffusion Webui編)"
+title: "写真をベースにAIでバーチャルアイドルを作る (Stable Diffusion Webui編)"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [stablediffusion, ai, Tech]
