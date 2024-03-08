@@ -7,6 +7,8 @@ published: true
 publication_name: "singularity"
 ---
 
+[シンギュラリティ・ソサエティのAI Innovators Hub](https://singularitysociety.org/activities/aihub/)に参加しています。
+
 ## epiCRealismとReActorでバーチャルアイドルを作る
 
 Stable Diffusionを使って、人物の顔写真を元にバーチャルアイドルを作成します。
