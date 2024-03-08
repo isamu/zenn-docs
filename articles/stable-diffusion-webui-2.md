@@ -2,7 +2,7 @@
 title: "写真をベースにAIでバーチャルアイドルを作る (Stable Diffusion Webui編)"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [stablediffusion, ai, Tech]
+topics: [stablediffusion, ai, Tech, ai_innovators_hub]
 published: true
 publication_name: "singularity"
 ---

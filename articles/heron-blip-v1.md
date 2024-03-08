@@ -2,7 +2,7 @@
 title: "日本語Vision Languageモデル heron-blip-v1をARM Macで動かす"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [turning, llm, VisionLangauge, heron]
+topics: [turning, llm, VisionLangauge, heron, ai_innovators_hub]
 published: true
 publication_name: "singularity"
 ---

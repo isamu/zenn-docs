@@ -2,10 +2,12 @@
 title: "Stable Diffusion Webui をMacで動かす"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [stablediffusion]
+topics: [stablediffusion, ai_innovators_hub]
 published: true
 publication_name: "singularity"
 ---
+
+[シンギュラリティ・ソサエティのAI Innovators Hub](https://singularitysociety.org/activities/aihub/)に参加しています。
 
 Stable Diffusionは、画像生成AIです。
 オープンソースなので自分のPCで動かすことができます。
