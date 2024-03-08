@@ -1,8 +1,8 @@
 ---
-title: "日本語Vision Languageモデル heron-blip-v1をMacで動かす"
+title: "日本語Vision Languageモデル heron-blip-v1をARM Macで動かす"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [turning,llm, VisionLangauge, heron]
+topics: [turning, llm, VisionLangauge, heron]
 published: true
 publication_name: "singularity"
 ---
@@ -13,11 +13,13 @@ publication_name: "singularity"
 
 https://zenn.dev/turing_motors/articles/00df893a5e17b6
 
-の記事を参考に、Hugging Faceのmodelのページをみます。
+の記事を参考にします。
+まずモデルデータや使い方を確認するためにHugging Faceのmodelのページをみます。
 
 https://huggingface.co/turing-motors/heron-chat-blip-ja-stablelm-base-7b-v1
 
-サンプルコードをコピペし、device部分をmpsに指定し、動かしてみたところ、heronがないのでエラー。
+サンプルコードをコピペし、device部分をmpsに指定し、動かしてみたところ、heronがないのでエラーとなりました。
+
 https://github.com/isamu/ai_hub/blob/master/turing/heron-blip-v1.py
 
 heronはpipで用意されてないようなので、まずはheronのインストール。
