@@ -2,7 +2,7 @@
 title: "Stable Diffusionのデスクトップアプリを作る"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [stablediffusion]
+topics: [stablediffusion, ]
 published: true
 publication_name: "singularity"
 ---
@@ -11,9 +11,9 @@ publication_name: "singularity"
 
 # はじめに
 
-PythonでAIツールを作り他の人に使ってもらおうとすると、Webサービス化する、もしくはPythonのソースを共有しパソコンやGoogle colabでで動かしてもらう必要があります。
+PythonでAIツールを作り他の人に使ってもらおうとすると、Webサービス化する、もしくはPythonのソースを共有しパソコンやGoogle colabで動かしてもらう必要があります。
 
-Webサービス化するのは、AI系の処理は時間がかかる事と、サーバのコスト問題で、現状ではあまり良い方法ではありません。Pythonのコードを使う場合は、使う側にある程度の知識が要求されます。
+Webサービス化するのは、AI系の処理は時間がかかる事とサーバのコスト問題で、現状ではあまり良い方法ではありません。Pythonのコードを使う場合は、使う側にある程度の知識が要求されます。
 
 そこで、Pythonで書いたツールをアプリ化し、インストールするだけで使えるようにしたいと思います。
 
@@ -26,7 +26,7 @@ Webサービス化するのは、AI系の処理は時間がかかる事と、サ
 
 ## UIツール
 
-MacでPythonを使ってUIを作るために、いくつからライブラリーがあります
+MacでPythonを使ってUIを作るために、いくつからライブラリーがあります。
 
 - Tkinter
   - Tcl/TkのPythonパッケージ。古いので非推奨
@@ -41,7 +41,7 @@ PyQt5とPySide2はほぼ同じAPIで互換性があるようです。今回は�
 
 pyinstallerやpy2appといったツールでPythonのスクリプトを、実行環境込みで配布できるアプリ化できます。
 
-両方を検証したところpy2appは今回のケースではパッケージ化に失敗したのでpyinstallerを使います
+両方を検証したところpy2appは今回のケースではパッケージ化に失敗したのでpyinstallerを使います。
 
 ## 作り方
 
