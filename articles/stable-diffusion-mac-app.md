@@ -2,7 +2,7 @@
 title: "Stable Diffusionのデスクトップアプリを作る"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [stablediffusion, ]
+topics: [stablediffusion, python, 機械学習, mac, アプリ]
 published: true
 publication_name: "singularity"
 ---
