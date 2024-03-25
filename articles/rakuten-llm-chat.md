@@ -7,8 +7,8 @@ published: true
 publication_name: "singularity"
 ---
 
+[シンギュラリティ・ソサエティのAI Innovators Hub](https://singularitysociety.org/activities/aihub/)に参加しています。
 楽天が公開した日本語LLMをMacで動かします。
-
 ３つモデルが公開されていますが、Chat用のモデルを試します。
 
 https://huggingface.co/Rakuten/RakutenAI-7B-chat
@@ -38,5 +38,6 @@ ASSISTANT:
 「A子はどんな場面でも、おっとりした態度で、誰に対しても馬が合う性格だ」など。
 ```
 
+完成したコードはこちら。
 
 https://github.com/isamu/ai_hub/blob/master/rakuten/episode1.py
