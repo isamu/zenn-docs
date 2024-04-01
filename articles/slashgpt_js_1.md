@@ -101,3 +101,6 @@ main();
 ```
 
 先ほどと同様の結果が得られれば成功です。
+
+これは[シンギュラリティ・ソサエティのAI Innovators Hub](https://singularitysociety.org/activities/aihub/)で開発したプロダクトです。
+
