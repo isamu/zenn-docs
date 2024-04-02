@@ -32,8 +32,8 @@ yarn install slashgpt
 - [paper.yml](https://github.com/isamu/slashgpt-js/blob/main/tests/paper.yml)
 - [paper.json](https://github.com/isamu/slashgpt-js/blob/main/tests/paper.json)
 
-以下のTypeScriptと同じディレクトリーにこの２つのファイルをおきます。
-このスクリプトは、manifestを簡単に動かすためのクライアントを使って、manifestのsampleを実行します。
+以下のTypeScriptをファイルに保存し、そのファイルと同じディレクトリーにこの２つのファイルをおきます。
+このTypeScriptは、manifestを簡単に動かすためのsimple_clientを使ってmanifestを実行してます。
 
 ```typescript
 import { justRun } from "slashgpt/lib/simple_client";
@@ -45,14 +45,14 @@ const main = async () => {
 };
 main();
 ```
-
-実行します。
+justRunの関数で、manifestファイルを読み込み、manifestファイルのsampleを実行するようになっています。
+ts-nodeやtypescriptが入ってない場合は、インストールしてください。もし、入っていない場合は実行時にエラーとなります。
+以下の、シェルスクリプトで実行します。OPENAI_API_KEYは、各自で用意が必要です。
 
 ```
 OPENAI_API_KEY=sk-xxxxxx npx ts-node simple_client.ts
 ```
 
-ts-nodeやtypescriptが入ってない場合は、インストールしてください。
 
 ```
     {
