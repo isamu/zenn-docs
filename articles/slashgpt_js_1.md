@@ -9,11 +9,13 @@ publication_name: "singularity"
 
 # SlashGPTとは
 
-[SlashGPT](https://github.com/snakajima/SlashGPT/)は[中島聡](https://twitter.com/snakajima)が開発したChatGPTなどのLLMエージェントを手軽に開発するためのツールです。SlashGPTを使えば、jsonファイルを記述するだけでChatGPTを使ったLLMエージェントやチャットアプリを手軽に、簡単につくることができます。
+[SlashGPT](https://github.com/snakajima/SlashGPT/)は[中島聡](https://twitter.com/snakajima)が開発したChatGPTなどのLLMエージェントを手軽に開発するためのツールです。SlashGPTを使えば、jsonファイルを記述するだけでChatGPTを使ったLLM AI エージェントやチャットアプリを手軽に、簡単につくることができます。
 
 # SlashGPT jsとは
 
-SlashGPTはPythonで作られていますが、それをTypeScriptに移植しました。LLMエージェントの動作を定義するManifestやAPIに互換性があります。Node.jsでサーバサイドでの動作と、ブラウザでの動作をサポートしています。
+オリジナルのSlashGPTはPythonで作られています。SlashGPT jsはそれをTypeScriptに移植したものです。LLMエージェントの動作を定義するManifestやFunction callingのための定義ファイル、APIに互換性があります。
+
+Node.jsでサーバサイドでの動作と、ブラウザでの動作をサポートしています。
 
 https://github.com/isamu/slashgpt-js/
 
@@ -21,13 +23,14 @@ https://www.npmjs.com/package/slashgpt
 
 # インストール
 
-npmで提供されているので、インストールします。
+npmで提供されています。npmコマンドやyarnコマンドなどでインストールします。
 
-```
+```sh
 yarn install slashgpt
 ```
 
 # 動作
+
 サンプルのmanifestファイルと、function callingの動作を定義しているファイルをダウンロードします。
 - [paper.yml](https://github.com/isamu/slashgpt-js/blob/main/tests/paper.yml)
 - [paper.json](https://github.com/isamu/slashgpt-js/blob/main/tests/paper.json)
@@ -68,7 +71,7 @@ OPENAI_API_KEY=sk-xxxxxx npx ts-node simple_client.ts
 
 のような結果が表示されれば成功です。
 
-上記と同じ動作をAPIを使って動かします。
+上記と同じ動作をjustRunではなく、APIを使って実装して動かします。動作については上の例と同じです。
 
 
 ```typescript
@@ -101,6 +104,13 @@ main();
 ```
 
 先ほどと同様の結果が得られれば成功です。
+このサンプルを参考に、サーバ等に組み込むことができます。
+
+## まとめ
+
+今回、Python版のSlashGPTをTypeScriptに移植したSlashGPT jsを紹介しました。
+SlashGPT jsはNode.jsとブラウザの両方で動作するので、サーバに組み込むことも、フロントエンドで使うことも可能です。
+manifestファイルは、Python版含めすべてのバージョンで互換性があるので、Pythonで作成したものをNode.jsのサーバに組み込むことなどが簡単にできます。
 
 これは[シンギュラリティ・ソサエティのAI Innovators Hub](https://singularitysociety.org/activities/aihub/)で開発したプロダクトです。
 
