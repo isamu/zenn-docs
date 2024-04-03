@@ -71,4 +71,9 @@ LLMの処理が終わるとGPTからのメッセージが表示されます。
 
 function callingの結果を使ってAPIを叩いたり、GraphQLを使うことも可能となっています。
 
+## Function calling
+
+function callingは、LLMに投げるfunctionsと、LLMから戻ってきた結果を使ってSlashGPTで実行するactionsの２つの設定が必要です。SlashGPT webでは、Functionのメソッドを追加すると、functionsとactionsの両方に項目が追加されるようになっています。
+actionsでrest apiやGraphQLを使う場合CORSの問題でAPIエラーになる場合があります。その場合は、mockのapiを実装するなどして、CORSのエラーがでない環境を用意してください。
+
 以上で、SlashGPT webの動作を説明しました。
