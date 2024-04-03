@@ -16,6 +16,8 @@ publication_name: "singularity"
 SlashGPTのmanifestをweb上で編集し、web上で動作確認するツールです。manifestと呼ばれるプロンプトの動作を定義するファイルをfunction callingの機能をWeb上で作成、確認できます。
 作成したmanifestはダウンロード可能で、Python版やTypeScript版のSlashGPTでプログラムから利用可能です。
 
+動かすためには、Node.js、ブラウザ、OpenAIのAPI Keyが必要です。
+
 # インストール
 
 GitHub上でMITライセンスで公開されています。
