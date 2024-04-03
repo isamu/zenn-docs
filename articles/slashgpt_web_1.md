@@ -48,8 +48,8 @@ yarn run serve
 起動時してブラウザで開きます。画面は左側がプリセットのmanifestデータ、真ん中がmanifestの編集画面、右がLLMとのチャット画面です。
 ![](https://storage.googleapis.com/zenn-user-upload/2223a6964222-20240403.png)
 
-真ん中あたりのOpenAIのAPI keyを入力する部分があります。OpenAIのサイトから取得して入力してください。ブラウザのlocalstorageに保存するので、我々のサーバ等に送られることはありません。localで同じポートで起動するサービスには注意してください。
-その他のデータも4/3現在、全てlocalstorageに保存しています。
+真ん中あたりにOpenAIのAPI keyを入力する部分があります。OpenAIのサイトからAPI Key取得し入力してください。ブラウザのlocalStorageに保存するので、我々のサーバ等に送られることはありません。localで同じポートで起動するサービスには注意してください。
+その他のデータも4/3現在、全てlocalStorageに保存しています。
 ![](https://storage.googleapis.com/zenn-user-upload/5b697fbbaf8e-20240403.png)
 
 上に戻り、左側の「論文レビュー」のボタンを押します。プリセットの論文解説のmanifestがロードされ、form部分の項目にデータがセットされます。
