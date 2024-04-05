@@ -21,7 +21,7 @@ httpのrequest headerに
  anthropic-beta: tools-2024-04-04
 ```
 
-を追加し、requestにtoolsとしてスキーマの情報を送れば良いようです。
+を追加し、request bodyにtoolsとしてスキーマの情報を送れば良いようです。
 Node版sdkも対応していて、サンプルも追加されています。
 
 https://github.com/anthropics/anthropic-sdk-typescript/commit/5bcaddbd396fa81e9b65bf2ce3b2917affae5c0a
