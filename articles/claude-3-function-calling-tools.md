@@ -2,7 +2,7 @@
 title: "Claude 3 APIがFunction calling (Tools)に対応したので試してみる"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [gpt, ChatGPT, LLM, Tech, SlashGPT]
+topics: [claude3, LLM, anthropic, Tech]
 published: true
 publication_name: "singularity"
 ---
