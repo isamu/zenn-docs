@@ -26,13 +26,13 @@ class Hoge {
 
 Dataの複数の場合はDataSetとし、objectの場合はDictonaryとすればスッキリします。
 
-```
+```typescript
 hogeData: HogeData
 hogeDataSet: HogeData[]
 hogeDataDictonary: Record<string, HogeData>
 ```
 
-```
+```typescript
 hoge: Hoge
 hoges: Hoge[]
 hogeDictonary: Record<string, Hoge>
