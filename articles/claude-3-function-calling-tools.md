@@ -87,6 +87,8 @@ async function main() {
 main();
 ```
 
+open aiでparametersで送っているデータは、input_schemaという名前(key)に変更する必要があります。
+
 以下が結果です。
 
 ```json
@@ -105,3 +107,5 @@ main();
 ```
 
 若干項目の差はありますが、OpenAIのFunction Callingの実装をそのまま変更して使えそうです。
+
+tool_useのidと、textの内容は、この結果を次の会話でllmになげる場合に必要です。このあたりの流れはOpenAIのAPIとは異なっています。
