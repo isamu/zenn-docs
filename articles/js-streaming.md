@@ -128,3 +128,6 @@ const main = async () => {
 main();
 
 ```
+
+そのまま動くコードはこちら。
+https://github.com/isamu/samples/blob/master/typescript/streaming/generator.ts
