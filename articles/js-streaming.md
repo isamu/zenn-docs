@@ -50,7 +50,7 @@ const main = async () => {
 
 その１とジェネレータ関数と同じ。ただし、イテレーターは使わないでwhileで自分で回す
 { done: true, value: result}で最後の結果がとれる
-
+個人的にはletが出てくるのが気になる。
 
 ```typescript
 import "dotenv/config";
