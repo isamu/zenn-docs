@@ -1,5 +1,5 @@
 ---
-title: "複雑な依存関係のあるタスクを最適な順に実行する方法"
+title: "GraphAIで複雑な依存関係のあるタスクを最適な順に実行する"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [nodejs, Async, GraphAI, gpt]
