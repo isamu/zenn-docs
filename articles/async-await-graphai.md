@@ -88,8 +88,9 @@ const task1 = async (time: number) => {
 };
 ```
 
-それらの各タスクの依存関係を定義します。今回はTypeScriptで書きましたが、yamlやjsonで書くことも可能です。
-その場合は、Angetも別の方法で渡します（別記事で解説予定）
+それらの各タスクの依存関係を定義します。今回はTypeScriptで書きましたが、yamlやjsonで書くことも可能です。その場合は、Angetも別の方法で渡します（別記事で解説予定）
+
+各タスクで実行するプログラムをagentに渡し、依存があるタスクはinputsでその依存するタスクの名前(object/dictonaryのkey)を指定します。
 
 ```TypeScript
 {
