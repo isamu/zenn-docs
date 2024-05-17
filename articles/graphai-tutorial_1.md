@@ -1,5 +1,5 @@
 ---
-title: "GraphAIのの紹介"
+title: "AI Agentを簡単に効率よく開発/実行するGraphAIの紹介"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech, GraphAI]
