@@ -66,18 +66,18 @@ GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai
 - GraphAI
   - GraphAI本体
 - Graphデータ
-  - GraphAIで使うGraphを定義したデータ。グラフ理論のNodeはnodeとして、edgeはinputsで定義される。グラフは有向グラフでloopなし。
+  - GraphAIで使うGraphを定義したデータ。グラフ理論のNodeはnodeとして、edgeはinputsで定義される。グラフは有向グラフで閉loopなし。
 - Agent
-  - GraphAIで実行されるプログラムの関数。各Node(Computed Node)は１つのAgentを実行する。同じAgentを複数のNodeで使うこともできる。LLMを実行するLLM Agentや、データを処理するpopAgent, stringAgentなどがある。TypeScriptで記述する
+  - GraphAIで実行されるプログラム。各Node(Computed Node)は１つのAgentと対応し、実行する。同じAgentを複数のNodeで使うこともできる。LLMを実行するLLM Agentや、データを処理するpopAgent, stringAgentなどがある。TypeScriptで記述する
 - Node
-  - GraphのNode。
+  - GraphのNode。Static NodeとComputed Nodeの２種類がある。
 - Static Node
-  - データのみを扱いNode. 初期値を定義したり、loop(同じグラフを繰り返し処理する）時に、前回実行したデータを受け取る。
+  - データのみを扱うNode。初期値を定義したり、loop(同じグラフを繰り返し処理する）時に、前回実行した結果をデータとして受け取る。
 - Computed Node
   - Agentに対応したNode。プログラムを実行する
 - Agent Filter
   - 各Agentを実行する前に実行されるプログラム。共通の処理、AgentのデータのValidation, stream処理などができる。
-a
+
 ## 簡単な動作の流れ
 
 - yamlやjsonでGraphデータを読み込む
