@@ -3,7 +3,7 @@ title: "GraphAIの紹介"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech, GraphAI]
-published: true
+published: false
 publication_name: "singularity"
 ---
 
@@ -77,7 +77,7 @@ GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai
   - Agentに対応したNode。プログラムを実行する
 - Agent Filter
   - 各Agentを実行する前に実行されるプログラム。共通の処理、AgentのデータのValidation, stream処理などができる。
-
+a
 ## 簡単な動作の流れ
 
 - yamlやjsonでGraphデータを読み込む
