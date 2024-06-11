@@ -175,7 +175,56 @@ AgentFilterは、それぞれのComputed Nodeが実行される前に、なに�
 
 ## Nodeで使い方
 
+graphaiを動作させるのに必要な最小限のnpmはgraphaiといずれかのagentです。
+最も簡単に使えるvanilla agents(@graphai/vanilla 他に依存がないagentをvanillaと呼んでいます)を使います。
 
+npmの初期化をして、必要なnpmを入れます。typescriptを実行するためにts-nodeも入れます。
+```
+npm init
+yarn add graphai @graphai/vanilla ts-node
+```
+
+以下が最小限のスクリプトです。graphai.tsで保存します。
+Static nodeのnode1でメッセージを指定して、そのデータを受け取ったComputed nodeのnode2でbypassAgentを実行します。
+node2の結果を出力としてかえします。
+
+```graphai.ts
+import { GraphAI } from "graphai";
+import * as agents from "@graphai/vanilla";
+
+const graph_data = {
+  version: 0.5,
+  nodes: {
+    node1: {
+      value: "hello, GraphAI",
+    },
+    node2: {
+      agent: "bypassAgent",
+      inputs: [":node1"],
+      isResult: true,
+    },
+  },
+};
+
+export const main = async () => {
+  const graph = new GraphAI(graph_data, agents);
+  const result = await graph.run();
+  console.log(JSON.stringify(result));
+
+};
+
+if (process.argv[1] === __filename) {
+  main();
+}
+```
+
+実行します
+```
+npx ts-node graphai.ts
+{"node2":["hello, GraphAI"]}
+```
+
+node1で指定して文字列がnode2に渡され、結果として表示されました。
 
 
 ## Webのサンプル
