@@ -127,14 +127,25 @@ graphaiのorganization配下で、Agentを配布しています。
 各Agentについては、機械的に生成したdocumentが以下にあります。
 [AgentDoc](https://github.com/receptron/graphai/blob/main/docs/agentDocs/README.md)
 
+## AgentFunctionInfoについて
+
+npmで配布されるagentは、実行されるagentを含むAgentFunctionInfoで配布されます。
+AgentFunctionInfoには、Agentの情報(nameやdescription)、サンプルの入出力、入力のスキーマなどの情報が含まれています。Sampleはドキュメントの自動生成やUnit testにも使われます。
+
+Agentを作成してGraphAIで利用するときは、AgentFunctionInfoを作る必要があります。
+
+(* 簡易的にagentを即時関数で使う方法や、AgentFunctionInfoのモックデータを使うなど、開発時には省略する方法もあります。別途説明予定）
+
+
 ## 簡単なGraphAIの使い方
 
 こちらのチュートリアルを参考にしてください。英語ですが、ほとんどがソースなので翻訳を使いながらでも簡単に理解できます。
 
+[公式チュートリアル](https://github.com/receptron/graphai/blob/main/docs/Tutorial.md)
+
 このチュートリアルは、graphai_cliを使ってCliでyamlを読み込んでGraphAIを使います。
 graphai_cliはGraphAI本体と、@graphai/agentsを含んでいて、全てのAgentを利用できます。
 
-[公式チュートリアル](https://github.com/receptron/graphai/blob/main/docs/Tutorial.md)
 
 ## Sampleの使い方
 
@@ -146,9 +157,25 @@ yarn run samples {sampleFile}
 ```
 で実行できます。
 
+T.B.D. fix sample file
+
 <!--  ## inputについて  ## nestしたGraphについて   ## loopについて ## any/ifの使い方 -->
 
+
+
 ## AgentFilter
+
+AgentFilterは、それぞれのComputed Nodeが実行される前に、なにかの処理を追加することができます。
+
+@graphai/agent_filtersではhttpのstreamのためのfilterやAgentFunctionInfoのinput schemaを使った入力値のvalidateを行うagent filterがあります。
+
+他、サンプルのwebレポジトリではクライアント側でstreamを受信するagent filterや、クライアント側でAgentを実行するときに、動的にサーバ/クライアントでのAgentを割り振って、透過的にAgentを実行するAgenなどを使っています。
+
+(この透過的なサーバ/クライアントについては別途説明します)
+
+## Nodeで使い方
+
+
 
 
 ## Webのサンプル
