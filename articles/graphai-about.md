@@ -133,12 +133,13 @@ graphaiのorganization配下で、Agentを配布しています。
 
 ## Agentのdocument
 
-各Agentについては、機械的に生成したdocumentが以下にあります。
+各Agentの[AgentFunctionInfo](https://github.com/receptron/graphai/blob/ee6878a4cd1d453c0729ee7ffcad63f073427b64/packages/graphai/src/type.ts#L118-L140)に書かれた情報を元に、機械的に生成したdocumentが以下にあります。
+
 [AgentDoc](https://github.com/receptron/graphai/blob/main/docs/agentDocs/README.md)
 
 ## AgentFunctionInfoについて
 
-npmで配布されるagentは、実行されるagentを含むAgentFunctionInfoで配布されます。
+npmで配布されるagentは、実行されるagentを含む[AgentFunctionInfo](https://github.com/receptron/graphai/blob/ee6878a4cd1d453c0729ee7ffcad63f073427b64/packages/graphai/src/type.ts#L118-L140)の形式配布されます。
 AgentFunctionInfoには、Agentの情報(nameやdescription)、サンプルの入出力、入力のスキーマなどの情報が含まれています。Sampleはドキュメントの自動生成やUnit testにも使われます。
 
 Agentを作成してGraphAIで利用するときは、AgentFunctionInfoを作る必要があります。
@@ -176,7 +177,7 @@ T.B.D. fix sample file
 
 AgentFilterは、それぞれのComputed Nodeが実行される前に、なにかの処理を追加することができます。
 
-@graphai/agent_filtersではhttpのstreamのためのfilterやAgentFunctionInfoのinput schemaを使った入力値のvalidateを行うagent filterがあります。
+[@graphai/agent_filters](https://www.npmjs.com/package/@graphai/agent_filters)ではhttpのstreamのためのfilterや、AgentFunctionInfoのinput schemaを使った入力値のvalidateを行うagent filterがあります。
 
 他、サンプルのwebレポジトリではクライアント側でstreamを受信するagent filterや、クライアント側でAgentを実行するときに、動的にサーバ/クライアントでのAgentを割り振って、透過的にAgentを実行するAgenなどを使っています。
 
@@ -184,10 +185,10 @@ AgentFilterは、それぞれのComputed Nodeが実行される前に、なに�
 
 ## Node.jsで使い方
 
-graphaiを動作させるのに必要な最小限のnpmはgraphaiといずれかのagentです。
-最も簡単に使えるvanilla agents(@graphai/vanilla 他に依存がないagentをvanillaと呼んでいます)を使います。
+GraphAIを動作させるのに必要な最小限のnpmはgraphaiといずれかのagentです。
+最も簡単に使えるAgentのvanilla agents(@graphai/vanilla 他に依存がないagentをvanillaと呼んでいます)を使って簡単なGraphデータを作り、動かしてみます。
 
-npmの初期化をして、必要なnpmを入れます。typescriptを実行するためにts-nodeも入れます。
+最初にnpmの初期化をして、必要なnpmを入れます。typescriptを実行するためにts-nodeも入れます。
 ```
 npm init
 yarn add graphai @graphai/vanilla ts-node
@@ -197,7 +198,7 @@ yarn add graphai @graphai/vanilla ts-node
 Static nodeのnode1でメッセージを指定して、そのデータを受け取ったComputed nodeのnode2でbypassAgentを実行します。
 node2の結果を出力としてかえします。
 
-```graphai.ts
+```typescript
 import { GraphAI } from "graphai";
 import * as agents from "@graphai/vanilla";
 
@@ -228,8 +229,8 @@ if (process.argv[1] === __filename) {
 ```
 
 実行します
-```
-npx ts-node graphai.ts
+```sh
+$ npx ts-node graphai.ts
 {"node2":["hello, GraphAI"]}
 ```
 
@@ -238,11 +239,39 @@ node1で指定して文字列がnode2に渡され、結果として表示され�
 
 ## Webのサンプル
 
-T.B.D
+Vue3で書かれたwebのサンプルです。
+
+https://github.com/receptron/graphai-demo-web
+
+サンプルサイト
+https://graphai-demo.web.app/
+
 
 ## WebのサンプルStream編
 
-T.B.D
+https://github.com/isamu/graphai-stream-web
+
+localで動作します。
+
+root directoryとserver directoryでnpmのinstall.
+
+```
+yarn install
+```
+
+vueの起動
+
+```
+yarn run serve
+```
+
+serverの起動
+
+```
+yarn run server
+```
+
+で利用できます。
 
 
 ## 透過的にサーバ/クライアントを使う
