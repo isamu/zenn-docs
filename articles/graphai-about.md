@@ -77,7 +77,9 @@ GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai
   - Agentに対応したNode。プログラムを実行する
 - Agent Filter
   - 各Agentを実行する前に実行されるプログラム。共通の処理、AgentのデータのValidation, stream処理などができる。
-
+- Node.js
+  - JavaScriptの実行環境。GraphAIのnodeと混同しそうなので、Node.jsと表記します。
+  
 ## 簡単な動作の流れ
 
 - yamlやjsonでGraphデータを読み込む
@@ -173,7 +175,7 @@ AgentFilterは、それぞれのComputed Nodeが実行される前に、なに�
 
 (この透過的なサーバ/クライアントについては別途説明します)
 
-## Nodeで使い方
+## Node.jsで使い方
 
 graphaiを動作させるのに必要な最小限のnpmはgraphaiといずれかのagentです。
 最も簡単に使えるvanilla agents(@graphai/vanilla 他に依存がないagentをvanillaと呼んでいます)を使います。
@@ -229,10 +231,24 @@ node1で指定して文字列がnode2に渡され、結果として表示され�
 
 ## Webのサンプル
 
+T.B.D
+
+## WebのサンプルStream編
+
+T.B.D
+
 
 ## 透過的にサーバ/クライアントを使う
 
+T.B.D
+
 ## Agentの開発方法
 
+T.B.D
 
 ## Agentのdocument生成とテスト
+
+T.B.D
+
+## Graphデータの作り方
+
