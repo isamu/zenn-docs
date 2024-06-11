@@ -41,8 +41,14 @@ GraphAIで使うAgentは
 
 https://github.com/receptron/graphai
 
-にあります。このレポジトリはモノレポとなっていて、GraphAI本体の他に、各種ツールやAgentが含まれます。GraphAI本体と各種ツールはpackages以下に、Agentはagents以下においてあります。
-それぞれのツール/Agentはnpmで提供されています。
+にあります。このレポジトリはモノレポとなっていて、GraphAI本体の他に、各種ツールやAgentが含まれます。
+
+- [packagesディレクトリ](https://github.com/receptron/graphai/tree/main/packages)
+  - GraphAI本体とcliやテスト用の各種ツール、AgentFilter,全てのAgentを利用できるagentのメタパッケージなど
+- [agentsディレクトリ](https://github.com/receptron/graphai/tree/main/agents)
+  - GraphAIで利用するagentsがそれぞれの分類ごとに分かれておいてある
+
+各packages/agents以下のディレクトリはそれぞれのnpmのパッケージとして提供されています。
 
 GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai/src/ 以下の
 
@@ -67,6 +73,7 @@ GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai
   - GraphAI本体
 - Graphデータ
   - GraphAIで使うGraphを定義したデータ。グラフ理論のNodeはnodeとして、edgeはinputsで定義される。グラフは有向グラフで閉loopなし。
+  - yaml, jsonファイルで定義したり、TypeScriptで直接記述も可能。
 - Agent
   - GraphAIで実行されるプログラム。各Node(Computed Node)は１つのAgentと対応し、実行する。同じAgentを複数のNodeで使うこともできる。LLMを実行するLLM Agentや、データを処理するpopAgent, stringAgentなどがある。TypeScriptで記述する
 - Node
@@ -80,14 +87,14 @@ GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai
 - Node.js
   - JavaScriptの実行環境。GraphAIのnodeと混同しそうなので、Node.jsと表記します。
   
-## 簡単な動作の流れ
+## GraphAIの簡単な動作の流れ
 
-- yamlやjsonでGraphデータを読み込む
-- Graphデータに矛盾がないかvalidationをする
-- タスクキューに入れて、依存がないNodeから実行する
-- Nodeの実行が終わると、それに依存している次のNodeが実行される
-- AgentFilterが設定されている場合、各Nodeが実行前にAgentFilterが実行される
-- 全てのNodeの実行が終わるとisResultで指定されたNodeの結果が返される
+- yamlやjson,TypeScriptで記述されたGraphデータを読み込む
+- Graphデータに矛盾がないかvalidationをする。矛盾があればエラーで終了
+- 全てのComputed nodeをタスクキューに入れて、依存がないNodeから実行する
+- １つのNodeの実行が終わると、それに依存し、他のタスク待ちがないNodeを探し、見つかればそのNodeが実行される。ただし並列動作の上限に達した場合には実行待ちとなる。
+- AgentFilterが設定されている場合、各Nodeの実行前にAgentFilterが実行される
+- 全てのNodeの実行が終わるとisResultで指定されたNodeの結果が返される。Loop指定がある場合は、最初から実行される。
 
 ## npm package
 
