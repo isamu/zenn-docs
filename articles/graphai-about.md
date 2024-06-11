@@ -247,6 +247,8 @@ https://github.com/receptron/graphai-demo-web
 https://graphai-demo.web.app/
 
 
+![](/images/graphai/web-demo.png)
+
 ## WebのサンプルStream編
 
 https://github.com/isamu/graphai-stream-web
@@ -272,6 +274,9 @@ yarn run server
 ```
 
 で利用できます。
+
+![](/images/graphai/stream.gif)
+
 
 
 <!-- ## 透過的にサーバ/クライアントを使う -->
