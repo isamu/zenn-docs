@@ -72,6 +72,23 @@ GPT(AI)への問い合わせと、その結果を使って更に問い合わせ�
 このように、yamlファイルに定義することで、簡単にAIを使ったAgentを組み合わせて動かすことが可能となります。
 
 
+## Sample
+
+### yamlのサンプル
+
+graphaiのcliコマンドで実行できる
+
+- https://github.com/receptron/graphai/tree/main/packages/cli/samples
+
+### tsのサンプル
+
+```
+npx ts-node  -r tsconfig-paths/register {filename}a
+```
+
+- https://github.com/receptron/graphai/tree/main/packages/samples/src
+- https://github.com/receptron/graphai/tree/main/agents/llm_agents/samples
+
 ## レポジトリとnpm構成
 
 ### ソースコード
