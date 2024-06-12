@@ -34,6 +34,43 @@ GraphAIで使うAgentは
 
 現在は、receptronという組織で開発をしています。
 
+## Quick Start
+
+まずは、簡単にGraphAIを使ってみましょう。npmの環境とOpenAIのapi keyを用意してください。
+
+そして、GraphAI の cliをインストールします。
+
+```
+npm i -g  @receptron/graphai_cli
+```
+
+以下のyamlファイル(Graphデータ)をダウンロードして保存してください。
+
+https://raw.githubusercontent.com/receptron/graphai/main/packages/cli/samples/business_idea_jp.yaml
+
+そのファイルを保存したディレクトリーに.envというファイルをつくってOpenAIのAPI KEYを記述します。
+
+```
+OPENAI_API_KEY=sk-xxxx
+```
+
+用意は以上です。実行します。
+
+```
+$ graphai business_idea_jp.yaml
+```
+
+成功していれば、何も表示されないでしばらくまちます。
+
+しばらくすると、「このビジネスアイデアコンテスト」のアイデア、評価、結果が表示されます。
+
+yamlファイルをみると流れはわかると思いますがOpenAIのGPTに問い合わせるAgentが３回実行されています。
+GPT(AI)への問い合わせと、その結果を使って更に問い合わせをするという流れです。
+
+問い合わせの内容を変更すると、ビジネスアイデア以外の結果を得ることができるので、改良して使ってみてください。
+
+このように、yamlファイルに定義することで、簡単にAIを使ったAgentを組み合わせて動かすことが可能となります。
+
 
 ## レポジトリとnpm構成
 
@@ -147,6 +184,8 @@ Agentを作成してGraphAIで利用するときは、AgentFunctionInfoを作る
 (* 簡易的にagentを即時関数で使う方法や、AgentFunctionInfoのモックデータを使うなど、開発時には省略する方法もあります。別途説明予定）
 
 
+
+
 ## 簡単なGraphAIの使い方
 
 こちらのチュートリアルを参考にしてください。英語ですが、ほとんどがソースなので翻訳を使いながらでも簡単に理解できます。
@@ -250,6 +289,10 @@ https://graphai-demo.web.app/
 ![](/images/graphai/web-demo.png)
 
 ## WebのサンプルStream編
+
+LLMをサーバで動かし、そのレスポンスをstreamで受け取るサンプルです。
+サーバ側、クラアント側、両方でstreamをサポートしています。
+
 
 https://github.com/isamu/graphai-stream-web
 
