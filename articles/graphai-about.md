@@ -472,7 +472,7 @@ Agentの本体をsrc/以下(今回は[src/sample_agent.ts](https://github.com/is
 今回作成するAgentは`SampleAgent`という名前です。
 動作は、GraphAIからの入力値(設定ファイルのparams)の`params`と、前のagentからの入力値`inputs`、この２つの値をmergeしてobjectとして返す簡単なAgentです。
 
-### Agent
+#### Agent
 
 Agentの本体はこちらです。
 
@@ -489,7 +489,7 @@ Agentは必ず`AgentFunction`の型で、非同期(`async`)な関数です。
 
 どんなAgentも基本的にはこのように入力値を受け取って、何らかの結果を返す１つの関数です。
 
-### AgentFunctionInfo
+#### AgentFunctionInfo
 
 Agentは、AgentFunctionInfoの型のデータとしてGraphAIにわたす必要があります。
 AgentFunctionInfoはAgent本体とinputs/params/resultのサンプルの値、Agentのメタ情報を含みます。
@@ -557,7 +557,7 @@ export default sampleAgentInfo;
 とします。
 複数のサンプル値があるときはテストランナーは全てのケースをテストします。
 
-# Unit Test
+#### Unit Test
 
 Agentのパッケージの情報を使ってAgent単体のUnit Testをします。
 GraphAIに含まれるagentTestRunnerにsampleAgentInfoを渡してUnit Testを実行します。
@@ -580,16 +580,16 @@ yarn run test
 
 でテストを実行します。
 
-# 開発
+#### 開発
 
-最初にAgentを開発するとき、このディレクトリをコピーし、ベースとして使うと良いです。
+最初にAgentを開発するとき、この[レポジトリ](https://github.com/isamu/graphai_agent_template)をforkして使うと良いです。
 Agent作成に必要な設定は `package.json`, `eslintrc.js`, `.prettierrc`, `tsconfig.json` に設定済みです
 
 `src/sample_agent.ts`をベースに必要な実装を追加していき、期待すべき`samples`を更新、追加しながらUnit Testを動かします。
 Unit TestをPassし、期待すべき動作がするようになればAgentは完成です。
 
 
-## Agentの受け取るデータ
+#### Agentの受け取るデータ
 
 sampleAgentでは、Agentの関数で`{ params, inputs }`を受け取りました。
 実際は`AgentFunctionContext`の情報を受け取っています。
@@ -599,9 +599,16 @@ sampleAgentでは、Agentの関数で`{ params, inputs }`を受け取りまし�
 - inputs
   - GraphDataのinputsで指定される値。前に実行したAgentの結果や、static nodeでの値、inputsに書かれた値など。
   - inputsはArrayで、入力の数と同じ長さ。
-
-基本的にはこの２つ入力として受け取り、Agentの処理をします。結果はreturnで返します。
+- namedInputs
+   - inputsのobject(dictonary)時
+   
+基本的にはこのうちの２つ(paramsと(inputs or namedInputs))を入力として受け取り、Agentの処理をします。結果はreturnで返します。
 Agentの結果は、次に実行されるAgentのinputsなどで利用されます。(inputの記述方法は別途解説します)
+
+inputsとinputsはGraphDataで
+- `inputs: [":node1", ":node2"]` とarrayにした場合はinputs,
+- `inputs: {v1: ":node1", v2: ":node2"}` とした場合にはobjectでnamedInputs
+が渡されます。同時に２つがくることはありません。
 
 - agentFilters
   - AgentFilterという仕組みを使う場合に使う
