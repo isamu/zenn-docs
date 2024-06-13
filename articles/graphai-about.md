@@ -40,7 +40,7 @@ GraphAIで使うAgentは
 
 そして、GraphAI の cliをインストールします。
 
-```
+```sh
 npm i -g  @receptron/graphai_cli
 ```
 
@@ -56,8 +56,8 @@ OPENAI_API_KEY=sk-xxxx
 
 用意は以上です。実行します。
 
-```
-$ graphai business_idea_jp.yaml
+```sh
+graphai business_idea_jp.yaml
 ```
 
 成功していれば、何も表示されないでしばらくまちます。
@@ -78,7 +78,7 @@ GPT(AI)への問い合わせと、その結果を使って更に問い合わせ�
 
 graphaiのcliコマンドで実行できるyamlサンプルです。`@receptron/graphai_cli`がインストール済みであれば
 
-```
+```sh
 graphai {filename}
 ```
 
@@ -92,7 +92,7 @@ graphai {filename}
 
 typescriptで書かれたサンプルです。ソースをcloneして、それぞれのディレクトリーで以下のコマンドで実行できます。
 
-```
+```sh
 yarn run samples {sampleFile}
 ```
 
@@ -168,7 +168,7 @@ if (process.argv[1] === __filename) {
 ```
 
 実行します
-```sh
+```shell-session
 $ npx ts-node graphai.ts
 {"node2":["hello, GraphAI"]}
 ```
@@ -200,19 +200,19 @@ localで動作します。
 
 root directoryとserver directoryでnpmのinstall.
 
-```
+```sh
 yarn install
 ```
 
 vueの起動
 
-```
+```sh
 yarn run serve
 ```
 
 serverの起動
 
-```
+```sh
 yarn run server
 ```
 
@@ -344,7 +344,7 @@ nodes:
 
 これをecho.yamlというファイル名で保存して、graphaiのcliで実行します
 
-```sh
+```shell-session
 $ graphai echo.yaml 
 { node1: { message: 'hello' } }
 ```
@@ -382,7 +382,7 @@ nodes:
 これを実行するとnode2の結果として`message: 'hello'`が表示されます。
 また結果はarrayになっています。
 
-```sh
+```shell-session
  $ graphai echo2.yaml
 { node2: [ { message: 'hello' } ] }
 ```
@@ -411,7 +411,7 @@ nodes:
     isResult: true
 ```
 
-```sh
+```shell-session
 $ graphai echo3.yaml
 { node3: [ { message: 'hello' }, { message: 'こんにちは' } ] }
 ```
@@ -555,7 +555,7 @@ agentTestRunner(sampleAgentInfo);
 
 package.jsonにテスト実行のスクリプトがあるので
 
-```
+```sh
 yarn run test
 ```
 
@@ -604,7 +604,7 @@ inputsとinputsはGraphDataで
 AgentFunctionInfoに含まれる方法を使って、agentのunit testを実行する、documentを自動生成することが可能です。
 
 Test runnerは、`@receptron/test_utils`に含まれています。
-```
+```typescript
 import { agentTestRunner } from "@receptron/test_utils";
 
 const main = async () => {
