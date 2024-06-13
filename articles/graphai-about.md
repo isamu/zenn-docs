@@ -76,130 +76,28 @@ GPT(AI)への問い合わせと、その結果を使って更に問い合わせ�
 
 ### yamlのサンプル
 
-graphaiのcliコマンドで実行できる
+graphaiのcliコマンドで実行できるyamlサンプルです。`@receptron/graphai_cli`がインストール済みであれば
+
+```
+graphai {filename}
+```
+
+で実行できます。
 
 - https://github.com/receptron/graphai/tree/main/packages/cli/samples
 
+
+
 ### tsのサンプル
 
+typescriptで書かれたサンプルです。ソースをcloneして、それぞれのディレクトリーで以下のコマンドで実行できます。
+
 ```
-npx ts-node  -r tsconfig-paths/register {filename}a
+yarn run samples {sampleFile}
 ```
 
 - https://github.com/receptron/graphai/tree/main/packages/samples/src
 - https://github.com/receptron/graphai/tree/main/agents/llm_agents/samples
-
-## レポジトリとnpm構成
-
-### ソースコード
-
-https://github.com/receptron/graphai
-
-にあります。このレポジトリはモノレポとなっていて、GraphAI本体の他に、各種ツールやAgentが含まれます。
-
-- [packagesディレクトリ](https://github.com/receptron/graphai/tree/main/packages)
-  - GraphAI本体とcliやテスト用の各種ツール、AgentFilter,全てのAgentを利用できるagentのメタパッケージなど
-- [agentsディレクトリ](https://github.com/receptron/graphai/tree/main/agents)
-  - GraphAIで利用するagentsがそれぞれの分類ごとに分かれておいてある
-
-各packages/agents以下のディレクトリはそれぞれのnpmのパッケージとして提供されています。
-
-GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai/src/ 以下の
-
-- [graphai.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/graphai.ts)
-  - GraphAI本体
-- [node.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/node.ts)
-  - Agentと対応するNode
-- [task_manager.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/task_manager.ts)
-  - 並列処理を含むAgentの実行を管理するタスクマネージャー
-- [type.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/type.ts)
-  - 型定義
-
-の４つのファイルで、合わせても1000行程度とコンパクトに作られています。
-
-本体以外にAgent/AgentFilter/Validator/GraphAIの機能を拡張するAgent(nestしたGraphやGraphを並列で動かす）などを組み合わせて使うため、シンプルなエンジンで複雑な処理を行うことが可能となります。
-
-## 用語説明
-
-- Graph
-  - 円グラフや棒グラフのグラフではなく、グラフ理論のグラフ。NodeとそれをつなぐEdgeで、それぞれのNodeの関連性を示す
-- GraphAI
-  - GraphAI本体
-- Graphデータ
-  - GraphAIで使うGraphを定義したデータ。グラフ理論のNodeはnodeとして、edgeはinputsで定義される。グラフは有向グラフで閉loopなし。
-  - yaml, jsonファイルで定義したり、TypeScriptで直接記述も可能。
-- Agent
-  - GraphAIで実行されるプログラム。各Node(Computed Node)は１つのAgentと対応し、実行する。同じAgentを複数のNodeで使うこともできる。LLMを実行するLLM Agentや、データを処理するpopAgent, stringAgentなどがある。TypeScriptで記述する
-- Node
-  - GraphのNode。Static NodeとComputed Nodeの２種類がある。
-- Static Node
-  - データのみを扱うNode。初期値を定義したり、loop(同じグラフを繰り返し処理する）時に、前回実行した結果をデータとして受け取る。
-- Computed Node
-  - Agentに対応したNode。プログラムを実行する
-- Agent Filter
-  - 各Agentを実行する前に実行されるプログラム。共通の処理、AgentのデータのValidation, stream処理などができる。
-- Node.js
-  - JavaScriptの実行環境。GraphAIのnodeと混同しそうなので、Node.jsと表記します。
-  
-## GraphAIの簡単な動作の流れ
-
-- yamlやjson,TypeScriptで記述されたGraphデータを読み込む
-- Graphデータに矛盾がないかvalidationをする。矛盾があればエラーで終了
-- 全てのComputed nodeをタスクキューに入れて、依存がないNodeから実行する
-- １つのNodeの実行が終わると、それに依存し、他のタスク待ちがないNodeを探し、見つかればそのNodeが実行される。ただし並列動作の上限に達した場合には実行待ちとなる。
-- AgentFilterが設定されている場合、各Nodeの実行前にAgentFilterが実行される
-- 全てのNodeの実行が終わるとisResultで指定されたNodeの結果が返される。Loop指定がある場合は、最初から実行される。
-
-## npm package
-
-npmパッケージは以下で配布しています。
-
-#### GraphAI本体
-
-https://www.npmjs.com/package/graphai
-
-#### GraphAI関連ツール
-
-receptronのorganization配下で、ツールを提供しています。
-
-yamlやjsonをcliで読み込んで使うツールやexpressのmiddlewareなどがあります。
-
-[receptron organization](https://www.npmjs.com/org/receptron)
-
-#### Agents
-
-graphaiのorganization配下で、Agentを配布しています。
- [graphai organization](https://www.npmjs.com/org/graphai)
-
-- [@graphai/agents](https://www.npmjs.com/package/@graphai/agents)
-  - 配布しているnpmを全て盛り込んだメタパッケージ。
-  - 含まれるパッケージは、[ここのソース](https://github.com/receptron/graphai/blob/main/packages/agents/src/index.ts)を参照してください
-- [@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
-  - 他のnpmに依存しないagent群.
-    - arrayの処理、データ処理、文字列やjsonの変換を行うagentなどがあります。
-- [@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)  
-  - wikipediaやfetchなどネットワークサービスを使うagent.
-- [@graphai/llm_agents](https://www.npmjs.com/package/@graphai/llm_agents)
-  - llmのagent. llmをapi経由で使うのにapi keyが必要になるのでサーバで使うことを想定しています。
-- [@graphai/data_agents](https://www.npmjs.com/package/@graphai/data_agents)
-  - データ加工
-
-
-## Agentのdocument
-
-各Agentの[AgentFunctionInfo](https://github.com/receptron/graphai/blob/ee6878a4cd1d453c0729ee7ffcad63f073427b64/packages/graphai/src/type.ts#L118-L140)に書かれた情報を元に、機械的に生成したdocumentが以下にあります。
-
-[AgentDoc](https://github.com/receptron/graphai/blob/main/docs/agentDocs/README.md)
-
-## AgentFunctionInfoについて
-
-npmで配布されるagentは、実行されるagentを含む[AgentFunctionInfo](https://github.com/receptron/graphai/blob/ee6878a4cd1d453c0729ee7ffcad63f073427b64/packages/graphai/src/type.ts#L118-L140)の形式配布されます。
-AgentFunctionInfoには、Agentの情報(nameやdescription)、サンプルの入出力、入力のスキーマなどの情報が含まれています。Sampleはドキュメントの自動生成やUnit testにも使われます。
-
-Agentを作成してGraphAIで利用するときは、AgentFunctionInfoを作る必要があります。
-
-(* 簡易的にagentを即時関数で使う方法や、AgentFunctionInfoのモックデータを使うなど、開発時には省略する方法もあります。別途説明予定）
-
 
 ## 簡単なGraphAIの使い方
 
@@ -211,153 +109,26 @@ Agentを作成してGraphAIで利用するときは、AgentFunctionInfoを作る
 graphai_cliはGraphAI本体と、@graphai/agentsを含んでいて、全てのAgentを利用できます。
 
 
-## Sampleの使い方
-
-https://github.com/receptron/graphai/tree/main/packages/samples
-以下に公式のサンプルが提供されています。
-
-```
-yarn run samples {sampleFile}
-```
-で実行できます。
-
-T.B.D. fix sample file
 
 <!--  ## inputについて  ## nestしたGraphについて   ## loopについて ## any/ifの使い方 -->
 
+## GraphAIの簡単な動作の流れ
 
+- yamlやjson,TypeScriptで記述されたGraphデータを読み込む
+- Graphデータに矛盾がないかvalidationをする。矛盾があればエラーで終了
+- 全てのComputed nodeをタスクキューに入れて、依存がないNodeから実行する
+- １つのNodeの実行が終わると、それに依存し、他のタスク待ちがないNodeを探し、見つかればそのNodeが実行される。ただし並列動作の上限に達した場合には実行待ちとなる。
+- AgentFilterが設定されている場合、各Nodeの実行前にAgentFilterが実行される
+- 全てのNodeの実行が終わるとisResultで指定されたNodeの結果が返される。Loop指定がある場合は、最初から実行される。
 
-## AgentFilter
-
-AgentFilterは、それぞれのComputed Nodeが実行される前に、なにかの処理を追加することができます。
-
-[@graphai/agent_filters](https://www.npmjs.com/package/@graphai/agent_filters)ではhttpのstreamのためのfilterや、AgentFunctionInfoのinput schemaを使った入力値のvalidateを行うagent filterがあります。
-
-
-### namedInput Validator
-
-namedInputの値をagentFunctionInfoのinput schemaの情報を元にvalidationします
-
-Testコードでの利用例
-https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/validation/test_agent_namedinput_validator.ts
-
-```typescript
-import { GraphAI } from "graphai";
-import * as agents from "@graphai/agents";
-import { namedInputValidatorFilter } from "@graphai/agent_filters";
-
-const agentFilters = [
-  {
-    name: "namedInputValidatorFilter",
-    agent: namedInputValidatorFilter,
-  },
-];
-
-const graph = new GraphAI(graph_data, agents, { agentFilters });
-const results = await graph.run();
-
-```
-
-### streamAgentFilterGenerator
-
-filterParamsのstreamTokenCallback関数を通してstreamのデータを受信します。
-サーバ、クライアントで利用可能です。
-
-#### server 例
-
-https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
-
-express server
-```typescript
-    return async (req: express.Request, res: express.Response) => {
-      res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
-      res.setHeader("Cache-Control", "no-cache, no-transform");
-      res.setHeader("X-Accel-Buffering", "no");
-
-      const callback = (context: AgentFunctionContext, token: string) => {
-        if (token) {
-          res.write(token);
-        }
-      };
-      const streamAgentFilter = {
-        name: "streamAgentFilter",
-        agent: streamAgentFilterGenerator<string>(callback),
-      };
-      const agentFilters = [streamAgentFilter]
-
-      const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
-      const result = await agentFilterRunner(context, agent.agent);
-
-      const json_data = JSON.stringify(result);
-      res.write("___END___");
-      res.write(json_data);
-      return res.end();
-   }
-```
-
-### web client
-
-https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
-
-```typescript
-const useAgentFilter = (callback: (context: AgentFunctionContext, data: T) => void) => {
-  const streamAgentFilter = streamAgentFilterGenerator(callback);
-
-  const agentFilters = [
-    {
-      name: "streamAgentFilter",
-      agent: streamAgentFilter,
-      agentIds: streamAgents,
-    },
-  ];
-  return agentFilters;
-};   
-
-export default defineComponent({
-  setup() {
-    const streamingData = ref<Record<string, unknown>>({});
-
-    const callback = (context: AgentFunctionContext, data: string) => {
-      const { nodeId } = context.debugInfo;
-      streamingData.value[nodeId] = (streamingData.value[nodeId] ?? "") + data;
-    };
-    const agentFilters = useAgentFilter(callback);
-    
-    const graphai = new GraphAI(graphData, agents, { agentFilters });
-  }
-})
-```
-
-### httpAgentFilter
-
-グラフのフローで、agentの実行をバイパスし、http経由でサーバのagentを実行します。
-Webでのサンプルはこちらにあります。
-
-https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
-
-
-### agentFilterRunnerBuilder
-
-GraphAIを使わないでagentFilterとagentを動かすRunnerです。
-クライアントからサーバのagentを呼び出すときに、サーバ側で使います。
-agentFilterやagentの単体テストでも利用可能です。
-
-expressとtest時のサンプルはこちら。
-
-express
-https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
-
-test
-https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/filters/test_filter_runner.ts
-
-
-## Node.jsで使い方
+## GraphAIのNode.jsで使い方
 
 GraphAIを動作させるのに必要な最小限のnpmはgraphaiといずれかのagentです。
 最も簡単に使えるAgentのvanilla agents(@graphai/vanilla 他に依存がないagentをvanillaと呼んでいます)を使って簡単なGraphデータを作り、動かしてみます。
 
 最初にnpmの初期化をして、必要なnpmを入れます。typescriptを実行するためにts-nodeも入れます。
-```
+
+```sh
 npm init
 yarn add graphai @graphai/vanilla ts-node
 ```
@@ -451,11 +222,221 @@ yarn run server
 
 
 
-<!-- ## 透過的にサーバ/クライアントを使う -->
-<!-- T.B.D -->
+## レポジトリとnpm構成
+
+### ソースコード
+
+https://github.com/receptron/graphai
+
+にあります。このレポジトリはモノレポとなっていて、GraphAI本体の他に、各種ツールやAgentが含まれます。
+
+- [packagesディレクトリ](https://github.com/receptron/graphai/tree/main/packages)
+  - GraphAI本体とcliやテスト用の各種ツール、AgentFilter,全てのAgentを利用できるagentのメタパッケージなど
+- [agentsディレクトリ](https://github.com/receptron/graphai/tree/main/agents)
+  - GraphAIで利用するagentsがそれぞれの分類ごとに分かれておいてある
+
+各packages/agents以下のディレクトリはそれぞれのnpmのパッケージとして提供されています。
+
+GraphAI本体は https://github.com/receptron/graphai/blob/main/packages/graphai/src/ 以下の
+
+- [graphai.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/graphai.ts)
+  - GraphAI本体
+- [node.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/node.ts)
+  - Agentと対応するNode
+- [task_manager.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/task_manager.ts)
+  - 並列処理を含むAgentの実行を管理するタスクマネージャー
+- [type.ts](https://github.com/receptron/graphai/blob/main/packages/graphai/src/type.ts)
+  - 型定義
+
+の４つのファイルで、合わせても1000行程度とコンパクトに作られています。
+
+本体以外にAgent/AgentFilter/Validator/GraphAIの機能を拡張するAgent(nestしたGraphやGraphを並列で動かす）などを組み合わせて使うため、シンプルなエンジンで複雑な処理を行うことが可能となります。
+
+
+
+## npm package
+
+npmパッケージは以下で配布しています。
+
+#### GraphAI本体
+
+https://www.npmjs.com/package/graphai
+
+#### GraphAI関連ツール
+
+receptronのorganization配下で、ツールを提供しています。
+
+yamlやjsonをcliで読み込んで使うツールやexpressのmiddlewareなどがあります。
+
+[receptron organization](https://www.npmjs.com/org/receptron)
+
+#### Agents
+
+[graphai organization](https://www.npmjs.com/org/graphai)下で、Agentを配布しています。
+ 
+- [@graphai/agents](https://www.npmjs.com/package/@graphai/agents)
+  - 配布している全てのパッケージを盛り込んだメタパッケージ。
+  - 含まれるパッケージは、[ここのソース](https://github.com/receptron/graphai/blob/main/packages/agents/src/index.ts)を参照してください
+- [@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+  - 他のnpmに依存しないagent群
+    - nestedGraph
+    - arrayの処理
+    - データ処理
+    - 文字列やjsonの変換
+- [@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)  
+  - wikipediaやfetchなどネットワークサービスを使うagent.
+- [@graphai/llm_agents](https://www.npmjs.com/package/@graphai/llm_agents)
+  - LLMのagent. LLMをapi経由で使うのにAPI KEYが必要になります。サーバで使うことを想定しています。
+- [@graphai/data_agents](https://www.npmjs.com/package/@graphai/data_agents)
+  - データ加工用のAgent. vanillaに入れなかった依存関係のあるパッケージ
+
+## 用語説明
+
+- Graph
+  - 円グラフや棒グラフのグラフではなく、グラフ理論のグラフ。NodeとそれをつなぐEdgeで、それぞれのNodeの関連性を示す
+- GraphAI
+  - GraphAI本体
+- Graphデータ
+  - GraphAIで使うGraphを定義したデータ。グラフ理論のNodeはnodeとして、edgeはinputsで定義される。グラフは有向グラフで閉loopなし。
+  - yaml, jsonファイルで定義したり、TypeScriptで直接記述も可能。
+- Agent
+  - GraphAIで実行されるプログラム。各Node(Computed Node)は１つのAgentと対応し、実行する。同じAgentを複数のNodeで使うこともできる。LLMを実行するLLM Agentや、データを処理するpopAgent, stringAgentなどがある。TypeScriptで記述する
+- Node
+  - GraphのNode。Static NodeとComputed Nodeの２種類がある。
+- Static Node
+  - データのみを扱うNode。初期値を定義したり、loop(同じグラフを繰り返し処理する）時に、前回実行した結果をデータとして受け取る。
+- Computed Node
+  - Agentに対応したNode。プログラムを実行する
+- Agent Filter
+  - 各Agentを実行する前に実行されるプログラム。共通の処理、AgentのデータのValidation, stream処理などができる。
+- Node.js
+  - JavaScriptの実行環境。GraphAIのnodeと混同しそうなので、Node.jsと表記します。
+  
+## Graphデータの作り方
+
+### echoAgentを使った簡単なGraphの作成
+
+echoAgent(指定されたデータを出力するAgent)を使って、簡単なGraphファイルを作ります。
+GraphAIのGraphファイルの必須項目はversionとnodesです。
+
+versionは、0.5を指定します。(2024/06現在)
+
+nodesは、GraphAIで使う各ノードを書いていきます。
+このサンプルではnodesにechoAgentを使った１つのnodeを追加します。
+echoAgentはparamsで指定しているユーザからの入力値をそのまま返すAgentです。
+
+追加するnodeは、node1というNode名をつけます。
+このnodeは`message: hello`というデータを出力します。
+
+このサンプルのYAMLは１つしかnodeがありませんが、結果を返すnodeはnode1なので、`isResult: true`を追加し、このnodeの結果がこのGraphの結果と指定します。
+
+
+```yaml
+version: 0.5
+nodes:
+  node1: 
+    params:
+      message: hello
+    agent: echoAgent
+    isResult: true
+   
+```
+
+これをecho.yamlというファイル名で保存して、graphaiのcliで実行します
+
+```sh
+$ graphai echo.yaml 
+{ node1: { message: 'hello' } }
+```
+
+2行目の`message: hello`が表示されていれば成功です。
+
+### inputsを追加する
+
+次に複数のAgentを組み合わせ、inputsで入力を指定したYAMLを作ります。
+入力を指定することで依存関係が定義でき、それによって実行順が制御されます。
+
+bypassAgentは入力値をそのまま出力値で返すAgentです。
+先程のechoAgentのyamlにnode2を追加します。node2のagentはbypassAgentを指定します。
+入力のinputsとして、前のnode1を指定します。inputsは文字列の配列で、node名を指定します。
+
+今回は出力はbypassAgentのnode2なので、node2に`isResult: true`を指定します。node1のisResultは削除します。
+
+```yaml
+version: 0.5
+nodes:
+  node1: 
+    params:
+      message: hello
+    agent: echoAgent
+  node2: 
+    agent: bypassAgent
+    inputs: [":node1"]
+    isResult: true
+```
+
+実行される順に説明すると、
+- node1のechoAgentが実行され、paramsの値を結果として返す
+- node1を入力としているnode、node2が実行される。node2の入力値はnode1の実行結果で、それを入力としてうけとる。node2のbypassAgentは入力値をそのまま結果として返すagentなので、node1の結果をそのまま返す。
+
+これを実行するとnode2の結果として`message: 'hello'`が表示されます。
+また結果はarrayになっています。
+
+```sh
+ $ graphai echo2.yaml
+{ node2: [ { message: 'hello' } ] }
+```
+
+同じように、今度は入力を増やして試してみます。
+node1と同じechoAgentをnode2とし、bypassAgentをnode3にします。
+
+入力のinputsは今度は` ["node1", "node2"]`と２つ指定します。
+
+node3が`isResult: true`です。
+
+```yaml
+version: 0.5
+nodes:
+  node1: 
+    params:
+      message: hello
+    agent: echoAgent
+  node2: 
+    params:
+      message: こんにちは
+    agent: echoAgent
+  node3: 
+    agent: bypassAgent
+    inputs: ["node1", "node2"]
+    isResult: true
+```
+
+```sh
+$ graphai echo3.yaml
+{ node3: [ { message: 'hello' }, { message: 'こんにちは' } ] }
+```
+
+node3の結果として、２つの入力値がそのまま出力されます
+
+このようにinputsを使って、複数のエージェントをつなげていくことができます。
+
+inputsを持つagentは、入力となるnode1, node2のagentの実行結果を待ってから実行します。
+入力のagentがデータベースに接続したり、APIを叩くような時間のかかる処理の場合でも、その前の処理が終わるのを待ってから実行されます。
+
+## Agentのdocument
+
+各Agentの[AgentFunctionInfo](https://github.com/receptron/graphai/blob/ee6878a4cd1d453c0729ee7ffcad63f073427b64/packages/graphai/src/type.ts#L118-L140)に書かれた情報を元に、機械的に生成したdocumentが[AgentDoc](https://github.com/receptron/graphai/blob/main/docs/agentDocs/README.md)にあります。
+
 
 ## AgentFunctionInfoについて
 
+npmで配布されるagentは、実行されるagentの関数と、そのAgentの情報を含む[AgentFunctionInfo](https://github.com/receptron/graphai/blob/ee6878a4cd1d453c0729ee7ffcad63f073427b64/packages/graphai/src/type.ts#L118-L140)の形式配布されます。
+
+AgentFunctionInfoには、Agentの情報(nameやdescription)、サンプルの入出力、入力のスキーマなどの情報が含まれています。Sampleはドキュメントの自動生成やUnit testにも使われます。
+
+Agentを作成してGraphAIで利用するときは、AgentFunctionInfoを作る必要があります。
+
+(* 簡易的にagentを即時関数で使う方法や、AgentFunctionInfoのモックデータを使うなど、開発時には省略する方法もあります。別途説明予定）
 
 
 ## Agentの開発方法
@@ -639,5 +620,137 @@ https://github.com/receptron/graphai/blob/main/packages/cli/src/docs.ts
 
 
 
-## Graphデータの作り方
+## AgentFilter
+
+AgentFilterは、それぞれのComputed Nodeが実行される前に、なにかの処理を追加することができます。
+
+[@graphai/agent_filters](https://www.npmjs.com/package/@graphai/agent_filters)ではhttpのstreamのためのfilterや、AgentFunctionInfoのinput schemaを使った入力値のvalidateを行うagent filterがあります。
+
+
+### namedInput Validator
+
+namedInputの値をagentFunctionInfoのinput schemaの情報を元にvalidationします
+
+Testコードでの利用例
+https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/validation/test_agent_namedinput_validator.ts
+
+```typescript
+import { GraphAI } from "graphai";
+import * as agents from "@graphai/agents";
+import { namedInputValidatorFilter } from "@graphai/agent_filters";
+
+const agentFilters = [
+  {
+    name: "namedInputValidatorFilter",
+    agent: namedInputValidatorFilter,
+  },
+];
+
+const graph = new GraphAI(graph_data, agents, { agentFilters });
+const results = await graph.run();
+
+```
+
+### streamAgentFilterGenerator
+
+filterParamsのstreamTokenCallback関数を通してstreamのデータを受信します。
+サーバ、クライアントで利用可能です。
+
+#### server 例
+
+https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
+
+express server
+```typescript
+    return async (req: express.Request, res: express.Response) => {
+      res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
+      res.setHeader("Cache-Control", "no-cache, no-transform");
+      res.setHeader("X-Accel-Buffering", "no");
+
+      const callback = (context: AgentFunctionContext, token: string) => {
+        if (token) {
+          res.write(token);
+        }
+      };
+      const streamAgentFilter = {
+        name: "streamAgentFilter",
+        agent: streamAgentFilterGenerator<string>(callback),
+      };
+      const agentFilters = [streamAgentFilter]
+
+      const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
+      const result = await agentFilterRunner(context, agent.agent);
+
+      const json_data = JSON.stringify(result);
+      res.write("___END___");
+      res.write(json_data);
+      return res.end();
+   }
+```
+
+### web client
+
+https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
+
+```typescript
+const useAgentFilter = (callback: (context: AgentFunctionContext, data: T) => void) => {
+  const streamAgentFilter = streamAgentFilterGenerator(callback);
+
+  const agentFilters = [
+    {
+      name: "streamAgentFilter",
+      agent: streamAgentFilter,
+      agentIds: streamAgents,
+    },
+  ];
+  return agentFilters;
+};   
+
+export default defineComponent({
+  setup() {
+    const streamingData = ref<Record<string, unknown>>({});
+
+    const callback = (context: AgentFunctionContext, data: string) => {
+      const { nodeId } = context.debugInfo;
+      streamingData.value[nodeId] = (streamingData.value[nodeId] ?? "") + data;
+    };
+    const agentFilters = useAgentFilter(callback);
+    
+    const graphai = new GraphAI(graphData, agents, { agentFilters });
+  }
+})
+```
+
+### httpAgentFilter
+
+グラフのフローで、agentの実行をバイパスし、http経由でサーバのagentを実行します。
+Webでのサンプルはこちらにあります。
+
+https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
+
+
+### agentFilterRunnerBuilder
+
+GraphAIを使わないでagentFilterとagentを動かすRunnerです。
+クライアントからサーバのagentを呼び出すときに、サーバ側で使います。
+agentFilterやagentの単体テストでも利用可能です。
+
+expressとtest時のサンプルはこちら。
+
+express
+https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
+
+test
+https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/filters/test_filter_runner.ts
+
+
+
+
+<!-- ## 透過的にサーバ/クライアントを使う -->
+<!-- T.B.D -->
+
+
+
+
+
 

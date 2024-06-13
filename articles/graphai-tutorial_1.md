@@ -188,7 +188,7 @@ echoAgentはparamsで指定しているユーザからの入力値をそのま�
 
 
 ```yaml
-version: 0.2
+version: 0.3
 nodes:
   node1: 
     params:
@@ -219,7 +219,7 @@ bypassAgentは入力値をそのまま出力値で返すAgentです。
 今回は出力はbypassAgentのnode2なので、node2に`isResult: true`を指定します。node1のisResultは削除します。
 
 ```yaml
-version: 0.2
+version: 0.3
 nodes:
   node1: 
     params:
@@ -251,7 +251,7 @@ node1と同じechoAgentをnode2とし、bypassAgentをnode3にします。
 node3が`isResult: true`です。
 
 ```yaml
-version: 0.2
+version: 0.3
 nodes:
   node1: 
     params:
