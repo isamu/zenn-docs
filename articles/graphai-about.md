@@ -233,9 +233,123 @@ AgentFilterは、それぞれのComputed Nodeが実行される前に、なに�
 
 [@graphai/agent_filters](https://www.npmjs.com/package/@graphai/agent_filters)ではhttpのstreamのためのfilterや、AgentFunctionInfoのinput schemaを使った入力値のvalidateを行うagent filterがあります。
 
-他、サンプルのwebレポジトリではクライアント側でstreamを受信するagent filterや、クライアント側でAgentを実行するときに、動的にサーバ/クライアントでのAgentを割り振って、透過的にAgentを実行するAgenなどを使っています。
 
-(この透過的なサーバ/クライアントについては別途説明します)
+### namedInput Validator
+
+namedInputの値をagentFunctionInfoのinput schemaの情報を元にvalidationします
+
+Testコードでの利用例
+https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/validation/test_agent_namedinput_validator.ts
+
+```typescript
+import { GraphAI } from "graphai";
+import * as agents from "@graphai/agents";
+import { namedInputValidatorFilter } from "@graphai/agent_filters";
+
+const agentFilters = [
+  {
+    name: "namedInputValidatorFilter",
+    agent: namedInputValidatorFilter,
+  },
+];
+
+const graph = new GraphAI(graph_data, agents, { agentFilters });
+const results = await graph.run();
+
+```
+
+### streamAgentFilterGenerator
+
+filterParamsのstreamTokenCallback関数を通してstreamのデータを受信します。
+サーバ、クライアントで利用可能です。
+
+#### server 例
+
+https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
+
+express server
+```typescript
+    return async (req: express.Request, res: express.Response) => {
+      res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
+      res.setHeader("Cache-Control", "no-cache, no-transform");
+      res.setHeader("X-Accel-Buffering", "no");
+
+      const callback = (context: AgentFunctionContext, token: string) => {
+        if (token) {
+          res.write(token);
+        }
+      };
+      const streamAgentFilter = {
+        name: "streamAgentFilter",
+        agent: streamAgentFilterGenerator<string>(callback),
+      };
+      const agentFilters = [streamAgentFilter]
+
+      const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
+      const result = await agentFilterRunner(context, agent.agent);
+
+      const json_data = JSON.stringify(result);
+      res.write("___END___");
+      res.write(json_data);
+      return res.end();
+   }
+```
+
+### web client
+
+https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
+
+```typescript
+const useAgentFilter = (callback: (context: AgentFunctionContext, data: T) => void) => {
+  const streamAgentFilter = streamAgentFilterGenerator(callback);
+
+  const agentFilters = [
+    {
+      name: "streamAgentFilter",
+      agent: streamAgentFilter,
+      agentIds: streamAgents,
+    },
+  ];
+  return agentFilters;
+};   
+
+export default defineComponent({
+  setup() {
+    const streamingData = ref<Record<string, unknown>>({});
+
+    const callback = (context: AgentFunctionContext, data: string) => {
+      const { nodeId } = context.debugInfo;
+      streamingData.value[nodeId] = (streamingData.value[nodeId] ?? "") + data;
+    };
+    const agentFilters = useAgentFilter(callback);
+    
+    const graphai = new GraphAI(graphData, agents, { agentFilters });
+  }
+})
+```
+
+### httpAgentFilter
+
+グラフのフローで、agentの実行をバイパスし、http経由でサーバのagentを実行します。
+Webでのサンプルはこちらにあります。
+
+https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
+
+
+### agentFilterRunnerBuilder
+
+GraphAIを使わないでagentFilterとagentを動かすRunnerです。
+クライアントからサーバのagentを呼び出すときに、サーバ側で使います。
+agentFilterやagentの単体テストでも利用可能です。
+
+expressとtest時のサンプルはこちら。
+
+express
+https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
+
+test
+https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/filters/test_filter_runner.ts
+
 
 ## Node.jsで使い方
 
@@ -351,6 +465,10 @@ T.B.D
 ## Agentのdocument生成とテスト
 
 T.B.D
+
+## AgentFilterについて
+
+agentFilterRunnerBuilderで、テストが出来る
 
 ## Graphデータの作り方
 
