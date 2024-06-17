@@ -743,8 +743,19 @@ https://github.com/receptron/graphai_utils/blob/main/packages/express/src/expres
 test
 https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/filters/test_filter_runner.ts
 
+### 関連レポジトリ
 
+# GraphAI visual programing
 
+https://github.com/isamu/graphai-litegraph/
+
+# GraphAI Python Agent server
+
+https://github.com/isamu/graphai_python_server
+
+# GraphAI PlayGround
+
+https://github.com/receptron/graphai-playground
 
 <!-- ## 透過的にサーバ/クライアントを使う -->
 <!-- T.B.D -->
