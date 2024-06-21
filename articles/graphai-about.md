@@ -193,12 +193,17 @@ https://graphai-demo.web.app/
 LLMをサーバで動かし、そのレスポンスをstreamで受け取るサンプルです。
 サーバ側、クラアント側、両方でstreamをサポートしています。
 
+クライアント
+- https://github.com/isamu/graphai-stream-web
 
-https://github.com/isamu/graphai-stream-web
+サーバ
+- https://github.com/receptron/graphai-agent-server
 
 localで動作します。
 
-root directoryとserver directoryでnpmのinstall.
+両方のレポジトリをclone
+
+root directorynpmのinstall.
 
 ```sh
 yarn install
