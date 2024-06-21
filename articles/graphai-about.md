@@ -747,11 +747,11 @@ https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/f
 
 # GraphAI visual programing
 
-https://github.com/isamu/graphai-litegraph/
+https://github.com/receptron/graphai-litegraph/
 
 # GraphAI Python Agent server
 
-https://github.com/isamu/graphai_python_server
+https://github.com/receptron/graphai_python_server
 
 # GraphAI PlayGround
 
