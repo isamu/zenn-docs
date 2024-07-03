@@ -29,6 +29,8 @@ https://cloud.google.com/blog/ja/products/serverless/cloud-run-now-supports-http
 stackoverflowなどを調べてみると、Firebaseではbufferingをしているから結果がまとめて送られてくる、という情報がありました。試しにFirebaseを経由しない、すなわちFirebase hostingのendpointを使うのではなくCloud Functionsを直接叩いてみたところ、見事ストリーミングでデータを取得することができました。
 くCloud Functions for Firebaseのエンドポイントは、Firebaseのwebコンソールなどで確認することができます。
 
+## 実装
+
 以下、実装のサンプルです。
 
 ```TypeScript
