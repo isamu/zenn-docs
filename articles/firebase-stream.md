@@ -94,6 +94,12 @@ yarn add -D eslint-import-resolver-typescript
 を追加してください。
 
 
+## まとめ
+
+Cloud Functions for FirebaseでHTTPのストリーミングに対応する方法を紹介しました。
+
+この方法を使うことで、FirebaseのみでAIサービスを実装することが可能となります。
+
 Firebase Vue3のスタートアップキットでもサンプルとして実装しているので、こちらも参考にどうぞ。
 
 https://github.com/isamu/firebase-vue3-startup-kit/tree/main/functions
