@@ -18,7 +18,11 @@ GraphAIはTypeScriptで記述されたLLM, RAG, Web Accessの機能を持ったA
 
 特定の機能を持ったGraphDataを作成し、それをAgentとして見立てて別のGraphからAgentとして別のGraphDataを使うことができます。この仕組みをNested Graph(入れ子になったグラフ）と呼びます。
 
-つまり、単純な機能を１つのGraphDataとして定義し、それを再利用することができます。
+つまり、複数のエージェントの組み合わせで作った１つの機能をGraphDataとして定義し、それを再利用することが可能となります。
+再利用目的の他、このような単機能のエージェントを複数組み合わせてマルチエージェントを作ることもできます。
+
+その他、複雑な処理をするために組み合わせ利用することもできます。
+
 
 Nested GraphはNestedAgentを使い、graph要素に、入れ子にするGraphDataを記述します。
 
