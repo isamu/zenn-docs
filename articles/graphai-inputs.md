@@ -144,6 +144,8 @@ Static Nodeは、特定の条件下で他のノードの値を受け取ること
 
 `staticNode`の値は、loopの1回目では `"init value"` となり、2回目以降は `lastDataOfloop` Nodeの結果で上書きされます。
 
+ComputedNodeと異なり, Static Nodeのvalueに`:nodeName`のようにNodeを指定しても展開されずそのまま文字列として扱われるので使わないように気をつけてください。入力ノードを指定できるのはupadteのみです。
+
 
 ### Nested Graphの場合
 
@@ -209,8 +211,8 @@ childGraph: {
 }
 ```
 
-
 この場合、`history` ノードを明示的に定義し、`update` を使って値を設定することができます。`update` はloop時に使われるため、2回目以降のloopで指定された内容で上書きされます。
+
 
 ## まとめ
 
