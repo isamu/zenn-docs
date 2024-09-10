@@ -165,11 +165,9 @@ childGraph: {
   graph: {
     version: 0.5,
     nodes: {
-      history: {
-        nodeB: {
-          agent: "bypassAgent",
-          inputs: [":history"]
-        }
+      nodeB: {
+        agent: "bypassAgent",
+        inputs: [":history"]
       }
     }
   }
