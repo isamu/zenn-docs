@@ -19,8 +19,35 @@ Computed Nodeは`inputs`という要素を使ってデータを受け取るこ�
 - **inputsという名前の要素で定義する**  
   `inputs`の値は、arrayまたはobjectのいずれでも記述できます。
 
+```json
+nodes: {
+  StaticNodeA: {
+    value: "hello",
+  },
+  ComputedNodeB: {
+    agent: "bypassAgent",
+    inputs: [":StaticNodeA"]
+  },
+  ComputedNodeC: {
+    agent: "bypassAgent",
+    inputs: {"A": ":StaticNodeA", "B": ":ComputedNodeB"}
+  },
+}
+```
+
 - **直接値を設定する場合**  
   数値（例: `123`）、文字列（例: `"ABC"`）、オブジェクト（例: `{test: "hello"}`）などを直接入力することができます。
+
+```json
+nodes: {
+  ...,
+  ComputedNodeB: {
+    agent: "bypassAgent",
+    inputs: [123, "abc", {message: "message"}]
+  },
+}
+```
+
 
 - **ノードを指定する場合**  
   ノードを指定するには、`":node1"`のように、`:（コロン）`で始まる文字列を使用します。ノードを指定した場合、そのノードが結果を返すまで実行を待機します。言い換えると、`inputs`でノードを指定することで、実行順を決めることができます。
@@ -28,8 +55,37 @@ Computed Nodeは`inputs`という要素を使ってデータを受け取るこ�
 - **特定のプロパティを指定する場合**  
   例えば、`inputs: [":nodeA.property1"]`と記述すると、`nodeA`の結果の`property1`が渡されます。ここで期待するデータ形式は `{ property1: "value" }` のようなオブジェクトです。
 
+```json
+nodes: {
+  nodeA: {
+    value: {
+      property1: "value"
+    },
+  },
+  ComputedNodeB: {
+    agent: "bypassAgent",
+    inputs: [":nodeA.property1"]
+  },
+}
+```
+
+
 - **配列の要素を指定する場合**  
   `inputs: [":nodeA.result.$0"]` のように記述すると、`nodeA`の結果の中にある配列 `result` の最初の要素が渡されます。ここで `$0` は配列の添字を示しています。例えば、`{ results: ["A", "B"] }` というデータ形式の場合、`"A"` が入力として渡されます。
+
+```json
+nodes: {
+  nodeA: {
+    value: {
+      result: ["A", "B"],
+    },
+  },
+  ComputedNodeB: {
+    agent: "bypassAgent",
+    inputs: [":nodeA.result.$0"]
+  },
+}
+```
 
 - **OpenAIのレスポンス例**  
   OpenAIのレスポンスを処理する場合、例えば `inputs: [":openAI.choices.$0.message.content"]` のように記述します。これにより、OpenAIのレスポンスから `choices` 配列の最初の要素の `message.content` が入力として使用されます。
