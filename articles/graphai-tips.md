@@ -54,7 +54,7 @@ inputsは、arrayか１段階のobjectのみ、入力値のデータに変換で
 ### loopのcounter
 Loop処理時のcount処理
 
-```
+```yaml
 version: 0.5
 loop:
   count: 5
