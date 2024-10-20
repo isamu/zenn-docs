@@ -36,7 +36,7 @@ inputs: {a: {b: {c: [":data"], d: ":data2"}, e: ":data3" } }
  inputs: { template: "this is a ${:item}. hello ${:userName} "}
 ```
 
-
+## 補足
 functionは
 
 ```typescript
