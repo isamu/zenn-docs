@@ -17,7 +17,11 @@ Computed Nodeは`inputs`という要素を使ってデータを受け取るこ�
 ### 入力値の定義
 
 - **inputsという名前の要素で定義する**  
-  `inputs`の値は、arrayまたはobjectのいずれでも記述できます。
+  `inputs`の値は、objectで記述できます。
+
+:::message
+以前はarrayもサポートしていましたが、現在はobjectのみです(2024/10更新)
+:::
 
 ```json
 nodes: {
@@ -25,11 +29,11 @@ nodes: {
     value: "hello",
   },
   ComputedNodeB: {
-    agent: "bypassAgent",
-    inputs: [":StaticNodeA"]
+    agent: "copyAgent",
+    inputs: {text: ":StaticNodeA"}
   },
   ComputedNodeC: {
-    agent: "bypassAgent",
+    agent: "copyAgent",
     inputs: {"A": ":StaticNodeA", "B": ":ComputedNodeB"}
   },
 }
@@ -42,8 +46,8 @@ nodes: {
 nodes: {
   ...,
   ComputedNodeB: {
-    agent: "bypassAgent",
-    inputs: [123, "abc", {message: "message"}]
+    agent: "copyAgent",
+    inputs: {array: [123, "abc", {message: "message"}] }
   },
 }
 ```
@@ -53,7 +57,7 @@ nodes: {
   ノードを指定するには、`":node1"`のように、`:（コロン）`で始まる文字列を使用します。ノードを指定した場合、そのノードが結果を返すまで実行を待機します。言い換えると、`inputs`でノードを指定することで、実行順を決めることができます。
 
 - **特定のプロパティを指定する場合**  
-  例えば、`inputs: [":nodeA.property1"]`と記述すると、`nodeA`の結果の`property1`が渡されます。ここで期待するデータ形式は `{ property1: "value" }` のようなオブジェクトです。
+  例えば、`inputs: {text: ":nodeA.property1"}`と記述すると、`nodeA`の結果の`property1`が渡されます。ここで期待するデータ形式は `{ property1: "value" }` のようなオブジェクトです。
 
 ```json
 nodes: {
@@ -64,14 +68,14 @@ nodes: {
   },
   ComputedNodeB: {
     agent: "bypassAgent",
-    inputs: [":nodeA.property1"]
+    inputs: {text: ":nodeA.property1"}
   },
 }
 ```
 
 
 - **配列の要素を指定する場合**  
-  `inputs: [":nodeA.result.$0"]` のように記述すると、`nodeA`の結果の中にある配列 `result` の最初の要素が渡されます。ここで `$0` は配列の添字を示しています。例えば、`{ results: ["A", "B"] }` というデータ形式の場合、`"A"` が入力として渡されます。
+  `inputs: {text: ":nodeA.result.$0"}` のように記述すると、`nodeA`の結果の中にある配列 `result` の最初の要素が渡されます。ここで `$0` は配列の添字を示しています。例えば、`{ results: ["A", "B"] }` というデータ形式の場合、`"A"` が入力として渡されます。
 
 ```json
 nodes: {
@@ -81,38 +85,42 @@ nodes: {
     },
   },
   ComputedNodeB: {
-    agent: "bypassAgent",
-    inputs: [":nodeA.result.$0"]
+    agent: "copyAgent",
+    inputs: {text: ":nodeA.result.$0"}
   },
 }
 ```
 
 - **OpenAIのレスポンス例**  
-  OpenAIのレスポンスを処理する場合、例えば `inputs: [":openAI.choices.$0.message.content"]` のように記述します。これにより、OpenAIのレスポンスから `choices` 配列の最初の要素の `message.content` が入力として使用されます。
+  OpenAIのレスポンスを処理する場合、例えば `inputs: {text: ":openAI.choices.$0.message.content"}` のように記述します。これにより、OpenAIのレスポンスから `choices` 配列の最初の要素の `message.content` が入力として使用されます。
 
 このように、`inputs` を使って様々な形式で入力値を定義し、ノードの結果や特定のデータを柔軟に扱うことができます。
 
 
 # GraphAIにおける`inputs`のデータ形式
 
-`inputs`は、arrayまたはobjectのいずれでも記述できます。これにより、データの受け渡し方法が異なります。
+`inputs`は、objectで記述できます。
 
 ### データ形式の定義
 
-- **Arrayの場合**  
-  `inputs`がarrayとして定義されると、Agentには`inputs`という名前でarrayが渡されます。例えば、`inputs: [":nodeA"]`と定義すると、Agent内では`inputs`として受け取ります。
-
-- **Objectの場合**  
-  `inputs`がobjectとして定義されると、Agentには`namedInputs`という名前でobjectが渡されます。例えば、`inputs: {dataA: ":nodeA"}`と定義すると、Agent内では`namedInputs`として受け取ります。
+nodeに指定する`inputs`のデータはobjectとして定義します。このデータはAgentには`namedInputs`という名前でobjectが渡されます。
+例えば、`inputs: {dataA: ":nodeA"}`と定義すると、Agent内では`namedInputs`として受け取ります。
 
 ### ネストされたデータ
 
-- **ネストした部分にノードを指定する場合**  
-  `inputs: {dataA: {DataB: ":nodeA"}}`のようにネストされた部分にノードを指定しても、データとして展開されず、`:nodeA`という文字列が直接渡されます。必ず1階層目のvalueに入力ノードを指定するようにしてください。
-
-これにより、`inputs`でデータを渡す際に、適切な形式で受け渡しが行われるようにしてください。
+- **ネストした部分にノードを指定**  
+  `inputs: {dataA: {DataB: ":nodeA"}}`のようにネストされた部分にノードを指定すると、ネストした部分もデータとして展開されます。
 
 
+
+### テンプレート記法
+
+- **ネストした部分にノードを指定**  
+  `inputs: {dataA: "hello ${:nodeA.userName}!!"}`のようにテンプレートを使った記述も可能です。
+
+:::message
+nestしたデータや、テンプレート記法をサポートしました(2024/10更新)
+:::
 
 
 ## Static nodeのデータ受取
@@ -170,8 +178,8 @@ childGraph: {
     version: 0.5,
     nodes: {
       nodeB: {
-        agent: "bypassAgent",
-        inputs: [":history"]
+        agent: "copyAgent",
+        inputs: {history: ":history"}
       }
     }
   }
@@ -205,8 +213,8 @@ childGraph: {
         update: ":prevResult",
       },
       nodeZ: {
-        agent: "bypassAgent",
-        inputs: [":history"]
+        agent: "copyAgent",
+        inputs: { history: ":history" }
       }
     }
   }
@@ -216,11 +224,44 @@ childGraph: {
 この場合、`history` ノードを明示的に定義し、`update` を使って値を設定することができます。`update` はloop時に使われるため、2回目以降のloopで指定された内容で上書きされます。
 
 
+
+### Map Agentの場合
+
+MapAgentは、入力で`inputs: { rows: ":arrayNodeData"}`でrowsにarrayを渡します。
+すると、`arrayNodeData.length`だけGraphAIインスタンスを作成し、ぞれぞれのデータをインスタンスに渡し並列に実行します。
+インスタンスである子GraphAIには、それぞれのarrayの値を`row`という名前の入力として渡します
+
+- **暗黙のケース（Static Nodeを定義しない）**
+
+親Agentの入力値が子Graph内のStatic Nodeとして自動的に受け取られます。例：
+
+```json
+mapGraph: {
+  agent: "mapAgent",
+  inputs: { rows: [1, 2, 3] },
+  isResult: true,
+  graph: {
+    version: 0.5,
+    nodes: {
+      nodeA: {
+        agent: "copyAgent",
+        inputs: { number: ":row"] }
+      }
+    }
+  }
+}
+```
+
+mapAgent内のGraphデータにそれぞれ、1, 2, 3のデータを渡して子Graphを実行します。子Graphにはinputsがないですが実際は`inputs: { row: 1 }`のようにデータが渡されます。
+
+
+
+
 ## まとめ
 
 - Computed Node
   - inputsを使ってデータを渡すことができる
-  - arrayまたはobjectの形式に応じて異なる方法で渡される。
+  - objectの形式です。
 - Static Node
   - loopやnested graph内で他のノードの値を受け取ることができる
   - updateを使うことで、loop時に値を動的に上書きすることができる。
