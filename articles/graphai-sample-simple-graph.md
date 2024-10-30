@@ -68,12 +68,12 @@ main();
       "isResult": true,
       "agent": "stringTemplateAgent",
       "params": {
-        "template": "${0}: ${1}"
+        "template": "${m1}: ${m2}"
       },
-      "inputs": [
-        ":sampleInput0",
-        ":sampleInput1"
-      ]
+      "inputs": {
+        "m1": ":sampleInput0",
+        "m2": ":sampleInput1"
+      }
     }
   }
 }
@@ -94,14 +94,14 @@ main();
       "agent": "stringTemplateAgent",
       "params": {
         "template": [
-          "${0}: ${1}",
-          "${1}: ${0}"
+          "${m1}: ${m2}",
+          "${m2}: ${m1}"
         ]
       },
-      "inputs": [
-        ":sampleInput0",
-        ":sampleInput1"
-      ]
+      "inputs": {
+        "m1": ":sampleInput0",
+        "m2": ":sampleInput1"
+      }
     }
   }
 }
@@ -122,14 +122,14 @@ main();
       "agent": "stringTemplateAgent",
       "params": {
         "template": {
-          "apple": "${0}",
-          "lemon": "${1}"
+          "apple": "${m1}",
+          "lemon": "${m2}"
         }
       },
-      "inputs": [
-        ":sampleInput0",
-        ":sampleInput1"
-      ]
+      "inputs": {
+        "m1": ":sampleInput0",
+        "m2": ":sampleInput1"
+      }
     }
   }
 }
@@ -151,15 +151,15 @@ main();
       "params": {
         "template": [
           {
-            "apple": "${0}",
-            "lemon": "${1}"
+            "apple": "${m1}",
+            "lemon": "${m2}"
           }
         ]
       },
-      "inputs": [
-        ":sampleInput0",
-        ":sampleInput1"
-      ]
+      "inputs": {
+        "m1": ":sampleInput0",
+        "m2": ":sampleInput1"
+      }
     }
   }
 }
@@ -180,16 +180,16 @@ main();
       "agent": "stringTemplateAgent",
       "params": {
         "template": {
-          "apple": "${0}",
+          "apple": "${m1}",
           "lemon": [
-            "${1}"
+            "${m2}"
           ]
         }
       },
-      "inputs": [
-        ":sampleInput0",
-        ":sampleInput1"
-      ]
+      "inputs": {
+        "m1": ":sampleInput0",
+        "m2": ":sampleInput1"
+      }
     }
   }
 }
@@ -349,12 +349,9 @@ main();
     "node": {
       "isResult": true,
       "agent": "jsonParserAgent",
-      "params": {
-        "stringify": true
-      },
-      "inputs": [
-        ":sampleInput0"
-      ]
+      "inputs": {
+        "text": ":sampleInput0"
+      }
     }
   }
 }
@@ -371,9 +368,9 @@ main();
       "isResult": true,
       "agent": "jsonParserAgent",
       "params": {},
-      "inputs": [
-        ":sampleInput0"
-      ]
+      "inputs": {
+        "text": ":sampleInput0"
+      }
     }
   }
 }
@@ -390,9 +387,9 @@ main();
       "isResult": true,
       "agent": "jsonParserAgent",
       "params": {},
-      "inputs": [
-        ":sampleInput0"
-      ]
+      "inputs": {
+        "text": ":sampleInput0"
+      }
     }
   }
 }
