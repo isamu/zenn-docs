@@ -97,7 +97,7 @@ yarn run samples {sampleFile}
 ```
 
 - https://github.com/receptron/graphai/tree/main/packages/samples/src
-- https://github.com/receptron/graphai/tree/main/agents/llm_agents/samples
+
 
 ## 簡単なGraphAIの使い方
 
@@ -134,7 +134,7 @@ yarn add graphai @graphai/vanilla ts-node
 ```
 
 以下が最小限のスクリプトです。graphai.tsで保存します。
-Static nodeのnode1でメッセージを指定して、そのデータを受け取ったComputed nodeのnode2でbypassAgentを実行します。
+Static nodeのnode1でメッセージを指定して、そのデータを受け取ったComputed nodeのnode2でcopyAgentを実行します。
 node2の結果を出力としてかえします。
 
 ```typescript
@@ -148,8 +148,8 @@ const graph_data = {
       value: "hello, GraphAI",
     },
     node2: {
-      agent: "bypassAgent",
-      inputs: [":node1"],
+      agent: "copyAgent",
+      inputs: {text: ":node1"},
       isResult: true,
     },
   },
@@ -170,7 +170,7 @@ if (process.argv[1] === __filename) {
 実行します
 ```shell-session
 $ npx ts-node graphai.ts
-{"node2":["hello, GraphAI"]}
+{"node2": {text: "hello, GraphAI"}}
 ```
 
 node1で指定して文字列がnode2に渡され、結果として表示されました。
@@ -361,11 +361,11 @@ $ graphai echo.yaml
 次に複数のAgentを組み合わせ、inputsで入力を指定したYAMLを作ります。
 入力を指定することで依存関係が定義でき、それによって実行順が制御されます。
 
-bypassAgentは入力値をそのまま出力値で返すAgentです。
-先程のechoAgentのyamlにnode2を追加します。node2のagentはbypassAgentを指定します。
+copyAgentは入力値をそのまま出力値で返すAgentです。
+先程のechoAgentのyamlにnode2を追加します。node2のagentはcopyAgentを指定します。
 入力のinputsとして、前のnode1を指定します。inputsは文字列の配列で、node名を指定します。
 
-今回は出力はbypassAgentのnode2なので、node2に`isResult: true`を指定します。node1のisResultは削除します。
+今回は出力はcopyAgentのnode2なので、node2に`isResult: true`を指定します。node1のisResultは削除します。
 
 ```yaml
 version: 0.5
@@ -375,27 +375,28 @@ nodes:
       message: hello
     agent: echoAgent
   node2: 
-    agent: bypassAgent
-    inputs: [":node1"]
+    agent: copyAgent
+    inputs:
+      text: ":node1.message"
     isResult: true
 ```
 
 実行される順に説明すると、
 - node1のechoAgentが実行され、paramsの値を結果として返す
-- node1を入力としているnode、node2が実行される。node2の入力値はnode1の実行結果で、それを入力としてうけとる。node2のbypassAgentは入力値をそのまま結果として返すagentなので、node1の結果をそのまま返す。
+- node1を入力としているnode、node2が実行される。node2の入力値はnode1の実行結果で、それを入力としてうけとる。node2のcopyAgentは入力値をそのまま結果として返すagentなので、node1の結果をそのまま返す。
 
-これを実行するとnode2の結果として`message: 'hello'`が表示されます。
+これを実行するとnode2の結果として`text: 'hello'`が表示されます。
 また結果はarrayになっています。
 
 ```shell-session
  $ graphai echo2.yaml
-{ node2: [ { message: 'hello' } ] }
+{ node2: { text: 'hello' } }
 ```
 
 同じように、今度は入力を増やして試してみます。
-node1と同じechoAgentをnode2とし、bypassAgentをnode3にします。
+node1と同じechoAgentをnode2とし、copyAgentをnode3にします。
 
-入力のinputsは今度は` ["node1", "node2"]`と２つ指定します。
+入力のinputsは今度は` array: [":node1", ":node2"]`と２つ指定します。
 
 node3が`isResult: true`です。
 
@@ -411,14 +412,17 @@ nodes:
       message: こんにちは
     agent: echoAgent
   node3: 
-    agent: bypassAgent
-    inputs: ["node1", "node2"]
+    agent: copyAgent
+    inputs:
+      array:
+        - ":node1.message"
+        - ":node2.message"
     isResult: true
 ```
 
 ```shell-session
 $ graphai echo3.yaml
-{ node3: [ { message: 'hello' }, { message: 'こんにちは' } ] }
+{ node3: { array: ['hello', 'こんにちは'] }}
 ```
 
 node3の結果として、２つの入力値がそのまま出力されます
