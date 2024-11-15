@@ -35,3 +35,10 @@ Codepenで試すこともできます！！
   - https://codepen.io/isamua/pen/YzmgRYg
 
 
+GitHubでブラウザ上でopenaiを使ったサンプルのhtmlファイルも配布しています。
+```
+const openApiKey = "sk-xxxxx";
+```
+にopenaiのapikeyをセットして、ブラウザで開いてください。
+
+https://github.com/receptron/graphai/blob/main/packages/samples/htmlSample/openai-sample.html
