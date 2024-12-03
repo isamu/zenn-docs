@@ -139,3 +139,7 @@ const impureSampleAgent: AgentFunction = async ({ namedInputs, filterParams }) =
 
 詳しくは、agent_filterのtestコードを参考にしてください。
 agent_filters/tests/filters/test_cache_impure.ts
+
+sqlliteを使ったキャッシュのサンプルはこちら
+
+https://github.com/receptron/graphai/blob/main/packages/samples/src/cache/cache_example.ts
