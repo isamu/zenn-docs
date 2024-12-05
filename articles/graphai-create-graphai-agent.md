@@ -9,7 +9,7 @@ publication_name: "singularity"
 
 GraphAIのagentをgeneratorを使って作ります。
 
-``
+```
 $ npm create graphai-agent@latest
 Need to install the following packages:
 create-graphai-agent@0.0.9
