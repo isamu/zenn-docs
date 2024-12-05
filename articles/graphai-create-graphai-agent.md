@@ -70,3 +70,9 @@ npm publish  --access=public
 ```
 
 すると、npm packageで、graphaiからagentが使えるようになります。
+
+
+
+ソースはこちら
+
+https://github.com/isamu/create-graphai-agent
