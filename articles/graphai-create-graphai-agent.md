@@ -38,7 +38,18 @@ yarn run test
 
 unit testは`src/zenn_agent.ts`のsamplesの値を使い、inputs, paramsの入力値で結果がresultに一致するか検証しています。
 
-`src/zenn_agent.ts`を実装し、samplesを変更すればunit testできます。
+```
+  samples: [{
+    params: {a: "1"},
+    inputs: {b: "2"},
+    result: {
+      params: {a: "1"},
+      namedInputs: {b: "2"},
+    },
+  }],
+```
+
+`src/zenn_agent.ts` にエージェントに必要な機能を実装し、samplesを変更すればunit testできます。
 
 samplesはarrayなので、テストケースは複数指定できます。
 
