@@ -46,7 +46,7 @@ npm i -g  @receptron/graphai_cli
 
 以下のyamlファイル(Graphデータ)をダウンロードして保存してください。
 
-https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/graph_data/business_idea_jp.yaml
+https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/graph_data/openai/business_idea_jp.yaml
 
 そのファイルを保存したディレクトリーに.envというファイルをつくってOpenAIのAPI KEYを記述します。
 
