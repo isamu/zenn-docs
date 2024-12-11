@@ -8,6 +8,7 @@ publication_name: "singularity"
 ---
 
 GraphAIのGraphData作成時に使えるtips
+(inputsがarrayなので、このtipsは古いです。動かない）
 
 ### LLMの履歴をloopで回す
 

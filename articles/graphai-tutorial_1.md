@@ -227,7 +227,7 @@ nodes:
     agent: echoAgent
   node2: 
     agent: bypassAgent
-    inputs: [":node1"]
+    inputs: {array: [":node1"]}
     isResult: true
 ```
 
@@ -246,7 +246,7 @@ nodes:
 同じように、今度は入力を増やして試してみます。
 node1と同じechoAgentをnode2とし、bypassAgentをnode3にします。
 
-入力のinputsは今度は` ["node1", "node2"]`と２つ指定します。
+入力のinputsは今度は` {array: ["node1", "node2"]}`と２つ指定します。
 
 node3が`isResult: true`です。
 
@@ -263,7 +263,7 @@ nodes:
     agent: echoAgent
   node3: 
     agent: bypassAgent
-    inputs: ["node1", "node2"]
+    inputs: {array: ["node1", "node2"]}
     isResult: true
 ```
 
