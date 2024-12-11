@@ -13,7 +13,7 @@ GraphAI 0.6.5がリリースされました。
 ## 新機能と変更点
 
 ### 1. Agent 関数の引数の変更
-- `agent` 関数の引数の構造が変更されました。新しい仕様に合わせて使用方法を調整してください。
+- `agent` 関数の引数の構造が変更されました。新しい仕様に合わせて使用方法を仕様してください。
 
 ### 2. Static Value の更新
 - `static value` で `undefined` が許可されるようになりました。
@@ -25,10 +25,11 @@ GraphAI 0.6.5がリリースされました。
 - 将来的に、`params` は廃止され、`inputs` に統合される予定です。
 
 ### 4. Agent での `inputs` の廃止
-- `agent` 内で `inputs` フィールドが使用できなくなりました。今後は `named inputs` のみがサポートされます。
+- `agent` 内で `inputs` フィールド(GraphDataでarrayの入力をしているケース)が使用できなくなりました。今後は `named inputs` のみがサポートされます。
 
 ### 5. ネストされたグラフ向け Context データ形式の変更
 - ネストされたグラフで使用する `context` のデータ形式が変更されました。この変更に対応するよう実装を調整してください。
+- nestedGraph (nestedAgent/mapAgent)を使っている場合は、最新のagentに変更が必要です
 
 ### 6. if/unless を使った Default Value のサポート
 - `if/unless` を使用してノードに `defaultValue` を設定できるようになりました。
