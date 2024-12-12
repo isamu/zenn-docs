@@ -37,7 +37,7 @@ CLIでは`@graphai/input_agents`を使用します。
 ブラウザではAgent単体で入力を受け付けることが難しいため、AgentのGeneratorを用意し、Agentと入力を紐づける必要があります。  
 具体的には、Agentが入力状態になるとブラウザに通知し、フォームでの入力値がSubmitされるとAgentのPromiseが解決される仕組みです。
 
-`text-input-agent-generator`というパッケージを利用することで、ブラウザ上で簡単に入力値を受け取ることが可能です。
+`@receptron/text_input_agent_generator`というパッケージを利用することで、ブラウザ上で簡単に入力値を受け取ることが可能です。
 
 [vueのサンプルはこちら](https://github.com/receptron/graphai-utils/blob/main/packages/vue-text-input-agent-generator/README.md)
 
@@ -75,3 +75,75 @@ const result2 = await graph.run();  // 再度runすることで実質的なル�
 ```
 
 この方法はブラウザでのワークフロー動作時だけでなく、Expressサーバ上での動作にも適用可能であり、幅広い応用が期待できます。
+
+
+----
+
+
+# Challenges and Solutions for User Input in GraphAI
+
+Handling user input in GraphAI presents significant challenges.  
+This is because GraphData workflows are designed to operate in various environments, including browsers, CLI, and batch processes. Specifying a particular input method risks locking the workflow to a specific environment.  
+Currently, when user input is handled through an Agent, the operating environment becomes fixed, which is recognized as an issue.
+
+There are two main methods for receiving input:
+
+- Using an Agent to handle input
+- Receiving input before executing a GraphData workflow and injecting it into a Static node
+
+---
+
+## Receiving Input via an Agent
+
+When receiving input through an Agent, CLI environments use an interactive approach with `@inquirer/input`, while browsers employ a special mechanism to await input via forms.
+
+### Input in the CLI
+
+In the CLI, you can use `@graphai/input_agents`.
+
+Refer to the following implementation example:  
+[Sample Implementation (chat.ts)](https://github.com/receptron/graphai/blob/main/packages/samples/src/interaction/chat.ts)
+
+### Input in the Browser
+
+In the browser, it is difficult to handle input with the Agent alone.  
+You need to set up an Agent Generator that links the Agent with the input. Specifically, when the Agent enters an input state, it notifies the browser. When the input value is submitted, the Agent's promise resolves, allowing the input to be processed.
+
+The `@receptron/text_input_agent_generator` package simplifies this process, enabling seamless input handling in browsers.
+
+[Refer to the Vue example here.](https://github.com/receptron/graphai-utils/blob/main/packages/vue-text-input-agent-generator/README.md)
+
+By using this package, you can receive user input via the browser at any point in the workflow.
+
+---
+
+## Passing Input as Workflow Initial Values
+
+Static nodes can be updated by calling `injectValue` on the GraphAI instance in TypeScript.  
+This allows user input values to be set as initial values for Graph nodes.
+
+However, this approach only applies to initial values and does not allow updating values during workflow execution.
+
+---
+
+## Applying Input Values with Manual Loops
+
+GraphAI introduced support for manual loops in version 0.6.6.  
+Typically, loops work by taking the results of the first workflow execution, updating the Static node with these results, and then running the next workflow iteration.
+
+Using `initializeGraphAI` and `setPreviousResults`, you can programmatically control this mechanism.  
+The following example demonstrates how to apply user input during workflow execution:
+
+### Example Implementation
+
+```typescript
+const result = await graph.run();
+
+graph.initializeGraphAI();  // Initialize the graph if needed
+graph.setPreviousResults(result); // Set the previous results (updates the Static node)
+graph.injectValue("userInput", someValue); // Inject the user input value
+
+const result2 = await graph.run();  // Re-run to achieve a functional loop
+```
+
+This approach is not limited to workflows running in the browser. It can also be used in workflows executed on an Express server, greatly expanding its potential applications.
