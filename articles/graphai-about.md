@@ -84,7 +84,7 @@ graphai {filename}
 
 で実行できます。
 
-- https://github.com/receptron/graphai/tree/main/packages/samples/graph_data
+https://github.com/receptron/graphai/tree/main/packages/samples/graph_data
 
 
 
@@ -96,7 +96,7 @@ typescriptで書かれたサンプルです。ソースをcloneして、それ�
 yarn run samples {sampleFile}
 ```
 
-- https://github.com/receptron/graphai/tree/main/packages/samples/src
+https://github.com/receptron/graphai/tree/main/packages/samples/src
 
 
 ## 簡単なGraphAIの使い方

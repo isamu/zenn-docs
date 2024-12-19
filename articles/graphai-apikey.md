@@ -86,3 +86,88 @@ VueやReactのCLI環境では、APIキーを環境変数に設定してブラウ
 ## まとめ  
 APIキー管理は、シナリオに応じて適切な方法で取り扱うことが不可欠です。特に、公開・非公開の区別や利用者ごとの責任範囲を明確にし、安全な運用を徹底しましょう。
 
+
+---
+
+# The Importance of API Key Management
+
+Proper management of API keys is crucial not only for GraphAI but for any service. API keys can be classified into two types: **publicly embeddable keys** and **keys that must remain private**.
+
+---
+
+## Publicly Embeddable API Keys  
+Publicly embeddable API keys can be safely embedded in websites.  
+Examples include:  
+- Google Maps and Firebase keys  
+- Stripe and Shopify public keys  
+
+These keys are considered safe to expose because:  
+- Access can be restricted using **browser referrer settings**.  
+- They act as **identifiers only** and do not allow operations like data modification.  
+
+---
+
+## API Keys That Must Remain Private  
+On the other hand, **Stripe's secret key** or **Shopify's secret key** are examples of API keys that must never be exposed.  
+If these keys are leaked, the following actions are required:  
+- Immediate suspension of the service  
+- Revocation of the compromised API key and issuance of a new one  
+
+---
+
+## Handling API Keys in GraphAI  
+
+In GraphAI, certain agents (e.g., OpenAI agents) require API keys to function.  
+Agents in GraphAI can operate on both the **server** and **browser** unless there are specific technical constraints (e.g., accessing the file system).  
+This dual functionality requires a clear understanding of:  
+1. Whether an API key can be exposed.  
+2. How API keys are managed within GraphAI.
+
+---
+
+## Key Management Methods in OpenAI Agents  
+
+GraphAI’s OpenAI agent supports the following two methods for passing API keys:  
+
+1. Passing API keys via **environment variables** (server-side only).  
+2. Passing API keys via **params** (usable on both server and browser).  
+
+```Javascript
+{ params: { apiKey: "xxx" } }
+```
+---
+
+## Browser Environments and Environment Variables  
+In CLI environments such as Vue or React, it is common to use environment variables to pass API keys to the browser. However, caution is required:  
+- **Environment variables are safe only for server-side usage.**  
+- When passing keys to the browser, they become embedded in the built JavaScript code.  
+  **This is effectively the same as hardcoding the API key into the source code**, creating a significant exposure risk.  
+
+---
+
+## API Key Management Scenarios  
+
+### 1. Service Using API Keys Provided by the Operator for Public Use  
+- Use **environment variables** to manage the API key on the server side.  
+- Since the service operator bears the API usage cost, consider implementing user-level usage limits.  
+
+### 2. Public Web Services Where Users Provide Their Own API Keys  
+- The operator does not provide API keys. Users must supply their own keys.  
+- Users input their API key in the browser and store it in **Local Storage** or similar.  
+- The browser directly accesses the API (e.g., OpenAI) without storing the API key on the server.  
+  **This approach is safe as long as the browser's security is maintained.**  
+
+### 3. Personal Software or Development Environments (Running React/Vue Locally)  
+- Directly embed the API key in **params** or pass it via environment variables.  
+- Note that embedding keys in code exposes them, so this method should only be used in isolated or personal environments.  
+
+### 4. Desktop Applications for Personal Use (e.g., Electron)  
+- Prompt users to input their API keys as application settings (similar to scenario 2).  
+- **If the operator provides API keys**, generate unique keys for each user to mitigate unauthorized reuse.  
+- Consider the risk of key leakage and implement proper safeguards where necessary.  
+
+---
+
+## Summary  
+API key management must be tailored to each use case to ensure security.  
+Clearly distinguish between keys that can be public and those that must remain private, and establish appropriate practices to manage and safeguard API keys effectively.
