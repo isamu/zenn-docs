@@ -15,6 +15,10 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
 GraphAIは、各Agentを実行するときに、その前後に処理を挟むAgentFilterという機能があります。
 
 イメージとしては、expressのmiddle wareや昔のRailsのaround filterのような機能です。
+具体的にはAgentが実行される前後に処理を追加することができます。共通のvalidationやデータのフィルター/加工などで利用することができます。
+Agentの実行前と、実行後の結果に対して処理ができ、実行前の処理で実際にAgentを呼び出さないでAgentFilterだけで結果を返すことも可能です。
+
+使い方はstreamAgentFilterというAgentFilterを例にすると
 
 ```javascript
 const agentFilters = [
