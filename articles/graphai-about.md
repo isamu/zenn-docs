@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 # GraphAIとは
 
 GraphAIは、LLM/RAG/Tools/DBなどの複数のAgentを組み合わせて作る、Multi agentsシステムを効率よく構築するためにフレームワークです。

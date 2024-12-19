@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 GraphAI 0.6.5がリリースされました。
 主な変更点は以下。
 

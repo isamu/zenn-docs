@@ -7,6 +7,11 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
+# GraphAI Agent Filterの紹介
 GraphAIは、各Agentを実行するときに、その前後に処理を挟むAgentFilterという機能があります。
 
 イメージとしては、expressのmiddle wareや昔のRailsのaround filterのような機能です。
