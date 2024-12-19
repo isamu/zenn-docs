@@ -15,6 +15,13 @@ GraphAIを使うことで、サーバやクライアント単体での処理、�
 
 一度実装した処理は、クライアントからサーバに変更する場合や、サーバが変更される場合でも、ほとんど実装を変えることなく、設定を変更するだけで移行が可能となります。この柔軟性により、開発者はストリーミング処理の実装に煩わされることなく、ビジネスロジックに集中できるようになります。
 
+- ブラウザ、もしくはNode.js単体で実行
+- ブラウザとサーバで連携して実行
+  - サーバでAgent単体で実行（ブラウザでGraphAIを動かし、各Agentをそれぞれサーバで動かす)
+  - サーバでGraph全体を実行（ブラウザからGraphDataをPostして、サーバでGraphAIを動かす)
+
+いずれの組み合わせでも透過的ストリーミング扱うことができます。
+
 # Streaming処理の概要
 
 1. **データの逐次受け渡し**  
@@ -59,7 +66,7 @@ https://github.com/receptron/graphai/blob/e720821dff1a4f59423dbb02db64aaec3a2a61
 2. **streamAgentFilterを取得する**  
    `streamAgentFilterGenerator`にcallback関数を渡すことで、データを逐次処理する`agentFilter`が生成されます。この`agentFilter`は、Agentが実行中にデータをリアルタイムで処理します。
 
-```
+```typescript
 const myAgentFilter = streamAgentFilterGenerator(myCallback);
 ```
 
@@ -91,6 +98,34 @@ Expressは、ストリーミングサーバ、ノンストリーミングサー�
 
 - `Content-Type` が `text/event-stream` であるかどうかです。
 
+
+# サーバクライアントモデル補足
+
+ブラウザでGraphAIを動かし、サーバでAgentを動かす場合、streamAgentFilterと共にhttpAgentFilterを組み合わせて使う必要があります。
+httpAgentFilterは、GraphAIがAgentを実行するときに、サーバで動かす必要があるAgentをブラウザでの処理をバイパスし、サーバで処理を行います。
+ブラウザにはAgentの実態がない場合は、bypassAgentIdsでAgentのValidtionをスキップさせる必要があります。
+
+```typescript
+  const agentFilters = [
+    {
+      name: "streamAgentFilter",
+      agent: streamAgentFilter,
+      agentIds: streamAgents,
+    },
+    {
+      name: "httpAgentFilter",
+      agent: httpAgentFilter,
+      filterParams: {
+        server: {
+          baseUrl: "http://localhost:8085/agents",
+        },
+      },
+      agentIds: serverAgentIds,
+    },
+  ];
+  const graphai = new GraphAI(selectedGraph.value, agents, { agentFilters, bypassAgentIds: serverAgentIds });
+
+```
 
 
 ## 以下参考ソース
