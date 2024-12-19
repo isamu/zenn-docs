@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 GraphAI, jsDelivr経由でhtmlから直接利用できるようになりました。
 
 利用できるパッケージは
@@ -26,13 +30,13 @@ GraphAI, jsDelivr経由でhtmlから直接利用できるようになりまし�
 Codepenで試すこともできます！！
 
 - 素のHTMLで試す
-  - https://codepen.io/isamua/pen/yLmwYzX
+@[codepen](https://codepen.io/isamua/pen/yLmwYzX)
 
 - Vueで試す
-  - https://codepen.io/isamua/pen/bGXZEdR
+@[codepen](https://codepen.io/isamua/pen/bGXZEdR)
 
 - VueでStreamingを試す
-  - https://codepen.io/isamua/pen/YzmgRYg
+@[codepen](https://codepen.io/isamua/pen/YzmgRYg)
 
 
 GitHubでブラウザ上でopenaiを使ったサンプルのhtmlファイルも配布しています。

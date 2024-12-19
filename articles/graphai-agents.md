@@ -7,8 +7,11 @@ published: true
 publication_name: "singularity"
 ---
 
-GraphAIはTypeScriptで記述されたLLM, RAG, Web Accessの機能を持ったAgentと、それらAgentの組み合わせを定義したGraphDataを使って、マルチエージェントシステムを簡単に作ることが可能です。
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
 
+GraphAIはTypeScriptで記述されたLLM, RAG, Web Accessの機能を持ったAgentと、それらAgentの組み合わせを定義したGraphDataを使って、マルチエージェントシステムを簡単に作ることが可能です。
 
 ![GraphData](https://storage.googleapis.com/zenn-user-upload/f8393a413ef9-20240908.png)
 *GraphData*
