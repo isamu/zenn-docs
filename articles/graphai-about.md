@@ -194,10 +194,12 @@ LLMをサーバで動かし、そのレスポンスをstreamで受け取るサ�
 サーバ側、クラアント側、両方でstreamをサポートしています。
 
 クライアント
-- https://github.com/isamu/graphai-stream-web
+
+https://github.com/isamu/graphai-stream-web
 
 サーバ
-- https://github.com/receptron/graphai-agent-server
+
+https://github.com/receptron/graphai-agent-server
 
 localで動作します。
 
@@ -760,7 +762,7 @@ https://github.com/receptron/graphai-litegraph/
 
 # GraphAI Python Agent server
 
-https://github.com/receptron/graphai_python_server
+https://github.com/receptron/graphai-python-server
 
 # GraphAI PlayGround
 
