@@ -8,7 +8,7 @@ publication_name: "singularity"
 ---
 :::message
 GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
-:::message
+:::
 
 # GraphAIにおけるユーザ入力の課題と解決策
 
