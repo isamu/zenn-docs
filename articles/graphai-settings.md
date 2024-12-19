@@ -7,6 +7,9 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
 
 # GraphAIでagentに渡す設定について
 

@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 vanilla agentのunit test用のコードを、sampleのGraphDataにしました。
 それぞれのgraphをjsonに保存すれば、cli、もしくはTypeScript/JavaScriptでテストが可能です。
 

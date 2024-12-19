@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 # GraphAI Streamingについて
 
 GraphAIを使うことで、サーバやクライアント単体での処理、さらにはサーバとクライアントの連携によるLLMのプロンプトなどのストリーミング処理を透過的に扱うことができます。 

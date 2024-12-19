@@ -6,6 +6,9 @@ topics: [agent, AI, LLM, Tech, GraphAI]
 published: true
 publication_name: "singularity"
 ---
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
 
 GraphAIのagentをgeneratorを使って作ります。
 

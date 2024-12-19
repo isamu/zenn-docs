@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 GraphAIでは、Agentを実行するときに前のノードの結果を入力値として受け取ることができます。入力値を受け取ることができるのはComputed Nodeです。一方で、Static Nodeは特別な条件のときに他のノードの結果を受け取ることができますが、通常はvalueを受け取れませんので、注意が必要です。
 
 

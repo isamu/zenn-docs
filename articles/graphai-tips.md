@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 GraphAIのGraphData作成時に使えるtips
 (inputsがarrayなので、このtipsは古いです。動かない）
 

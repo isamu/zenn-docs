@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 GraphAIでは、`inputs`に「`:nodeId.propId.propId`」という形式で指定することで、依存関係と入力値を定義できます。また、この指定を利用して、データ操作を行う「prop function」を適用する機能も備えています。各データ型に対応したprop functionは以下の通りです。
 
 ## Prop Function一覧
