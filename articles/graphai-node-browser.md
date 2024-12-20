@@ -44,3 +44,39 @@ import { nodeBrowserDetectAgent } from "node_browser_detect_agent/lib/node";
 
 この仕組みを参考に、Node.jsおよびブラウザ両環境で動作する環境依存型エージェントを作成してください！
 必要に応じてさらに調整いたしますので、ご要望があればお知らせください！
+
+
+----
+
+GraphAI is implemented in TypeScript, and its agents work in both Node.js and browser environments. While data processing and Web API access work seamlessly, operations dependent on the environment, such as file handling (fs module), path management (path), and access to environment variables (process.env), are limited to Node.js.
+
+To support both Node.js and browser environments with the same agent as much as possible, we introduced a mechanism that isolates environment-dependent logic and switches it through injection.
+
+Sample repository:
+https://github.com/receptron/graphai-agents/tree/main/packages/node-browser-detect-agent
+
+NPM:
+https://www.npmjs.com/package/node_browser_detect_agent
+
+Below are import examples demonstrating how to use the agent in different environments:
+
+```TypeScript
+// Browser environment:
+import { nodeBrowserDetectAgent } from "node_browser_detect_agent/lib/browser";
+```
+
+```TypeScript
+// Node.js environment:
+import { nodeBrowserDetectAgent } from "node_browser_detect_agent/lib/node";
+```
+
+These agents are created by injecting environment-dependent functions into an agent generator. Additionally, an agentFunctionInfoGenerator is included to generate agent-related information. This generator adds information to the agent by injecting the created agent.
+
+When executing this agent, environment-specific messages are output to console.log.
+
+Challenges and Current Status
+Ideally, the main, module, and browser fields in package.json could be used to automatically switch to the appropriate module. However, as of now, the module field's content is prioritized in both Node.js and Vite, making automatic switching challenging.
+
+Proposal
+Using this setup as a reference, please create an environment-dependent agent that works in both Node.js and browser environments!
+Feel free to suggest any adjustments as needed.
