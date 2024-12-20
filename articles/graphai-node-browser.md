@@ -48,7 +48,9 @@ import { nodeBrowserDetectAgent } from "node_browser_detect_agent/lib/node";
 
 ----
 
-GraphAI is implemented in TypeScript, and its agents work in both Node.js and browser environments. While data processing and Web API access work seamlessly, operations dependent on the environment, such as file handling (fs module), path management (path), and access to environment variables (process.env), are limited to Node.js.
+# GraphAI Environment-Dependent Agent (Node.js and Browser)
+
+GraphAI is implemented in TypeScript, and its agents work in both Node.js and browser environments. While data processing and Web API access work seamlessly, operations dependent on the environment, such as file handling (fs module), path management (path module), and access to environment variables (process.env), are limited to Node.js.
 
 To support both Node.js and browser environments with the same agent as much as possible, we introduced a mechanism that isolates environment-dependent logic and switches it through injection.
 
