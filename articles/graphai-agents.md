@@ -40,22 +40,22 @@ Nested GraphはNestedAgentを使い、graph要素に、入れ子にするGraphDa
       "value": "Hello World"
     },
     "ragNode": {
-      "agent": "bypassAgent",
-      "inputs": [":source"]
+      "agent": "copyAgent",
+      "inputs": { "text": ":source" }
     },
     "nestedNode": {
       "agent": "nestedAgent",
       "inputs": {
-        "inner0": ":ragNode"
+        "inner0": ":ragNode.text"
       },
       "isResult": true,
       "graph": {
         "nodes": {
           "childNode": {
-            "agent": "bypassAgent",
-            "inputs": [
-              ":inner0"
-            ],
+            "agent": "copyAgent",
+            "inputs": {
+              "text": ":inner0"
+            },
             "isResult": true
           }
         }
@@ -65,8 +65,8 @@ Nested GraphはNestedAgentを使い、graph要素に、入れ子にするGraphDa
 }
 ```
 
-この例では、ragAgentやllmAgentの変わりに簡単にテストするためにbypassAgentを使っています。
-bypassAgentは入力値をそのまま出力値で返すAgentです。
+この例では、ragAgentやllmAgentの変わりに簡単にテストするためにcopyAgentを使っています。
+copyAgentは入力値をそのまま出力値で返すAgentです。
 
 - ragNodeにsourceの値が入力
 - nestedNodeにragNodeの結果が入力({inner0: :ragNode})
@@ -81,9 +81,9 @@ bypassAgentは入力値をそのまま出力値で返すAgentです。
 {
   "nestedNode": {
     "childNode": [
-      [
-        "Hello World"
-      ]
+      {
+        "text": "Hello World"
+      }      
     ]
   }
 }
@@ -154,22 +154,22 @@ inputs: [":row"]
       "value": "Hello World 2"
     },
     "ragNode": {
-      "agent": "bypassAgent",
-      "inputs": [":source1", ":source2"]
+      "agent": "copyAgent",
+      "inputs": {"array": [":source1", ":source2"]}
     },
     "mapNode": {
       "agent": "mapAgent",
       "inputs": {
-        "rows": ":ragNode"
+        "rows": ":ragNode.array"
       },
       "isResult": true,
       "graph": {
         "nodes": {
           "childNode": {
-            "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
+            "agent": "copyAgent",
+            "inputs": {
+              "data": ":row"
+            },
             "isResult": true
           }
         }
@@ -182,15 +182,17 @@ inputs: [":row"]
 
 ```json
 {
-  "nestedNode": {
-    "childNode": [
-      [
-        "Hello World 1"
-      ],
-      [
-        "Hello World 2"
-      ]
-    ]
-  }
+  "mapNode": [
+    {
+      "childNode": {
+        "data": "Hello World 1"
+      }
+    },
+    {
+      "childNode": {
+        "data": "Hello World 2"
+      }
+    }
+  ]
 }
 ```
