@@ -71,7 +71,7 @@ nodes: {
     },
   },
   ComputedNodeB: {
-    agent: "bypassAgent",
+    agent: "copyAgent",
     inputs: {text: ":nodeA.property1"}
   },
 }

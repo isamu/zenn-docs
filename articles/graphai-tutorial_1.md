@@ -151,7 +151,7 @@ $ graphai -l
 
 ```
 Available Agents
-* bypassAgent - bypass agent
+* copyAgent - copy agent
 * dataObjectMergeTemplateAgent - Merge object
 * dataSumTemplateAgent - Returns the sum of input values
 * dotProductAgent - dotProduct Agent
@@ -215,11 +215,11 @@ $ graphai echo.yaml
 次に複数のAgentを組み合わせ、inputsで入力を指定したYAMLを作ります。
 入力を指定することで依存関係が定義でき、それによって実行順が制御されます。
 
-bypassAgentは入力値をそのまま出力値で返すAgentです。
-先程のechoAgentのyamlにnode2を追加します。node2のagentはbypassAgentを指定します。
+copyAgentは入力値をそのまま出力値で返すAgentです。
+先程のechoAgentのyamlにnode2を追加します。node2のagentはcopyAgentを指定します。
 入力のinputsとして、前のnode1を指定します。inputsは文字列の配列で、node名を指定します。
 
-今回は出力はbypassAgentのnode2なので、node2に`isResult: true`を指定します。node1のisResultは削除します。
+今回は出力はcopyAgentのnode2なので、node2に`isResult: true`を指定します。node1のisResultは削除します。
 
 ```yaml
 version: 0.3
@@ -229,14 +229,14 @@ nodes:
       message: hello
     agent: echoAgent
   node2: 
-    agent: bypassAgent
+    agent: copyAgent
     inputs: {array: [":node1"]}
     isResult: true
 ```
 
 実行される順に説明すると、
 - node1のechoAgentが実行され、paramsの値を結果として返す
-- node1を入力としているnode、node2が実行される。node2の入力値はnode1の実行結果で、それを入力としてうけとる。node2のbypassAgentは入力値をそのまま結果として返すagentなので、node1の結果をそのまま返す。
+- node1を入力としているnode、node2が実行される。node2の入力値はnode1の実行結果で、それを入力としてうけとる。node2のcopyAgentは入力値をそのまま結果として返すagentなので、node1の結果をそのまま返す。
 
 これを実行するとnode2の結果として`message: 'hello'`が表示されます。
 また結果はarrayになっています。
@@ -247,7 +247,7 @@ nodes:
 ```
 
 同じように、今度は入力を増やして試してみます。
-node1と同じechoAgentをnode2とし、bypassAgentをnode3にします。
+node1と同じechoAgentをnode2とし、copyAgentをnode3にします。
 
 入力のinputsは今度は` {array: ["node1", "node2"]}`と２つ指定します。
 
@@ -265,7 +265,7 @@ nodes:
       message: こんにちは
     agent: echoAgent
   node3: 
-    agent: bypassAgent
+    agent: copyAgent
     inputs: {array: ["node1", "node2"]}
     isResult: true
 ```
