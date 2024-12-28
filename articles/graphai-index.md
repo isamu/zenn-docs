@@ -18,6 +18,7 @@ publication_name: "singularity"
   
 - GraphData
   - [GraphAIのデータ入力について](https://zenn.dev/singularity/articles/graphai-inputs)
+  - [GraphAI - GOD Format](https://zenn.dev/singularity/articles/graphai-god-format)
   - [GraphAIのTips](https://zenn.dev/singularity/articles/graphai-tips)
   - [GraphAIのProp function](https://zenn.dev/singularity/articles/graphai-prop-function)
   
