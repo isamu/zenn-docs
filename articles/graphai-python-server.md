@@ -92,3 +92,88 @@ GraphAIにHTTP経由でエージェントを実行する設定を行います。
 
 これらの設定を行うことで、任意の言語で実装された外部サーバのエージェントをGraphAIで利用できるようになります。
 
+
+---
+
+# Creating Agents in Languages Other Than Node
+
+GraphAI is implemented in TypeScript, and agents are typically written in TypeScript as well. However, GraphAI includes a mechanism to execute agents via HTTP, which enables agents to be implemented in any programming language by leveraging this mechanism.
+
+# Required Settings
+To execute an agent via HTTP, the following two settings need to be configured:
+
+1. **Specify HTTP-based agent execution using `agentFilter`**  
+   By default, agents are executed directly within GraphAI. Specifying `httpAgentFilter` changes the configuration to execute agents through an external server.
+
+2. **Skip agent validation using `bypassAgentIds`**  
+   The GraphAI constructor includes a mechanism to validate the presence of agents. To skip this validation, you need to specify the target agent IDs in `bypassAgentIds`.
+
+# Configuration Examples
+
+## HTTP Agent Filter Configuration  
+To execute an agent on an external server, configure the `httpAgentFilter`. If there are multiple servers, set up configurations for each server.
+
+## Skipping Validation Configuration  
+Add the agent IDs for which you want to skip validation to `bypassAgentIds`
+
+
+```TypeScript
+import { httpAgentFilter } from "@graphai/agent_filters";
+
+const agentFilters = [
+  {
+    name: "httpPythonServer",
+    agent: httpAgentFilter,
+    filterParams: {
+      server: {
+        baseUrl: "http://localhost:8085/agents",
+      },
+    },
+    agentIds: ["python1Agent", "python2Agent"],
+  }
+  {
+    name: "httpRustServer",
+    agent: httpAgentFilter,
+    filterParams: {
+      server: {
+        baseUrl: "http://localhost:8080/agents",
+      },
+    },
+    agentIds: ["rustAgent"],
+  }
+];
+
+const bypassAgentIds = ["python1Agent", "python2Agent", "rustAgent"];
+
+const graphai = new GraphAI(
+  graph,
+  {
+    ...agents,
+  },
+  { agentFilters, bypassAgentIds },
+);
+
+```
+
+
+# Implementation Steps
+
+1. **Prepare an HTTP Server**  
+   Implement the agent logic in any programming language and build a server to handle HTTP requests. GraphAI will send requests to this server.
+
+2. **Configure the `httpAgentFilter`**  
+   Set up GraphAI to execute the agent via HTTP by configuring the `httpAgentFilter`.
+
+3. **Set the `bypassAgentIds`**  
+   Add the agent IDs for which you want to skip validation.
+
+# Benefits
+
+- **Multi-language Support**: Enables writing GraphAI agent logic in languages other than TypeScript.  
+- **Flexibility**: Allows the use of complex logic or specialized environments on external servers.  
+- **Distributed Processing**: Improves load balancing and scalability by distributing servers.  
+- **Privacy**: Enables sharing agents without exposing sensitive information like database credentials or execution configurations.
+
+By configuring these settings, you can utilize external server agents implemented in any language with GraphAI.
+
+
