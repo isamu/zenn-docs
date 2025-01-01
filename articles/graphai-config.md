@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 ### Agentの設定について
 
 Agentには動作のために設定値が必要な場合があります。代表的な例として、OpenAIのLLMを動作させるためのAPIキーが必要となります。
