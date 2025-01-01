@@ -10,7 +10,6 @@ publication_name: "singularity"
 - GraphAI
   - [AI Agentを簡単に効率よく開発/実行するGraphAIの紹介](https://zenn.dev/singularity/articles/graphai-tutorial_1)
   - [GraphAIの紹介](https://zenn.dev/singularity/articles/graphai-about)
-  - [GraphAIの設定値をGraphAIからAgentに渡す](https://zenn.dev/singularity/articles/graphai-config)
   
 - Sample
   - [GraphAI - シンプルなサンプル](https://zenn.dev/singularity/articles/graphai-sample-simple-graph)
@@ -37,5 +36,6 @@ publication_name: "singularity"
 
 - 設定など
   - [GraphAIの設定値について](https://zenn.dev/singularity/articles/graphai-settings)
+  - [GraphAIの設定値をGraphAIからAgentに渡す](https://zenn.dev/singularity/articles/graphai-config)
   - [GraphAIでのAPIKEYの扱いについて](https://zenn.dev/singularity/articles/graphai-apikey)
   - [GraphAIにおけるユーザ入力の課題と解決策](https://zenn.dev/singularity/articles/graphai-user-input)
