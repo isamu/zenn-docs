@@ -67,6 +67,17 @@ export default newAgentInfo;
 
 ---
 
+# Introduction to nestedAgentGenerator for Converting GraphAI GraphData (Workflows) into Agents
+
+The `nestedAgentGenerator` in `GraphAI` allows you to easily convert `GraphData` (workflows) into executable agents. This enables flexible execution of nested subgraphs within workflows while improving reusability and simplifying the integration process.
+
+Key features:
+
+- Efficiently handles workflows defined in `GraphData`.
+- Facilitates the reuse of nested subgraphs.
+- Enables seamless packaging and distribution via npm when combined with `agentFunctionInfo`.
+
+
 GraphAI has a `nestedAgent` that executes `GraphData` within an agent to define workflows.
 The `nestedAgent` executes subgraph `GraphData` (workflows) that are nested and defined within the main `GraphData`.
 
