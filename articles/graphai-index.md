@@ -24,6 +24,7 @@ publication_name: "singularity"
   
 - Agent
   - [GraphAI - Nested Graph Agentの紹介](https://zenn.dev/singularity/articles/graphai-agents)
+  - [GraphAI GraphData(ワークフロー)をAgent化するnestedAgentGeneratorの紹介](https://zenn.dev/singularity/articles/graphai-nested-agent-generator)
   - [GraphAI - Agentのスケルトン作成](https://zenn.dev/singularity/articles/graphai-create-graphai-agent)
   - [GraphAI 環境依存(Node.jsとブラウザ）のあるAgentついて](https://zenn.dev/singularity/articles/graphai-node-browser)
   - [GraphAI - GraphAIでエージェントを任意の言語で実装する方法](https://zenn.dev/singularity/articles/graphai-python-server)
