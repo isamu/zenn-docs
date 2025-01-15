@@ -94,13 +94,13 @@ It's simple to use—just pass the following:
 ```typescript
 const newAgent = nestedAgentGenerator(graphData);
 ```
-and graphData.
+and `graphData`.
 
 
 
-With this, newAgent becomes an agent that executes the provided graphData.
+With this, `newAgent` becomes an agent that executes the provided `graphData`.
 
-By adding agentFunctionInfo and packaging it, you can distribute it as an agent via npm.
+By adding `agentFunctionInfo` and packaging it, you can distribute it as an agent via npm.
 
 
 ```typeScript
