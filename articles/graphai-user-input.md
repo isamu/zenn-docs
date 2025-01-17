@@ -39,7 +39,7 @@ CLIでは`@graphai/input_agents`を使用します。
 ブラウザではAgent単体で入力を受け付けることが難しいため、AgentのGeneratorを用意し、Agentと入力を紐づける必要があります。  
 具体的には、Agentが入力状態になるとブラウザに通知し、フォームでの入力値がSubmitされるとAgentのPromiseが解決される仕組みです。
 
-`@receptron/text_input_agent_generator`というパッケージを利用することで、ブラウザ上で簡単に入力値を受け取ることが可能です。
+`@receptron/event_agent_generator`というパッケージを利用することで、ブラウザ上で簡単に入力値を受け取ることが可能です。
 
 [vueのサンプルはこちら](https://github.com/receptron/graphai-utils/blob/main/packages/vue-text-input-agent-generator/README.md)
 
@@ -111,7 +111,7 @@ Refer to the following implementation example:
 In the browser, it is difficult to handle input with the Agent alone.  
 You need to set up an Agent Generator that links the Agent with the input. Specifically, when the Agent enters an input state, it notifies the browser. When the input value is submitted, the Agent's promise resolves, allowing the input to be processed.
 
-The `@receptron/text_input_agent_generator` package simplifies this process, enabling seamless input handling in browsers.
+The `@receptron/event_agent_generator` package simplifies this process, enabling seamless input handling in browsers.
 
 [Refer to the Vue example here.](https://github.com/receptron/graphai-utils/blob/main/packages/vue-text-input-agent-generator/README.md)
 
