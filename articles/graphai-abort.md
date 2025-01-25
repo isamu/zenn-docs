@@ -60,7 +60,7 @@ https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_a
 
 https://github.com/receptron/graphai/blob/main/packages/agent_filters/src/filters/stream.ts
 
-```
+```TypeScript
   context.filterParams.streamTokenCallback = (data: T) => {
     if (context.debugInfo.state === NodeState.Executing) {
       callback(context, data);
