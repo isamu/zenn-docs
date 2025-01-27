@@ -10,12 +10,13 @@ publication_name: "singularity"
 - GraphAI
   - [AI Agentを簡単に効率よく開発/実行するGraphAIの紹介](https://zenn.dev/singularity/articles/graphai-tutorial_1)
   - [GraphAIの紹介](https://zenn.dev/singularity/articles/graphai-about)
+  - [GraphAI abortの機能を追加](https://zenn.dev/singularity/articles/graphai-abort)
   
 - Sample
   - [GraphAI - シンプルなサンプル](https://zenn.dev/singularity/articles/graphai-sample-simple-graph)
   - [GraphAIのサンプルアプリ](https://zenn.dev/singularity/articles/graphai-samples)
   - [GraphAIをcodepenで試す](https://zenn.dev/singularity/articles/graphai-code-pen)
-  
+
 - GraphData
   - [GraphAIのデータ入力について](https://zenn.dev/singularity/articles/graphai-inputs)
   - [GraphAI - GOD Format](https://zenn.dev/singularity/articles/graphai-god-format)
