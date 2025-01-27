@@ -13,10 +13,10 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
 
 GraphAIを活用し、ブラウザの機能をチャットで操作するデモを作成しました。
 
-具体的には、**tools（function calling）**を用いて以下の機能を実現しています。
+具体的には、**tools(function calling)** を用いて会話で以下の機能を実現しています。
 
-- 動画の再生をコントロールする機能
 - Google Mapsを操作する機能
+- 動画の再生をコントロールする機能
 
 GraphAIでは、LLMの処理を内包する`toolsAgent`（@graphai/tools_agent）と、function callingの戻り値で関数を実行するエージェントを組み合わせることで、簡単にfunction calling（tools）を活用したアプリケーションを構築することが可能です。
 
