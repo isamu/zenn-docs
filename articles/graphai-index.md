@@ -23,6 +23,7 @@ publication_name: "singularity"
   - [GraphAIのProp function](https://zenn.dev/singularity/articles/graphai-prop-function)
   
 - Agent
+  - [GraphAI - チャットでブラウザを操作するデモ](https://zenn.dev/singularity/articles/graphai-tools)
   - [GraphAI - Nested Graph Agentの紹介](https://zenn.dev/singularity/articles/graphai-agents)
   - [GraphAI GraphData(ワークフロー)をAgent化するnestedAgentGeneratorの紹介](https://zenn.dev/singularity/articles/graphai-nested-agent-generator)
   - [GraphAI - Agentのスケルトン作成](https://zenn.dev/singularity/articles/graphai-create-graphai-agent)
