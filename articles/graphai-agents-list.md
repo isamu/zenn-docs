@@ -16,7 +16,7 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
 
 - https://www.npmjs.com/package/@graphai/agents
 - https://www.npmjs.com/package/@graphai/llm_agents
-- https://www.npmjs.com/package/@graphai/extra-agents
+<!-- - https://www.npmjs.com/package/@graphai/extra-agents -->
 
 # LLM系
 各種llmのagent.
