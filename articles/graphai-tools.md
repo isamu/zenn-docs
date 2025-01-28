@@ -40,6 +40,7 @@ VITE_OPEN_API_KEY=sk-123xxxxx
 ```
 と設定します。google mapはplace apiもenableにする必要があります。localで動かす場合は、google のデモのapi keyなどが参考になります。[こちら](https://jsfiddle.net/gh/get/library/pure/googlemaps/js-samples/tree/master/dist/samples/place-text-search/jsfiddle)
 
+
 ```
 yarn run serve
 ```
