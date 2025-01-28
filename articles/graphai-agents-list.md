@@ -85,4 +85,16 @@ TTS/STT
 
 - https://www.npmjs.com/package/@receptron/event_agent_generator
   - webのformからの入力などのevent処理を扱うagent
-  
+
+
+
+# レポジトリ情報
+
+- https://github.com/receptron/graphai/tree/main/llm_agents
+  - 公式が提供するllm agent
+- https://github.com/receptron/graphai/tree/main/agents
+  - 公式が提供する基本 agent
+- https://github.com/receptron/graphai-agents/
+  - optionalなagent
+- https://github.com/receptron/graphai-utils/
+  - utils. generatorを使ったagentはこちら
