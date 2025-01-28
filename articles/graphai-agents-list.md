@@ -28,21 +28,25 @@ inputs/result/paramsは各agentで極力互換性があり
 - https://www.npmjs.com/package/@graphai/groq_agent
 - https://www.npmjs.com/package/@graphai/replicate_agent
 
-- https://www.npmjs.com/package/@graphai/token_bound_string_agent
+
 - https://www.npmjs.com/package/@graphai/openai_fetch_agent
   - openaiのライブラリを使わないでfetchで実装したopenaiのパッケージ
+
 - https://www.npmjs.com/package/@graphai/tools_agent
   - https://github.com/receptron/graphai-demo-web/ のgoogle map/video agentと連携して、tools(function calling)を実行するagent
+- https://www.npmjs.com/package/@graphai/token_bound_string_agent
 
 
 # 基本機能
 
 - https://www.npmjs.com/package/@graphai/vanilla
-  - 他のnpmに依存しない基本機能を提供するagent群. 多くのsampleはこのagent + llmで実装されている
+  - 他のnpmに依存しない基本機能を提供するagent群.
+  - 多くのsampleはこのagent + llmで実装されている
 - https://www.npmjs.com/package/@graphai/data_agents
   - データをマージするagent
 - https://www.npmjs.com/package/@graphai/sleeper_agents
-  - sleepを提供するagent.　主にdebugやtest用
+  - sleepを提供するagent.
+  - 主にdebugやtest用
   
 # データ変換
 
@@ -58,7 +62,6 @@ inputs/result/paramsは各agentで極力互換性があり
 # prompt系
 - https://www.npmjs.com/package/@graphai/awesome_chatgpt_prompts_agent
 - https://www.npmjs.com/package/@graphai/prompts
-
 
 
 # node(サーバ)用
