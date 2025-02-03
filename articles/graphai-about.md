@@ -106,7 +106,7 @@ https://github.com/receptron/graphai/tree/main/packages/samples/graph_data
 typescriptで書かれたサンプルです。ソースをcloneして、それぞれのディレクトリーで以下のコマンドで実行できます。
 
 ```sh
-yarn run samples {sampleFile}
+yarn run sample {sampleFile}
 ```
 
 https://github.com/receptron/graphai/tree/main/packages/samples/src
