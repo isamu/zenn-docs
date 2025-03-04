@@ -68,6 +68,9 @@ export default newAgentInfo;
     },
 ```
 
+実際にagentとしている例です。参考に！！
+https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_update_text_agent.ts
+
 ---
 
 # Introduction to nestedAgentGenerator for Converting GraphAI GraphData (Workflows) into Agents
