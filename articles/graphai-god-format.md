@@ -30,11 +30,12 @@ GOD Formatは、GraphAIでのデータ依存関係を簡潔に記述できるフ
 GOD Formatは以下の箇所で使用できます：
 
 - inputs: ノードのデータ依存関係と入力値を定義するため。
-- params: ノードの実行時に必要なパラメータを指定するため。
+- ~~params: ノードの実行時に必要なパラメータを指定するため。~~ 次のバージョンupで変更予定
 - graph: ネストしたGraphを実行する為に、GraphDataを定義するため。
 - if/unless: 条件付きでノードを実行するため。
 - agent: エージェントを動的に指定するため。
 - console (after): ノードの実行結果をログとして出力するため（この場合、nodeIdは省略可能で、.から始まります）。
+- result: nestedAgentのために、結果をtransformする（この場合、nodeIdは省略可能で、.から始まります）。
 
 ## GOD Formatの使用例
 
@@ -88,7 +89,7 @@ this is ${:nodeId.prop1.prop2}
 nodeIdのprop1内にネストされたprop2の値を文字列に挿入します。
 
 ## ネスト構造と柔軟性
-inputs、params、およびconsole.afterでは、ネストした記述にも対応しており、複雑なデータ構造を簡潔かつ効率的に記述できます。
+inputs、およびconsole.afterでは、ネストした記述にも対応しており、複雑なデータ構造を簡潔かつ効率的に記述できます。
 
 例
 ```typescript
