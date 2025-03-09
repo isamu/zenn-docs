@@ -11,9 +11,9 @@ publication_name: "singularity"
 GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
 :::
 
-GraphAIは、Agent内でサブグラフを実行する仕組みがあります。それをNestedGraphとよび、 nestedGraph と mapAgentで利用可能です。
+GraphAIは、Agent内でサブグラフを実行する仕組みがあります。それをNestedGraphとよび、 nestedAgent と mapAgentで利用可能です。
 
-### 1. NestedGraph と MapAgent の概要
+### 1. NestedAgent と MapAgent の概要
 - **NestedAgent** は **単純にサブグラフを入れ子にするだけ** の構造。親グラフ内で定義されたワークフローを、特定の入力データとともにそのまま実行する。
 - **MapAgent** は **データが異なるが同じ処理を並列に動かす仕組み**。配列データを展開し、それぞれの要素に対して同じサブグラフを実行する（MapReduce 的な処理）。
 
@@ -42,7 +42,17 @@ nodes:
             dataB: :dataB
 ```
 
-結果
+このケースではnestedAgent実行時にサブグラフに
+
+```
+dataA: {
+ value: 1
+}
+dataB: {
+ value: 2
+}
+```
+のstatic nodeが追加されます。その結果
 
 ```json
 {
@@ -55,11 +65,13 @@ nodes:
 }
 ```
 
+となります。
+
 #### MapAgent
 - `rows` に **必ず配列を指定** する必要がある。
 - 配列の各要素が `row` としてサブグラフに渡され、**配列の長さだけサブグラフが生成** される（MapReduce 的な処理）。
 - `rows` 以外の `inputs` は、そのままサブグラフに渡される。
-- `rows` 以外の `inputs` に **配列を指定すると、そのままコピーされ、すべてのサブグラフに渡る**。
+- `rows` 以外の `inputs` に **配列を指定すると、そのままコピーされ、すべてのサブグラフに渡る**。なので、rowsだけが配列を特殊に扱います。
 
 ```yaml
 version: 0.6
@@ -219,9 +231,9 @@ nodes:
 ## まとめ
 - **NestedAgent** は単純に **サブグラフを入れ子にする** だけの仕組み。
 - **MapAgent** は **データが異なるが同じ処理を並列に動かす（MapReduce 的な処理）**。
-- **NestedAgent** は `inputs` を static node にマッピングするだけ。
+- **NestedAgent** は `inputs` を static node にマッピングする。
 - **MapAgent** は `rows` を展開し、配列の要素ごとにサブグラフを作成する。
-- **`compositeResult: true` を指定すると、サブグラフのノードごとの結果を取得しやすくなる**。
+- **MapAgent** で**`compositeResult: true` を指定すると、サブグラフのノードごとの結果を取得しやすくなる**。
 - **`output` を指定すると、GOD format に基づいてデータの構造をカスタマイズできる**。
 
 以上が、GraphAI における **NestedGraph と MapAgent のデータの受け渡し & 結果処理** のまとめです！
