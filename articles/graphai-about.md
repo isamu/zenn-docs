@@ -475,7 +475,7 @@ Agentは、Agentの本体とそれをテストするテストコードで構成�
 Agentの本体をsrc/以下(今回は[src/sample_agent.ts](https://github.com/isamu/graphai_agent_template/blob/master/src/sample_agent.ts)), Agentのテストコードをtest/以下(今回は[tests/test_agent.ts](https://github.com/isamu/graphai_agent_template/blob/master/tests/test_agent.ts))に作ります。
 
 今回作成するAgentは`SampleAgent`という名前です。
-動作は、GraphAIからの入力値(設定ファイルのparams)の`params`と、前のagentからの入力値`inputs`、この２つの値をmergeしてobjectとして返す簡単なAgentです。
+動作は、GraphAIからの入力値(設定ファイルのparams)の`params`と、前のagentからの入力値`namedInputs`、この２つの値をmergeしてobjectとして返す簡単なAgentです。
 
 #### Agent
 
@@ -484,8 +484,8 @@ Agentの本体はこちらです。
 ```typescript
 import { AgentFunction } from "graphai";
 
-export const sampleAgent: AgentFunction = async ({ params, inputs }) => {
-  return { params, inputs };
+export const sampleAgent: AgentFunction = async ({ params, namedInputs }) => {
+  return { params, namedInputs };
 };
 ```
 
@@ -517,15 +517,12 @@ import { AgentFunctionInfo } from "graphai";
 
 const sampleInput = [{message: "hello"}, {message: "test"}];
 const sampleParams = { sample: "123" };
-const sampleResult = { inputs: sampleInput, params: sampleParams };
+const sampleResult = { namedInputs: sampleInput, params: sampleParams };
 
 const sampleAgentInfo: AgentFunctionInfo = {
   name: "sampleAgent",
   agent: sampleAgent,
   mock: sampleAgent,
-  inputs: {
-    type: "array",
-  },
   samples: [
     {
       inputs: sampleInput,
@@ -535,7 +532,7 @@ const sampleAgentInfo: AgentFunctionInfo = {
   ],
   description: "Sample agent",
   author: "isamu arimoto",
-  repository: "https://github.com/isamu/graphai_doc",
+  repository: "https://github.com/isamu/graphai_agent_template",
   license: "MIT",
 };
 
@@ -596,24 +593,17 @@ Unit TestをPassし、期待すべき動作がするようになればAgentは�
 
 #### Agentの受け取るデータ
 
-sampleAgentでは、Agentの関数で`{ params, inputs }`を受け取りました。
+sampleAgentでは、Agentの関数で`{ params, namedInputs }`を受け取りました。
 実際は`AgentFunctionContext`の情報を受け取っています。
 
 - params
   - GraphDataのyaml/jsonのparamsで与えられる値
-- inputs
-  - GraphDataのinputsで指定される値。前に実行したAgentの結果や、static nodeでの値、inputsに書かれた値など。
-  - inputsはArrayで、入力の数と同じ長さ。
 - namedInputs
-   - inputsのobject(dictonary)時
+  - GraphDataの`inputs`で指定される値。前に実行したAgentの結果や、Static nodeでの値、inputsに書かれた値など。
+  - namedInputsはObjectで渡されます
    
 基本的にはこのうちの２つ(paramsと(inputs or namedInputs))を入力として受け取り、Agentの処理をします。結果はreturnで返します。
 Agentの結果は、次に実行されるAgentのinputsなどで利用されます。(inputの記述方法は別途解説します)
-
-inputsとinputsはGraphDataで
-- `inputs: [":node1", ":node2"]` とarrayにした場合はinputs,
-- `inputs: {v1: ":node1", v2: ":node2"}` とした場合にはobjectでnamedInputs
-が渡されます。同時に２つがくることはありません。
 
 - agentFilters
   - AgentFilterという仕組みを使う場合に使う
