@@ -11,7 +11,8 @@ publication_name: "singularity"
   - [AI Agentを簡単に効率よく開発/実行するGraphAIの紹介](https://zenn.dev/singularity/articles/graphai-tutorial_1)
   - [GraphAIの紹介](https://zenn.dev/singularity/articles/graphai-about)
 - チュートリアル
-  - 公式サイト上で試したい
+  - チュートリアルの紹介
+    - (公式サイトに転載するときは、サイト上でチュートリアルのコードを動かしたい)
     
 - 使い方とインストール
   - codepen
