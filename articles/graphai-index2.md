@@ -27,6 +27,7 @@ publication_name: "singularity"
 - 設定的な
   - GraphData
     - node(static/computed)
+      - [T.B.D](./graphai-nodes.md)
     - inputs/result/params
       - [GraphAIのデータ入力について](https://zenn.dev/singularity/articles/graphai-inputs)
     - inputsのdesign templateについて
@@ -67,16 +68,13 @@ publication_name: "singularity"
   - AgentFilter
     - [GraphAI - AgentFilter](https://zenn.dev/singularity/articles/graphai-agent-filter)
     - [GraphAI Agentのキャッシュ](https://zenn.dev/singularity/articles/graphai-cache)
-
-----
-
-- GraphAI
+- その他
   - [GraphAI abortの機能を追加](https://zenn.dev/singularity/articles/graphai-abort)
   - [GraphAI 環境依存(Node.jsとブラウザ）のあるAgentついて](https://zenn.dev/singularity/articles/graphai-node-browser)
   - [GraphAIにおけるユーザ入力の課題と解決策](https://zenn.dev/singularity/articles/graphai-user-input)
-  
-- GraphData
   - [GraphAIのTips](https://zenn.dev/singularity/articles/graphai-tips)
+  
+
   
 
 
