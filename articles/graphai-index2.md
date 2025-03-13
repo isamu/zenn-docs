@@ -63,8 +63,11 @@ publication_name: "singularity"
     - Streaming
       - [GraphAI Streaming](https://zenn.dev/singularity/articles/graphai-streaming)
     - Web integration  
+      - [T.B.D](./graphai-web-integration.md)
     - chat/streaming plugin
+      - [T.B.D](./graphai-web-stream.md)
     - user event
+      - [T.B.D](./graphai-web-event.md)
   - Config
     - [GraphAIの設定値について](https://zenn.dev/singularity/articles/graphai-settings)
     - [GraphAIの設定値をGraphAIからAgentに渡す](https://zenn.dev/singularity/articles/graphai-config)
