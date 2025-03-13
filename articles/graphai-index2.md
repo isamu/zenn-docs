@@ -43,6 +43,7 @@ publication_name: "singularity"
   - Agent
     - 基礎
     - AgentFunctionInfo
+      - [T.B.D](./graphai-agent-function-info.md)
     - generator
       - [GraphAI - Agentのスケルトン作成](https://zenn.dev/singularity/articles/graphai-create-graphai-agent)
     - nested Agent
@@ -52,7 +53,10 @@ publication_name: "singularity"
     - 代表的なサンプルの動作原理
   - express
     - インストールと使い方
+      - [T.B.D](./graphai-express1.md)
     - streaming/api
+      - [T.B.D](./graphai-express2.md)
+      
   - web
     - Other language server
       - [GraphAI - GraphAIでエージェントを任意の言語で実装する方法](https://zenn.dev/singularity/articles/graphai-python-server)
