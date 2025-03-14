@@ -3,7 +3,7 @@ title: "GraphAI記事のインデックス"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech, GraphAI]
-published: true
+published: false
 publication_name: "singularity"
 ---
 
