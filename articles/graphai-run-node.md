@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 ## GraphAIのNode.jsで試す
 
 GraphAIを動作させるのに必要な最小限のnpmは[graphai](https://www.npmjs.com/package/graphai)と[vanilla agents](https://www.npmjs.com/package/@graphai/vanilla) です。
