@@ -12,6 +12,7 @@ publication_name: "singularity"
   - [GraphAIの紹介](https://zenn.dev/singularity/articles/graphai-about)
 - チュートリアル
   - [チュートリアルの紹介](https://github.com/receptron/graphai/blob/main/docs/ja/guide/tutorial.md)
+    - (公式サイトに転載するときは、サイト上でチュートリアルのコードを動かしたい)
     
 - 使い方とインストール
   - codepen
