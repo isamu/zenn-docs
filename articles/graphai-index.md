@@ -81,6 +81,6 @@ publication_name: "singularity"
   - [GraphAI 環境依存(Node.jsとブラウザ）のあるAgentついて](https://zenn.dev/singularity/articles/graphai-node-browser)
   - [GraphAIにおけるユーザ入力の課題と解決策](https://zenn.dev/singularity/articles/graphai-user-input)
   - [GraphAIのTips](https://zenn.dev/singularity/articles/graphai-tips)
-  
-
+  - [GrapysにおけるNested Graph Agentのinputs/outputsの実装メモ](https://zenn.dev/singularity/articles/graphai-nested-agent-gui)  
+  - [GraphAI NestedGraphへのデータの受け渡しについて](https://zenn.dev/singularity/articles/graphai-nested-input-output)
 
