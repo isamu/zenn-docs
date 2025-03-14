@@ -9,8 +9,8 @@ publication_name: "singularity"
 
 ## GraphAIのNode.jsで試す
 
-GraphAIを動作させるのに必要な最小限のnpmはgraphaiとvanilla agentsです。
-最も簡単に使えるAgentのvanilla agents([@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla) 他に依存がないagentをvanillaと呼んでいます)を使って簡単なGraphデータを作り、動かしてみます。
+GraphAIを動作させるのに必要な最小限のnpmは[graphai](https://www.npmjs.com/package/graphai)と[vanilla agents](https://www.npmjs.com/package/@graphai/vanilla) です。
+最も簡単に使えるAgentである[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla) (他にnpmの依存がないagentをvanillaと呼んでいます)を使って簡単な`GraphData`を作り、動かしてみます。
 
 最初にnpmの初期化をして、必要なnpmを入れます。typescriptを実行するためにts-nodeも入れます。
 
@@ -21,13 +21,13 @@ yarn add graphai @graphai/vanilla ts-node
 
 以下が最小限のスクリプトです。graphai.tsで保存します。
 
-このGraphDataには２つのnodeが含まれます。
-Static nodeのnode1とComputed nodeのnode2です。
+この`GraphData`には２つのnodeが含まれます。
+`Static node`の`node1`と`Computed node`の`node2`です。
 
-Static nodeのnode1で、固定のメッセージを定義します。
-そのデータを受け取ったComputed nodeのnode2でcopyAgentを実行します。
-copyAgentはinputsで受け取ったデータをそのまま返却値とて返すagentです。
-node2は`isResult: true`がセットされているので、GraphAIの実行結果としてnode2の結果を返します。
+`Static node`の`node1`で、固定のメッセージを定義します。
+そのデータを受け取った`Computed node`の`node2`でcopyAgentを実行します。
+`copyAgent`は`inputs`で受け取ったデータをそのまま返却値とて返すagentです。
+`node2`は`isResult: true`がセットされているので、GraphAIの実行結果として`node2`の結果を返します。
 
 TypeScriptのresult変数にその結果がセットされます。
 
