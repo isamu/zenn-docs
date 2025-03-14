@@ -67,5 +67,5 @@ $ npx ts-node graphai.ts
 {"node2": {text: "hello, GraphAI"}}
 ```
 
-node1で指定して文字列がnode2に渡され、結果として表示されました。
+`node1`で指定して文字列が`node2`に渡され、結果として表示されました。
 
