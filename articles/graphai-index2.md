@@ -43,6 +43,8 @@ publication_name: "singularity"
     - その他GraphDataの細かい機能
   - Agent
     - 基礎
+    - AgentFunctionInfoについて
+      - [T.B.D](./graphai-agent-function-info.md)
     - generator
       - [GraphAI - Agentのスケルトン作成](https://zenn.dev/singularity/articles/graphai-create-graphai-agent)
     - nested Agent
@@ -50,11 +52,23 @@ publication_name: "singularity"
     - [GraphAI - Agentの紹介(随時更新)](https://zenn.dev/singularity/articles/graphai-agents-list)
   - sampleの紹介
     - 代表的なサンプルの動作原理
+  - express
+    - インストールと使い方
+      - [T.B.D](./graphai-express1.md)
+    - streaming/api
+      - [T.B.D](./graphai-express2.md)
+      
   - web
     - Other language server
       - [GraphAI - GraphAIでエージェントを任意の言語で実装する方法](https://zenn.dev/singularity/articles/graphai-python-server)
     - Streaming
       - [GraphAI Streaming](https://zenn.dev/singularity/articles/graphai-streaming)
+    - Web integration  
+      - [T.B.D](./graphai-web-integration.md)
+    - chat/streaming plugin
+      - [T.B.D](./graphai-web-stream.md)
+    - user event
+      - [T.B.D](./graphai-web-event.md)
   - Config
     - [GraphAIの設定値について](https://zenn.dev/singularity/articles/graphai-settings)
     - [GraphAIの設定値をGraphAIからAgentに渡す](https://zenn.dev/singularity/articles/graphai-config)
@@ -67,6 +81,8 @@ publication_name: "singularity"
   - [GraphAI 環境依存(Node.jsとブラウザ）のあるAgentついて](https://zenn.dev/singularity/articles/graphai-node-browser)
   - [GraphAIにおけるユーザ入力の課題と解決策](https://zenn.dev/singularity/articles/graphai-user-input)
   - [GraphAIのTips](https://zenn.dev/singularity/articles/graphai-tips)
+  - [GrapysにおけるNested Graph Agentのinputs/outputsの実装メモ](https://zenn.dev/singularity/articles/graphai-nested-agent-gui)  
+  - [GraphAI NestedGraphへのデータの受け渡しについて](https://zenn.dev/singularity/articles/graphai-nested-input-output)  
   
 
   
