@@ -43,7 +43,7 @@ publication_name: "singularity"
     - その他GraphDataの細かい機能
   - Agent
     - 基礎
-    - AgentFunctionInfo
+    - AgentFunctionInfoについて
       - [T.B.D](./graphai-agent-function-info.md)
     - generator
       - [GraphAI - Agentのスケルトン作成](https://zenn.dev/singularity/articles/graphai-create-graphai-agent)
