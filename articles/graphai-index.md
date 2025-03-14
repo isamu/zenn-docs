@@ -18,6 +18,8 @@ publication_name: "singularity"
     - [GraphAIをcodepenで試す](https://zenn.dev/singularity/articles/graphai-code-pen)
   - cli
     - [GraphAIをcli(コマンドライン)で試す](https://zenn.dev/singularity/articles/graphai-run-cli)
+  - Node.js
+    - [GraphAIをNode.jsで試す](https://zenn.dev/singularity/articles/graphai-run-node)
 - Sample
   - [GraphAI - シンプルなサンプル](https://zenn.dev/singularity/articles/graphai-sample-simple-graph)
   - [GraphAIのサンプルアプリ](https://zenn.dev/singularity/articles/graphai-samples)

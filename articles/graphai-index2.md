@@ -3,7 +3,7 @@ title: "GraphAI記事のインデックス"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech, GraphAI]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
@@ -19,8 +19,8 @@ publication_name: "singularity"
     - [GraphAIをcodepenで試す](https://zenn.dev/singularity/articles/graphai-code-pen)
   - cli
     - [GraphAIをcli(コマンドライン)で試す](https://zenn.dev/singularity/articles/graphai-run-cli)
-  - node
-    - [T.B.D.](./graphai-run-node.md)
+  - Node.js
+    - [GraphAIをNode.jsで試す](https://zenn.dev/singularity/articles/graphai-run-node)
   - web
     - [T.B.D.](./graphai-run-web.md)
   - GUI（Grapys)

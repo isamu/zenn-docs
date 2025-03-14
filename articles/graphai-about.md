@@ -137,7 +137,7 @@ graphai_cliはGraphAI本体と、@graphai/agentsを含んでいて、全てのAg
 ## GraphAIのNode.jsで使い方
 
 GraphAIを動作させるのに必要な最小限のnpmはgraphaiといずれかのagentです。
-最も簡単に使えるAgentのvanilla agents(@graphai/vanilla 他に依存がないagentをvanillaと呼んでいます)を使って簡単なGraphデータを作り、動かしてみます。
+最も簡単に使えるAgentのvanilla agents([@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla) 他に依存がないagentをvanillaと呼んでいます)を使って簡単なGraphデータを作り、動かしてみます。
 
 最初にnpmの初期化をして、必要なnpmを入れます。typescriptを実行するためにts-nodeも入れます。
 
