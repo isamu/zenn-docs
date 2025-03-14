@@ -20,8 +20,11 @@ publication_name: "singularity"
   - cli
     - [GraphAIをcli(コマンドライン)で試す](https://zenn.dev/singularity/articles/graphai-run-cli)
   - node
+    - [T.B.D.](./graphai-run-node.md)
   - web
+    - [T.B.D.](./graphai-run-web.md)
   - GUI（Grapys)
+    - [T.B.D.](./graphai-run-grapys.md)
 - Sample
   - [GraphAI - シンプルなサンプル](https://zenn.dev/singularity/articles/graphai-sample-simple-graph)
   - [GraphAIのサンプルアプリ](https://zenn.dev/singularity/articles/graphai-samples)
