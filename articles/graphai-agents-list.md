@@ -59,6 +59,9 @@ inputs/result/paramsは各agentで極力互換性があり
 - https://www.npmjs.com/package/@graphai/arxiv_agent
 - https://www.npmjs.com/package/@graphai/serper_agent
 
+- https://www.npmjs.com/package/@graphai/browserless_agent
+- https://www.npmjs.com/package/@graphai/brave_search_agent
+
 # prompt系
 - https://www.npmjs.com/package/@graphai/awesome_chatgpt_prompts_agent
 - https://www.npmjs.com/package/@graphai/prompts
