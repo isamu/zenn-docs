@@ -22,16 +22,16 @@ Agentを分散処理したり、途中でユーザとのinteractionがあると�
 
 GraphAIはDifyやLangGraphで出来るようなことは一通り出来ますが、それに加えて
 
-- Graph構造で定義するワークフローとAgentの実装が別れているので、各Agentを好きなところ（local/browser/server)で動かせる
-  - Agentのlocal/serverでの呼び出しは、少し設定を変更するだけで簡単に変更できる
-- serverのagentは、任意の言語で実装可能
+- Graph 構造で定義されたワークフロー(GraphData)と Agent の実装(TypeScript)が分離されているため、各 Agent はAgent単位で任意の環境（ローカル / ブラウザ / サーバー）で実行可能となる。
+  - Agentのlocal/serverでの呼び出しは、少し設定を変更するだけで簡単に変更できる。
+- サーバー上の Agent は API 呼び出しによって動作するため、任意の言語で実装可能
 - TypeScript(JavaScript)で実装しているGraphAIと、GraphAIのAgentは、サーバ、ブラウザで実行可能（ブラウザ、サーバの差異を埋める実装サンプルあり）
 - ブラウザ上のみでGraphAI/Agentを実行可能なので、local llmと組み合わせて、外部と通信不要な閉じた環境でのAI処理が可能。
   - オフラインでの実行や、外部に情報を出さないでAIを使うことが可能
 - ワークフローの途中の任意の部分でユーザとのインタクション（Chat/ボタンによる選択など）を入れることが出来る
-- streamを透過的に容易に扱う仕組みがある
-- グラフのワークフローから、別のグラフ（サブグラフ）を呼び出せる
-- サブグラフは動的に作成して呼び出すことが可能
+- Stream を透過的かつ容易に扱う仕組みが備わっている。
+- Graph 構造で定義されたワークフローから、別のグラフ（サブグラフ）を呼び出せる
+- サブグラフはAgentの動作結果として動的に作成して呼び出すことが可能
 - Tools(Function calling)を使ったMCPのような仕組みを用意しており、Chatでブラウザ内のAPIを呼び出して、既存のWebサイトをAI化可能
 - 複雑な非同期/並列処理とデータの依存関係を解決できる
 - GraphAIを使うために様々なツールやサンプルが揃っている
@@ -116,7 +116,7 @@ https://github.com/receptron/graphai/tree/main/packages/samples/src
 
 こちらのチュートリアルを参考にしてください。英語ですが、ほとんどがソースなので翻訳を使いながらでも簡単に理解できます。
 
-[公式チュートリアル](https://github.com/receptron/graphai/blob/main/docs/Tutorial.md)
+[公式チュートリアル](https://github.com/receptron/graphai/blob/main/docs/ja/guide/tutorial.md)
 
 このチュートリアルは、graphai_cliを使ってCliでyamlを読み込んでGraphAIを使います。
 graphai_cliはGraphAI本体と、@graphai/agentsを含んでいて、全てのAgentを利用できます。
