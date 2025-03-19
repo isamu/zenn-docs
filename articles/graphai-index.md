@@ -42,6 +42,8 @@ publication_name: "singularity"
     - その他GraphDataの細かい機能
   - Agent
     - 基礎
+    - AgentFunctionInfoについて
+      - [GraphAI - AgentFunctionInfoについて](./graphai-agent-function-info.md)
     - generator
       - [GraphAI - Agentのスケルトン作成](https://zenn.dev/singularity/articles/graphai-create-graphai-agent)
     - nested Agent
