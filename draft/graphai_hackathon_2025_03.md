@@ -71,7 +71,14 @@ https://qiita.com/matsutakk/items/c4a2922282e82a34d1e6
 
 ---
 
-### 🏆 菅原さんの DeepSeek Agent
+### 🏆 菅原さんのpodcast-tiktok
+
+ポッドキャストの原稿と音声をAIで自動生成し、tiktok風な縦スクロールでコンテンツをサクサク聞けるアプリです。
+Expo/React nativeとNode.js+Expressサーバで構成され、Nativeアプリ上でコンテンツの作成とviewerの両方を実装済みです。
+管理系、ユーザ系ともにわかりやすいUIで、原稿作成はGraphAIを使ってLLM/Toolsを含むワークフローで実行しています。とても良いGraphAIの実装サンプルとなっていました。
+
+
+DeepSeek Agent
 
 オンラインで、**DeepSeekを活用したAgent**を作成。  
 さらに、**文章構成のためのマルチエージェント構成**にも取り組みました。
