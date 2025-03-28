@@ -59,8 +59,13 @@ ElixirやHaskellに似た構文で記述でき、特に `if/unless` などの分
 ### 🏆 松田さんの LLM 単語帳アプリ
 
 中島さんの「AI単語帳」のアイデアを元に、**Firebase + LLM** を組み合わせた単語帳アプリを実装。  
-バックエンドではGraphAIを活用し、**Flutterでフロントエンドを構築**。  
-さらに、TTS/STT処理のAgent化にも貢献し、その過程を**Qiitaで記事として公開**してくれました。  
+モチベーションがわかない市販の単語帳はなく、自分が日常的に触れる音声、文章、画像を取り込んで、それを元に単語帳を更新していく、というコンセプトです。音声を書き起こしてそれを取り込んだりと、AIをフル活用した今の時代のアプリのコンセプです。
+実装は**Flutterでフロントエンド**、バックエンドではFirebase + GraphAIを利用しています。Flutterの為、WebとNativeの両方のアプリを提供可能です。  
+
+さらにそれとは別にGoogle検索と、その検索上位のWebサイトを要約するAgentやGoogle STTを行うAgentも作成しました！！
+
+https://qiita.com/matsutakk/items/0e5de27ed3b950357cb4
+https://qiita.com/matsutakk/items/c4a2922282e82a34d1e6
 
 知見をドキュメントとして残す姿勢は、今後の開発者にも非常に参考になります！
 
