@@ -38,7 +38,7 @@ https://github.com/snakajima/life-is-beautiful
 
 主な貢献内容は以下です。
 - [GraphAI公式Webサイトの作成](https://graphai.info/)
-- Visual Studio上でのGraphAIグラフデータのビューワー（Mermaidを使って）  
+- [Visual Studio上でのGraphAIグラフデータのビューワー（Mermaidを使って）](https://marketplace.visualstudio.com/items?itemName=kawamataryo.graphai-visualizer)
 - Agentの作成と既存Agentへの改善提案  
 - ドキュメント整備  
 
@@ -51,7 +51,7 @@ https://github.com/snakajima/life-is-beautiful
 
 GraphAIはグラフ構造のデータを書くだけでエージェントのワークフローを構築できますが、最初の記述方法の習得や、制御フローが増えた際のデバッグの難しさが課題です。
 
-久保さんはこれを解決するため、**関数型言語の特徴を取り入れたDSL**を開発しました。  
+久保さんはこれを解決するため、[関数型言語の特徴を取り入れたDSL](https://github.com/i-eight/graphai-dsl)を開発しました。  
 ElixirやHaskellに似た構文で記述でき、特に `if/unless` などの分岐が多いケースでは、**開発効率が大幅に向上**します。
 
 ---
