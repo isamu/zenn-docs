@@ -62,9 +62,12 @@ ElixirやHaskellに似た構文で記述でき、特に `if/unless` などの分
 モチベーションがわかない市販の単語帳はなく、自分が日常的に触れる音声、文章、画像を取り込んで、それを元に単語帳を更新していく、というコンセプトです。音声を書き起こしてそれを取り込んだりと、AIをフル活用した今の時代のアプリのコンセプです。
 実装は**Flutterでフロントエンド**、バックエンドではFirebase + GraphAIを利用しています。Flutterの為、WebとNativeの両方のアプリを提供可能です。  
 
+https://github.com/matsutakk/MyDecks/tree/main
+
 さらにそれとは別にGoogle検索と、その検索上位のWebサイトを要約するAgentやGoogle STTを行うAgentも作成しました！！
 
 https://qiita.com/matsutakk/items/0e5de27ed3b950357cb4
+
 https://qiita.com/matsutakk/items/c4a2922282e82a34d1e6
 
 知見をドキュメントとして残す姿勢は、今後の開発者にも非常に参考になります！
@@ -74,6 +77,8 @@ https://qiita.com/matsutakk/items/c4a2922282e82a34d1e6
 ### 🏆 菅原さんのpodcast-tiktok
 
 ポッドキャストの原稿と音声をAIで自動生成し、tiktok風な縦スクロールでコンテンツをサクサク聞けるアプリです。
+https://github.com/sugamass/podcast-tiktok
+
 Expo/React nativeとNode.js+Expressサーバで構成され、Nativeアプリ上でコンテンツの作成とviewerの両方を実装済みです。
 管理系、ユーザ系ともにわかりやすいUIで、原稿作成はGraphAIを使ってLLM/Toolsを含むワークフローで実行しています。とても良いGraphAIの実装サンプルとなっていました。
 
@@ -86,6 +91,8 @@ Expo/React nativeとNode.js+Expressサーバで構成され、Nativeアプリ上
 カスタマーサポート評価業務に対し、**具体的なLLMフローをGraphAIで実装**。  
 大量の評価を非同期を使って処理するためのプロトタイプ。
 実用的に作ってありサービスにそのまま使えそうな完成度の高い作品でした！
+
+https://github.com/stmy2020/graphai-chat-quality-check
 
 #### 砂田さん  
 GraphAIを活用した文章構成システムを構築。1vs1のインタビューに、ユーザが参加するような新しいコンセプトを提案！！
