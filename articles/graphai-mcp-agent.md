@@ -19,6 +19,9 @@ GraphAIでの実装サンプルはこちら。
 
 https://github.com/receptron/graphai-agents/blob/main/protocol/mcp-agent/tests/run_graph.ts
 
+npmはこちら。
+https://www.npmjs.com/package/@graphai/mcp_agent
+
 ### 1. `mcpConfig` でサービスごとの設定を行います
 
 各サービスに対して、`command` と `args` のペアで設定を記述します。他のアプリケーションでも、同様の形式が利用できると考えられます。

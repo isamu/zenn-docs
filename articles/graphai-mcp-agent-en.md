@@ -15,6 +15,15 @@ While MCP provides various methods like `init` and `resources`, this implementat
 
 Unlike other GraphAI agents, MCP requires an initial connection to the server before it can be used. This involves executing a command on the host machine to start the server. Therefore, the MCP initialization process must occur before GraphAI is initialized.
 
+GraphAI example is here.
+
+https://github.com/receptron/graphai-agents/blob/main/protocol/mcp-agent/tests/run_graph.ts
+
+npm is
+
+https://www.npmjs.com/package/@graphai/mcp_agent
+
+
 ### 1. Configuring each service via `mcpConfig`
 
 Each service is defined as a pair of `command` and `args`. This pattern can be extended to other applications as well.
