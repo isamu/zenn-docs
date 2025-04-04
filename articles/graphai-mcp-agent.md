@@ -9,11 +9,15 @@ publication_name: "singularity"
 
 GraphAIでMCPをサポートしました。
 
-MCPサーバの呼び出し方法には、ネットワーク経由で呼び出す方法と、プロセス通信を用いる方法の2種類がありますが、今回はプロセス通信（commandで設定する形式）のみを対象としています。
+MCPサーバの呼び出し方法には、ネットワーク経由で呼び出す方法と、プロセス通信を用いる方法の2種類がありますが、今回はプロセス通信（commandで設定する形式）のみを対象としています。また、このAgentはNode.jsのみをサポートしているので、ブラウザでは動きません。
 
-MCPには `init` や `resources` といったメソッドも存在しますが、今回使用しているのは `tools/list` と `tools/call` のみです。通常、この２つのメソッドをサポートしてあればほとんどのMCPサーバが利用可能です。
+MCPには `prompt` や `resources` といったメソッドも存在しますが、今回使用しているのは `tools/list` と `tools/call` のみです。通常、この２つのメソッドをサポートしてあればほとんどのMCPサーバが利用可能です。
 
 他のGraphAIエージェントと異なり、MCPは最初にサーバへ接続する必要があります。実際には、ホスト上でコマンドを実行してそのサーバに接続します。そのため、GraphAIの初期化よりも前にMCPの初期化を行う必要があります。
+
+GraphAIでの実装サンプルはこちら。
+
+https://github.com/receptron/graphai-agents/blob/main/protocol/mcp-agent/tests/run_graph.ts
 
 ### 1. `mcpConfig` でサービスごとの設定を行います
 
