@@ -102,8 +102,3 @@ mcpToolsCallAgentは、llmから返ってきたtoolsのデータをそのままt
   mcpClose();
 ```
 
-
-
-### 今後の対応（TODO）
-
-- サーバ型のMCPサーバをサポートする予定です。
