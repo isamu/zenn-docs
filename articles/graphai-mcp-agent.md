@@ -19,7 +19,7 @@ MCPには `init` や `resources` といったメソッドも存在しますが�
 
 各サービスに対して、`command` と `args` のペアで設定を記述します。他のアプリケーションでも、同様の形式が利用できると考えられます。
 
-```
+```TypeScript
 export const mcpConfig = {
   filesystem: {
     command: "npx",
@@ -37,7 +37,7 @@ export const mcpConfig = {
 GraphAIを動かす前に、MCPの初期化を行い、サーバへの接続を確立しておきます。MCPの起動には時間がかかるため、`setTimeout` や `sleep` などで待機します。
 MCPの起動を待たないでGraphAIを実行すると、tools listが空になることがあります。
 
-```
+```TypeScript
   await mcpInit(mcpConfig)
   await setTimeout(2000);
 ```
@@ -47,7 +47,7 @@ Graphデータを定義し、必要なエージェントを登録して実行し
 mcpToolsListAgentは、mcpConfigで設定したサービスの全てのtoolsをマージしたlistを返します。このときにtoolsのnameは、name spaceを考慮しserviceNameをprefixに追加したものを返します。toolsは生データ、llmToolsはopenaiのtoolsの形式に変換したデータです。
 mcpToolsCallAgentは、llmから返ってきたtoolsのデータをそのままtools/callで実行します。上記のprefixを追加したname spaceのまま、実行可能です。
 
-```
+```TypeScript
   const graphData = {
     version: 0.5,
     nodes: {
@@ -79,7 +79,7 @@ mcpToolsCallAgentは、llmから返ってきたtoolsのデータをそのままt
 
 実行結果の例は以下の通りです：
 
-```
+```TypeScript
 {
   "response": {
     "content": [
@@ -97,7 +97,7 @@ mcpToolsCallAgentは、llmから返ってきたtoolsのデータをそのままt
 
 処理の終了時には、MCPとの接続を明示的に切断しておきます。
 
-```
+```TypeScript
   await setTimeout(500);
   mcpClose();
 ```

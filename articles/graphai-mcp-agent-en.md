@@ -19,7 +19,7 @@ Unlike other GraphAI agents, MCP requires an initial connection to the server be
 
 Each service is defined as a pair of `command` and `args`. This pattern can be extended to other applications as well.
 
-```
+```TypeScript
 export const mcpConfig = {
   filesystem: {
     command: "npx",
@@ -36,7 +36,7 @@ export const mcpConfig = {
 
 MCP must be started before running GraphAI. Since the startup time may vary, it’s recommended to include a waiting period to ensure the server is ready. If GraphAI is run before MCP finishes initializing, the list of tools might be returned as empty.
 
-```
+```TypeScript
   await mcpInit(mcpConfig)
   await setTimeout(2000);
 ```
@@ -49,7 +49,7 @@ The `mcpToolsListAgent` returns a merged list of tools from all services defined
 
 The `mcpToolsCallAgent` executes the selected tool via `tools/call`, using the namespaced tool name as-is.
 
-```
+```TypeScript
   const graphData = {
     version: 0.5,
     nodes: {
@@ -81,7 +81,7 @@ The `mcpToolsCallAgent` executes the selected tool via `tools/call`, using the n
 
 Result is
 
-```
+```TypeScript
 {
   "response": {
     "content": [
@@ -98,7 +98,7 @@ Result is
 
 Be sure to explicitly disconnect from the MCP server when your batch job or server (e.g., Express) shuts down.
 
-```
+```TypeScript
   await setTimeout(500);
   mcpClose();
 ```
