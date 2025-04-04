@@ -11,7 +11,7 @@ GraphAIでMCPをサポートしました。
 
 MCPサーバの呼び出し方法には、ネットワーク経由で呼び出す方法と、プロセス通信を用いる方法の2種類がありますが、今回はプロセス通信（commandで設定する形式）のみを対象としています。
 
-MCPには `init` や `resources` といったメソッドも存在しますが、今回使用しているのは `tools/list` と `tools/call` のみです。
+MCPには `init` や `resources` といったメソッドも存在しますが、今回使用しているのは `tools/list` と `tools/call` のみです。通常、この２つのメソッドをサポートしてあればほとんどのMCPサーバが利用可能です。
 
 他のGraphAIエージェントと異なり、MCPは最初にサーバへ接続する必要があります。実際には、ホスト上でコマンドを実行してそのサーバに接続します。そのため、GraphAIの初期化よりも前にMCPの初期化を行う必要があります。
 
@@ -44,6 +44,8 @@ MCPの起動を待たないでGraphAIを実行すると、tools listが空にな
 ### 3. GraphAIを実行します
 
 Graphデータを定義し、必要なエージェントを登録して実行します。
+mcpToolsListAgentは、mcpConfigで設定したサービスの全てのtoolsをマージしたlistを返します。このときにtoolsのnameは、name spaceを考慮しserviceNameをprefixに追加したものを返します。toolsは生データ、llmToolsはopenaiのtoolsの形式に変換したデータです。
+mcpToolsCallAgentは、llmから返ってきたtoolsのデータをそのままtools/callで実行します。上記のprefixを追加したname spaceのまま、実行可能です。
 
 ```
   const graphData = {
