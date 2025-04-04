@@ -28,6 +28,11 @@ https://www.npmjs.com/package/@graphai/mcp_agent
 
 Each service is defined as a pair of `command` and `args`. This pattern can be extended to other applications as well.
 
+The `mcpConfig` uses unique service names (in this example, `filesystem` and `filesystem2`) as `keys`, and specifies configuration values as `values`. The following example demonstrates this using the [server-filesystem](https://www.npmjs.com/package/@modelcontextprotocol/server-filesystem) MCP server, which operates on the local file system.
+
+The `filesystem` configuration shows how to run the npm package directly via `npx`, while `filesystem2` specifies the executable file after installing the npm package. Both methods function the same way, and typically, you only need to specify one of them. However, both are shown here as examples of different configuration approaches.
+
+
 ```TypeScript
 export const mcpConfig = {
   filesystem: {
