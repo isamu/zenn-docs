@@ -26,9 +26,9 @@ https://www.npmjs.com/package/@graphai/mcp_agent
 
 各サービスに対して、`command` と `args` のペアで設定を記述します。他のアプリケーションでも、同様の形式が利用できると考えられます。
 
-mcpConfigはユニークなサービス名(この例では、filesystemとfilesystem2）をkeyとし、valueに設定値を記述します。以下に例を示しますが、どちらもlocalのファイルシステムを操作するserver-filesystemというMCPサーバを利用しています。
+`mcpConfig`はユニークなサービス名(この例では、`filesystem`と`filesystem2`）を`key`とし、`value`に設定値を記述します。以下に例を示しますが、どちらもlocalのファイルシステムを操作する[server-filesystem](https://www.npmjs.com/package/@modelcontextprotocol/server-filesystem)というMCPサーバを利用しています。
 
-filesystemは、npmのパッケージをnpxで直接実行する方法、filesystem2はそのnpmをインストールした状態でその実行ファイルを指定しています。動作はどちらも同じで通常はどちらか一方を指定すればよいですが、設定のサンプルのため、このような記述にしています。
+`filesystem`は、npmのパッケージをnpxで直接実行する方法、`filesystem2`はそのnpmをインストールした状態でその実行ファイルを指定しています。動作はどちらも同じで通常はどちらか一方を指定すればよいですが、設定のサンプルのため、このような記述にしています。
 
 ```TypeScript
 export const mcpConfig = {
