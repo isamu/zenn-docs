@@ -30,6 +30,8 @@ https://www.npmjs.com/package/@graphai/mcp_agent
 
 `filesystem`は、npmのパッケージをnpxで直接実行する方法、`filesystem2`はそのnpmをインストールした状態でその実行ファイルを指定しています。動作はどちらも同じで通常はどちらか一方を指定すればよいですが、設定のサンプルのため、このような記述にしています。
 
+mcpConfigに複数のmcpサーバを設定することにより、LLMとmcp/toolsを組み合わせて使う場合に、登録されている全てのMCPサーバの機能を使うことができます。ファイルシステムと、GitHub, SlackのMCPサーバを組み合わせてそれぞれのデータを自動的にやり取りするような用途も可能となります。
+
 ```TypeScript
 export const mcpConfig = {
   filesystem: {
