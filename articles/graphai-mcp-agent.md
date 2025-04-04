@@ -1,11 +1,3 @@
-
-GraphAIでMCPをサポートしました。
-
-MCPサーバの呼び出し方法には、ネットワーク経由で呼び出す方法と、プロセス通信を用いる方法の2種類がありますが、今回はプロセス通信（commandで設定する形式）のみを対象としています。
-
-MCPには `init` や `resources` といったメソッドも存在しますが、今回使用しているのは `tools/list` と `tools/call` のみです。
-
-他のGraphAIエージェントと異なり、MCPは最初にサーバへ接続する必要があります。実際には、ホスト上でコマンドを実行してそのサーバに接続します。そのため、GraphAIの初期化よりも前にMCPの初期化を行う必要があります。
 ---
 title: "GraphAI - MCP(Model Context Protocol) Agnet"
 emoji: "🤖"
@@ -14,6 +6,14 @@ topics: [agent, AI, LLM, Tech, GraphAI]
 published: true
 publication_name: "singularity"
 ---
+
+GraphAIでMCPをサポートしました。
+
+MCPサーバの呼び出し方法には、ネットワーク経由で呼び出す方法と、プロセス通信を用いる方法の2種類がありますが、今回はプロセス通信（commandで設定する形式）のみを対象としています。
+
+MCPには `init` や `resources` といったメソッドも存在しますが、今回使用しているのは `tools/list` と `tools/call` のみです。
+
+他のGraphAIエージェントと異なり、MCPは最初にサーバへ接続する必要があります。実際には、ホスト上でコマンドを実行してそのサーバに接続します。そのため、GraphAIの初期化よりも前にMCPの初期化を行う必要があります。
 
 ### 1. `mcpConfig` でサービスごとの設定を行います
 
