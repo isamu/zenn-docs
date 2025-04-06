@@ -78,7 +78,7 @@ Singularity Society BootCampは、1年間をかけて、自分たちのサービ
 最終発表会では、VCの方々に加え、中島さんと、世界をまたにかけるスーパーPM・森さんをゲストにお迎えして、  
 「**グローバルスタートアップを生み出すには**」をテーマに特別セッション「Fireside Chat」を開催しました。
 
-このトークセッションの様子は、[動画](https://www.youtube.com/watch?v=VNPl9VbDF4U)＆書き起こしで公開**されています！！
+このトークセッションの様子は、[動画](https://www.youtube.com/watch?v=VNPl9VbDF4U)＆書き起こしが公開されています！！
 
 ---
 
