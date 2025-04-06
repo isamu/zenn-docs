@@ -49,12 +49,16 @@ export const mcpConfig = {
 
 GraphAIを動かす前に、MCPの初期化を行い、サーバへの接続を確立しておきます。MCPの起動には時間がかかるため、`setTimeout` や `sleep` などで待機します。
 MCPの起動を待たないでGraphAIを実行すると、tools listが空になることがあります。
+MCPの初期化する関数は、mcpClientsを返却します。mcpClientsは、mcpを呼び出す時に必要なので、GraphAIのインスタンスにconfigとして渡します。
+またMCPサーバの接続を閉じるときにも必要です。
 
 ```TypeScript
-  await mcpInit(mcpConfig)
+  const mcpClients = await mcpInit(mcpConfig)
   await setTimeout(2000);
 ```
 ### 3. GraphAIを実行します
+
+GraphAIのインスタンス作成時にconfig経由、mcpClientsを渡します。mcpは複数のagentに分かれているのでglobalでmcpClientsを渡します（個別で渡すことも可能ではある)
 
 Graphデータを定義し、必要なエージェントを登録して実行します。
 mcpToolsListAgentは、mcpConfigで設定したサービスの全てのtoolsをマージしたlistを返します。このときにtoolsのnameは、name spaceを考慮しserviceNameをprefixに追加したものを返します。toolsは生データ、llmToolsはopenaiのtoolsの形式に変換したデータです。
@@ -85,7 +89,7 @@ mcpToolsCallAgentは、llmから返ってきたtoolsのデータをそのままt
       },
     },
   };
-  const graphai = new GraphAI(graphData, {...vanilla,  mcpToolsListAgent, mcpToolsCallAgent, openAIAgent });
+  const graphai = new GraphAI(graphData, {...vanilla,  mcpToolsListAgent, mcpToolsCallAgent, openAIAgent }, { config: { global: { mcpClients } } });
   const result = await graphai.run();
   
 ```  
@@ -109,9 +113,10 @@ mcpToolsCallAgentは、llmから返ってきたtoolsのデータをそのままt
 ### 4. バッチやサーバ（Expressなど）の終了時にMCPサーバとの接続を切断します
 
 処理の終了時には、MCPとの接続を明示的に切断しておきます。
+切断時には、mcpClientsを渡します。
 
 ```TypeScript
   await setTimeout(500);
-  mcpClose();
+  mcpClose(mcpClients);
 ```
 
