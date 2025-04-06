@@ -11,7 +11,7 @@ Singularity Society BootCampは、1年間をかけて、自分たちのサービ
 
 もちろん、**起業を目指す人や、すでに会社を立ち上げているチームも大歓迎**。自分にとっての「挑戦」の形を、自由に選べるのがBootCampの特徴です。
 
-個人参加、チーム/法人参加もokで、当初の目標を変えたり、チーム編成や他チームへの参加もokな点も特徴です。
+個人参加、チーム/法人参加も**OK**で、当初の目標を変えたり、チーム編成や他チームへの参加も**OK**な点も特徴です。
 
 
 ### 参加の条件の基本はたったふたつ
@@ -67,6 +67,7 @@ Singularity Society BootCampは、1年間をかけて、自分たちのサービ
 - [Raycastイベント](https://singularitysociety.org/articles/blog/2024-08-31-raycast/)
 - [Raycast × GraphAIイベント](https://zenn.dev/raycast_jp/articles/2024-11-23-fullstack-ai-dev-n-raycast-summit-main)
 - [GraphAIハッカソン](https://note.com/singsoc/n/n538eecd5c379)
+- [VisionDevCampアイデアソン](https://lu.ma/7zomrwt6?locale=ja)
 
 プログラムから、自然と新しい挑戦が生まれていくのがBootCampらしさかもしれません。
 
