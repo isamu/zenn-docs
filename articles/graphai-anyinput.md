@@ -14,34 +14,40 @@ publication_name: "singularity"
 通常、すべての入力が揃うまで待ってから処理を開始しますが、`anyInput`を使うことで、**最速で到達した入力だけで処理を開始**することが可能になります。  
 これにより、反応速度を重視したユースケースや、部分的なデータでも十分な処理において有効です。
 
-
+```
 inputs: {
- a: ":anode.data",
- b: ":bnode.data",
- c: ":cnode.data",
+  a: ":anode.data",
+  b: ":bnode.data",
+  c: ":cnode.data",
 }
+```
 
 のような場合、bnodeが先に実行完了した場合には
 
 
+```
 inputs: {
- b: ":bnode.data",
+  b: ":bnode.data",
 }
+```
 
 となる。
 
 # arrayで使う場合
 
+```
 inputs: {
- array: [
-   ":anode.data",
-   ":bnode.data",
-   ":cnode.data",
- ]
+  array: [
+    ":anode.data",
+    ":bnode.data",
+    ":cnode.data",
+  ]
 }
+```
 
 だと、通常のケースで考えると、
 
+```
 inputs: {
  array: [
    undefined,
@@ -49,22 +55,26 @@ inputs: {
    undefined,
  ]
 }
+```
 
 となりますが、これだと不便なのでGraphAIでfilterして
 
+```
 inputs: {
  array: [
    ":bnode.data",
  ]
 }
+```
 となります。
 
-
+```
 inputs: {
  array: [
    ":bnode.array",
  ]
 }
+```
 
 のように array を選択するケースでは（LLM の message でよく使いますね）、array の中に array があって不便なので、`arrayFlatAgent` を使うと良いです。
 
