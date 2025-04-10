@@ -36,6 +36,8 @@ publication_name: "singularity"
       - [GraphAI - GOD Format](https://zenn.dev/singularity/articles/graphai-god-format)
     - prop function
       - [GraphAIのProp function](https://zenn.dev/singularity/articles/graphai-prop-function)
+    - anyInput
+      - [graphai-anyinput](https://zenn.dev/singularity/articles/graphai-anyinput)
     - nestedGraph
       - [GraphAI GraphData(ワークフロー)をAgent化するnestedAgentGeneratorの紹介](https://zenn.dev/singularity/articles/graphai-nested-agent-generator)
 
@@ -49,7 +51,6 @@ publication_name: "singularity"
     - nested Agent
       - [GraphAI - Nested Graph Agentの紹介](https://zenn.dev/singularity/articles/graphai-agents)
     - [GraphAI - Agentの紹介(随時更新)](https://zenn.dev/singularity/articles/graphai-agents-list)
-    - [graphai-anyinput](https://zenn.dev/singularity/articles/graphai-anyinput)
   - sampleの紹介
     - 代表的なサンプルの動作原理
   - web
