@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
 # anyInputについて
 
 `anyInput`は、複数の入力を受け取る `inputs` に対して、**いずれか1つの入力が到達した時点でエージェントを実行**するためのオプションです。

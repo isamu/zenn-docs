@@ -7,6 +7,11 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
+:::
+
+
 GraphAIでMCPをサポートしました。
 
 MCPサーバの呼び出し方法には、ネットワーク経由で呼び出す方法と、プロセス通信を用いる方法の2種類がありますが、今回はプロセス通信（commandで設定する形式）のみを対象としています。また、このAgentはNode.jsのみをサポートしているので、ブラウザでは動きません。

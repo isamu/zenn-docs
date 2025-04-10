@@ -49,6 +49,7 @@ publication_name: "singularity"
     - nested Agent
       - [GraphAI - Nested Graph Agentの紹介](https://zenn.dev/singularity/articles/graphai-agents)
     - [GraphAI - Agentの紹介(随時更新)](https://zenn.dev/singularity/articles/graphai-agents-list)
+    - [graphai-anyinput](https://zenn.dev/singularity/articles/graphai-anyinput)
   - sampleの紹介
     - 代表的なサンプルの動作原理
   - web
@@ -63,6 +64,9 @@ publication_name: "singularity"
   - AgentFilter
     - [GraphAI - AgentFilter](https://zenn.dev/singularity/articles/graphai-agent-filter)
     - [GraphAI Agentのキャッシュ](https://zenn.dev/singularity/articles/graphai-cache)
+  - MCP
+    - [GraphAI - MCP(Model Context Protocol) Agnet](https://zenn.dev/singularity/articles/graphai-mcp-agent)
+    - [GraphAI - MCPを使って年収1億円の仕事を探す](https://zenn.dev/singularity/articles/graphai-lapras)
 - その他
   - [GraphAI abortの機能を追加](https://zenn.dev/singularity/articles/graphai-abort)
   - [GraphAI 環境依存(Node.jsとブラウザ）のあるAgentついて](https://zenn.dev/singularity/articles/graphai-node-browser)
