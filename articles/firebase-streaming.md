@@ -39,7 +39,7 @@ exports.streamingCall = onCall(
 
 フロントではstreamingCallを呼びます。
 
-```
+```TypeScript
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 const functions = getFunctions(firebaseApp, "asia-northeast1");
