@@ -56,3 +56,17 @@ const streamingFcuntion = httpsCallable(functions, "streamingCall");
 ```
 
 AIプログラミングで活用できます。
+
+### 関連情報
+
+GitHub issue　
+https://github.com/firebase/firebase-js-sdk/pull/8609
+
+実装例
+https://github.com/isamu/firebase-vue3-startup-kit/pull/37/files
+
+公式ブログ
+https://firebase.blog/posts/2025/03/streaming-cloud-functions-genkit
+
+onRequestでStreamingを使う裏技
+https://zenn.dev/singularity/articles/firebase-stream
