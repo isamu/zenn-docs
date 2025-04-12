@@ -15,6 +15,18 @@ publication_name: "singularity"
 
 以上で、HTTP Streamingが動きます
 
+実装サンプル
+
+https://github.com/isamu/firebase-vue3-startup-kit/tree/stream/functions
+
+
+:::message
+公式でstreamingをサポートしたようです。
+https://github.com/firebase/firebase-js-sdk/pull/8609
+
+https://firebase.blog/posts/2025/03/streaming-cloud-functions-genkit
+:::
+
 ## はじめに
 
 LLMやRAGを使ったAIサービスにおいて、HTTPでのテキストストリームは不可欠です。Firebaseでは、FunctionsでのStreamingが利用できませんでした。その変わりに、FunctionsでFirestoreにリアルタイムにデータを書き込み、クライアント側でFirestoreのonSnapshotを使いリアルタイムのデータ取得は可能ですが、FirestoreのR/Wが増えたり、またFirestore経由での遅延が問題になります。
