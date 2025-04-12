@@ -9,9 +9,11 @@ publication_name: "singularity"
 
 ## 最初に結論
 
-- Functionsのv2を使う (Cloud Run)
-- https.onRequestでhttp serverで実装(expressなど)
-- Firebase Hosting経由ではなく、直接Functionsのendpointをたたく
+- onRequestで裏技を使う
+  - Functionsのv2を使う (Cloud Run)
+  - https.onRequestでhttp serverで実装(expressなど)
+  - Firebase Hosting経由ではなく、直接Functionsのendpointをたたく
+- onCallでstreamingを使う(2024-11にサポートされた)
 
 以上で、HTTP Streamingが動きます
 
