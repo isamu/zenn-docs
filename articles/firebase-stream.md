@@ -21,7 +21,9 @@ https://github.com/isamu/firebase-vue3-startup-kit/tree/stream/functions
 
 
 :::message
-公式でstreamingをサポートしたようです。
+公式にonCallでstreamingをサポートしたようです。
+https://zenn.dev/singularity/articles/firebase-streaming
+
 https://github.com/firebase/firebase-js-sdk/pull/8609
 
 https://firebase.blog/posts/2025/03/streaming-cloud-functions-genkit
