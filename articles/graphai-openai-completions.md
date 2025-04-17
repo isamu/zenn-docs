@@ -106,6 +106,8 @@ main().catch(console.error);
 openAIのクライアントとして使うので制約あり。
 
 - messagesをPOSTしてassistantのmessage（結果を受け取る）
+- POSTされたmessagesをGraphDataのmessagesにinjectionするので、messagesのstatic nodeは必須
+  - クライアントからPOSTできるもの（渡せるもの)はmessagesだけになる。
 - GraphDataで複雑な処理をすることは可能。ただし結果として受け取れるのは１つのmessageだけ。
 - Streamingをサポートしているが、openAIのクライアントの制約で１つのllm(Agent)の結果しかうけとれない
   - 並列でstreamingすると混ざった結果となる

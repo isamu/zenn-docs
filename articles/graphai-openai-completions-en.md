@@ -110,6 +110,8 @@ main().catch(console.error);
 Since this is designed to work with OpenAI-compatible clients, there are some important constraints:
 
 - You POST `messages` and receive a single assistant `message` as the result.
+- The `messages` sent via POST are injected into the `messages` node in the GraphData, so a static `messages` node is required.
+  - Since the client can only send `messages`, that’s the only input you can work with.
 - Complex logic can be defined in `GraphData`, but only one final `message` can be returned to the client.
 - Streaming is supported, but due to limitations of OpenAI client libraries, **only the result from a single LLM (Agent)** can be streamed properly:
   - If multiple agents stream in parallel, their outputs will be mixed and potentially unreadable.
