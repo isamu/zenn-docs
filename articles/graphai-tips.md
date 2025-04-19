@@ -12,7 +12,41 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
 :::
 
 GraphAIのGraphData作成時に使えるtips
-(inputsがarrayなので、このtipsは古いです。動かない）
+
+
+### mapAgentを使う場合は、params: { compositeResult: true }を使う
+
+通常mapAgentを使うと、それぞれインスタンスの結果がarrayして返ってきます。
+
+```json
+nodeId: [{
+ childNode: {
+   // some result1
+ }
+}, {
+ childNode: {
+   // some result2
+ }
+}]
+```
+
+`compositeResult: true`を追加すると
+
+```json
+nodeId: {
+  childNode: [{
+   // some result1
+  }, {
+   // some result2
+  }]
+}
+```
+となります
+
+
+するとすっきりする＋graph.runでgenericで型を定義すると、結果の型を指定できる
+https://github.com/receptron/mulmocast-cli/pull/14/commits/1d80389989c863da3439f6342b24c77ad44d9161
+
 
 ### LLMの履歴をloopで回す
 
@@ -26,13 +60,13 @@ nodes:
     update: ":nextHistory.array"
   messageData:
     agent: "stringTemplateAgent"
-    inputs: ["hello", "how are you?"]
+    inputs: { user: "hello", assistant: "how are you?" }
     params:
       template:
         - role: "user"
-          content: "${0}"
+          content: "${user}"
         - role: "assistant"
-          content: "${1}"
+          content: "${assistant}"
   nextHistory:
     agent: "arrayFlatAgent"
     inputs: {array: [:history, :messageData]}
@@ -47,13 +81,13 @@ inputsは、arrayか１段階のobjectのみ、入力値のデータに変換で
 ```yaml
   messageData:
     agent: "stringTemplateAgent"
-    inputs: [":prompt", ":llm.choices.$0.message.content"]
+    inputs: { user: ":prompt", assistant: ":llm.choices.$0.message.content" }
     params:
       template:
         - role: "user"
-          content: "${0}"
+          content: "${user}"
         - role: "assistant"
-          content: "${1}"
+          content: "${assistant}"
 ```          
 
 ### loopのcounter
@@ -66,10 +100,10 @@ loop:
 nodes:
   counter:
     value: 0
-    update: ":nextCount"
+    update: ":nextCount.result"
   nextCount:
     agent: "dataSumTemplateAgent"
-    inputs: [:counter, 1]
+    inputs: { array: [:counter, 1] }
     console:
       after: true
   
