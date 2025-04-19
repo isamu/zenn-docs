@@ -16,7 +16,7 @@ GraphAIのGraphData作成時に使えるtips
 
 ### mapAgentを使う場合は、params: { compositeResult: true }を使う
 
-通常mapAgentを使うと、それぞれインスタンスの結果がarrayして返ってきます。
+通常mapAgentを使うと、それぞれインスタンスの結果がarrayとして返ってきます。
 
 ```json
 nodeId: [{
@@ -41,11 +41,18 @@ nodeId: {
   }]
 }
 ```
-となります
+となります。
 
 
-するとすっきりする＋graph.runでgenericで型を定義すると、結果の型を指定できる
-https://github.com/receptron/mulmocast-cli/pull/14/commits/1d80389989c863da3439f6342b24c77ad44d9161
+### graphai.run()で、結果の型を指定する
+
+genericで型指定ができます。
+
+```
+const result = await graphai<{date: string}>.run()
+
+const output = result.node?.data;
+```
 
 
 ### LLMの履歴をloopで回す
