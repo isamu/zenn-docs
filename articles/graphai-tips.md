@@ -48,10 +48,10 @@ nodeId: {
 
 genericで型指定ができます。
 
-```
-const result = await graphai<{date: string}>.run()
+```TypeScript
+const result = await graphai.run<{date: string}>()
 
-const output = result.node?.data;
+const output = result.node?.data; // nodeが、{date: string}となる
 ```
 
 
