@@ -32,6 +32,9 @@ publication_name: "singularity"
       - [GraphAIのデータ入力について](https://zenn.dev/singularity/articles/graphai-inputs)
     - inputsのdesign templateについて
       - https://github.com/receptron/graphai/blob/main/docs/guide/inputs.md
+    - nestedGraph(mapAgent/nestedAgent) の利用時のinputsのデータと、結果データの変換方法
+      - [GraphAI nestedGraphへのデータの受け渡し(input/result/outout)について](https://zenn.dev/singularity/articles/graphai-nested-input-output)
+      - 暗黙のデータ受け渡し/compositeResult(mapAgent)/outputパラメータの使い方
     - GOD Format
       - [GraphAI - GOD Format](https://zenn.dev/singularity/articles/graphai-god-format)
     - prop function
@@ -74,6 +77,5 @@ publication_name: "singularity"
   - [GraphAIにおけるユーザ入力の課題と解決策](https://zenn.dev/singularity/articles/graphai-user-input)
   - [GraphAIのTips](https://zenn.dev/singularity/articles/graphai-tips)
   - [GrapysにおけるNested Graph Agentのinputs/outputsの実装メモ](https://zenn.dev/singularity/articles/graphai-nested-agent-gui)  
-  - [GraphAI NestedGraphへのデータの受け渡しについて](https://zenn.dev/singularity/articles/graphai-nested-input-output)  
 
 
