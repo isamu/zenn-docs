@@ -46,7 +46,7 @@ static nodeのvalueとして、GraphAIのインスタンスのAPIとして呼び
 
 この場合は、injectValueによって値が更新されることを期待します。
 特に、ネストされたnodeでは、親グラフから値が渡されることが想定されています。（本来は定義しなくても動作します）
-injectValueによって値がセットされない場合がGraphAI.runでvalidationエラーとなります
+injectValueによって値がセットされない場合がGraphAI.run()でvalidationエラーとなります
 
 ## 更新対象の値のみを持つ場合
 
@@ -71,18 +71,18 @@ valueとinjectValueは同じではありません。
 この場合、何回ループしても常に"123"が設定され続けます。
 
 一方、injectValueの場合、初回実行時にのみ値がセットされます。
-たとえば次のように空の定義でinjectValueだけ渡す場合、
+たとえば次のように空の定義をし、injectValueで"123"を渡す場合、
 
 ```json
 { }
 ```
 
-初回はinjectValueの値が使われますが、2回目以降はundefinedになります。
-injectValueはあくまでも実行時に値を注入するものであり、nodeの静的な値ではありません。
+初回はinjectValueの値("123")が使われますが、2回目以降はundefinedになります。
+injectValueはあくまでも実行時に値を注入するものであり、static nodeに定義されている値ではありません。
 
 ### selfNodeを使ったupdate指定について
 
-ノード自身の値を参照して更新を行いたい場合は、以下のように記述します。
+ノード自身の値を参照して更新を行いたい場合は、以下のように記述します。(selfNodeは実際はそのnodeのnodeId)
 
 ```json
 { update: ":selfNode" }
@@ -96,5 +96,5 @@ nodes: {
 }
 ```
 
-このように設定すれば、初回はinjectValueによって値がセットされ、2回目以降はそのノード自身の最新の値を参照して更新することができます。
+このように設定すれば、初回はinjectValueによって値がセットされ、2回目以降はそのノード自身の最新の値を参照して更新することができます。結果として２回目以降も初回にinjectValueした値がセットされます。
 
