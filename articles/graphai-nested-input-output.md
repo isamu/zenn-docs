@@ -23,7 +23,7 @@ GraphAIは、Agent内でサブグラフを実行する仕組みがあります�
 - 例えば `{dataA: 1, dataB: 2}` を渡すと、そのままサブグラフに適用される。
 
 ```yaml
-version: 0.6
+version: 0.5
 nodes:
   nested:
     isResult: true
@@ -32,7 +32,7 @@ nodes:
       dataB: 2
     agent: nestedAgent
     graph:
-      version: 0.6
+      version: 0.5
       nodes:
         copy:
           isResult: true
@@ -74,7 +74,7 @@ dataB: {
 - `rows` 以外の `inputs` に **配列を指定すると、そのままコピーされ、すべてのサブグラフに渡る**。なので、rowsだけが配列を特殊に扱います。
 
 ```yaml
-version: 0.6
+version: 0.5
 nodes:
   map:
     isResult: true
@@ -84,7 +84,7 @@ nodes:
       test2: z
     agent: mapAgent
     graph:
-      version: 0.6
+      version: 0.5
       nodes:
         copy:
           isResult: true
@@ -190,7 +190,7 @@ nodes:
   - `.`（ドット）から始め、**サブノードの `id` や `props` を指定** していく。
 
 ```yaml
-version: 0.6
+version: 0.5
 nodes:
   nested:
     isResult: true
@@ -202,7 +202,7 @@ nodes:
       data: .copy.test
       date2: .copy2.test2
     graph:
-      version: 0.6
+      version: 0.5
       nodes:
         copy:
           isResult: true
