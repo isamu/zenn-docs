@@ -11,8 +11,8 @@ publication_name: "singularity"
 GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
 :::
 
-static nodeのvalueは、GgraphData内に定義される固定値です。
-通常は初期値や定数とし使ったりLoopで前の実行結果を受け取るのに利用します。
+static nodeのvalueは、GgraphData内に定義される固定値/変数です。
+通常は初期値や定数として使ったりLoopで前の実行結果を受け取り次のloopの値として利用します。
 
 一方、injectValueは、実行時に外部から注入される値です。
 static nodeのvalueとして、GraphAIのインスタンスのAPIとして呼び出してStatic Nodeの値をセットします。
