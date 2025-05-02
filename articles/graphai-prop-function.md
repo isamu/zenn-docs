@@ -42,3 +42,7 @@ GraphAIでは、`inputs`に「`:nodeId.propId.propId`」という形式で指定
 ### Boolean（論理型データ）
 - `not()`: 論理値を反転し、`true`は`false`に、`false`は`true`に変換して返します。
 
+
+最新の情報はソースコードを参照してください。
+
+https://github.com/receptron/graphai/blob/main/packages/graphai/src/utils/prop_function.ts
