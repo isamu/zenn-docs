@@ -215,11 +215,9 @@ passThroughは、指定したデータを追加するので元の結果はその
 
 ## データを変換するAgent
 
-`god format` や `output` / `passThrough` では対応しきれないケースでは、
-**データ変換専用のAgent**を使います。
+`GOD format` や `output` / `passThrough` では対応しきれないケースでは、**データ変換専用のAgent**を使います。
 
-これらのAgentは通常の LLM Agent と同様に、Nodeとして定義して使います。
-以下に、Vanilla Agentで提供されている主なデータ変換用Agentを紹介します。
+これらのAgentは通常の LLM Agent と同様に、Nodeとして定義して使います。以下に、Vanilla Agentで提供されている主なデータ変換用Agentを紹介します。
 
 ---
 
@@ -244,32 +242,50 @@ passThroughは、指定したデータを追加するので元の結果はその
 ```
 
 
-### Object関連
+### Object/Dictonary/Record関連
 
-- `mergeObjectAgent`：複数のオブジェクトをマージして1つにまとめる
+#### mergeObjectAgent
+
+複数のオブジェクトをマージして1つにまとめる
+inputs
+```json
+[{ color: "red" }, { model: "Model 3" }]
 ```
-[{ color: "red" }, { model: "Model 3" }]  -> { color: "red", model: "Model 3" }
+result
+```json
+{ color: "red", model: "Model 3" }
 ```
-- `lookupDictionaryAgent`：paramsに定義した辞書から、inputsで指定されたキーの値を取り出す
-```
+#### lookupDictionaryAgent
+
+paramsに定義した辞書から、inputsで指定されたキーの値を取り出す
+JSでの実行イメージ
+```typescript
     const data = { ja: "こんにちは", en: "hello" };
     return data[index];
 ```    
-- `copyAgent`：inputsのオブジェクトから指定したキーの値を抽出する
-  - keyを指定しない場合、オブジェクト全体を返す(GUIでのformat変換時に便利)
-```
-    const key = "name";
-    const { user } = namedInputs;
-    return user[key];
+
+#### copyAgent
+
+inputsのオブジェクトからparamsで指定したキーの値を抽出する
+keyを指定しない場合、オブジェクト全体を返す(GUIでのformat変換時に便利)
+
+JSでの実行イメージ
+```typescript
+    const namedKey = "name";
+    const { namedKey } = namedInputs;
+    return user[namedKey];
 ```
 
-- `property_filter`：高度なプロパティ抽出を行う(やや複雑なため詳細はソースコード参照)
+#### property_filter
+
+高度なプロパティ抽出を行う(やや複雑なため詳細はソースコード参照)
 
 ---
 
 ### 計算系
 
-- `total`：多次元配列内のオブジェクトを走査し、キーごとに数値を合計する
+#### totalAgent
+多次元配列内のオブジェクトを走査し、キーごとに数値を合計する
 ```
     {
       inputs: { array: [[{ a: 1, b: -1 }, { c: 10 }], [{ a: 2, b: -1 }], [{ a: 3, b: -2 }, { d: -10 }]] },
@@ -277,7 +293,10 @@ passThroughは、指定したデータを追加するので元の結果はその
       result: { data: { a: 6, b: -4, c: 10, d: -10 } },
     },
 ```
-- `data_sum`：数値配列を合計して1つの数値として返す
+
+#### data_sum
+
+数値配列を合計して1つの数値として返す
 ```
     {
       inputs: { array: [1, 2, 3] },
@@ -301,36 +320,245 @@ passThroughは、指定したデータを追加するので元の結果はその
 これらのAgentを活用することで、より柔軟で制御可能なデータ処理がGraphAI上で実現できます。
 
 
+---
 
-## nested graph
-  - isResult
-  - このへんもコピペ
+## 入れ子構造のAgent（NestedAgent / MapAgent）の入力と出力
+
+ここまでが、一般的な入力・出力の扱いについての解説でした。  
+ここからは、**GraphAIを入れ子で実行する特殊なAgent**である `nestedAgent` と `mapAgent` について説明します。
+
+
+### 概要
+
+`nestedAgent` や `mapAgent` は、内部にサブグラフ（GraphData）を持ち、その中で別のAgentネットワークを実行することで、複雑な処理や並列で同時に同じ処理を可能にします。
+
+- **NestedAgent** は **単純にサブグラフを入れ子にするだけ** の構造。親グラフ内で定義されたワークフローを、特定の入力データとともにそのまま実行する。
+- **MapAgent** は **データが異なるが同じ処理を並列に動かす仕組み**。配列データを展開し、それぞれの要素に対して同じサブグラフを実行する（MapReduce 的な処理）。
+
+
+### 入力の扱い
+
+これらのAgentでは、`inputs` に定義したデータは、**内部のサブグラフに対して暗黙的にStatic Nodeとして渡されます**。
+そのため、内部グラフでは `inputs` という名前のノードを明示的に設置しなくても、自動的に外部の `inputs` が反映される仕組みになっています。
+
+### 出力の扱い
+
+出力は、`isResult: true` が指定されたサブグラフのNodeの結果が最終的な出力となり、**親グラフに対してネストされた形で返されます**。
+これにより、`nestedAgent` や `mapAgent` の結果も他の通常のNodeと同様に扱うことができます。
+
+この構造を理解することで、GraphAIにおける**再利用性の高いサブグラフ設計**や**動的な並列処理**が可能になります。
+
 ### nestedGraphの暗黙の入力
-     - inputs -> static node 
-### mapAgentの暗黙の入力
-     - rows -> row, rowKey
-     - inputs -> static node 
-### mapAgentの結果
-     - normal
-       - [{}], [{}]
-     - compositeResult: true
-       - {node1: [], node2: []}
 
-### ２つを使った例
+- `inputs` を **サブグラフの static node にマッピング** する。
+- 例えば `{dataA: 1, dataB: 2}` を渡すと、そのままサブグラフに適用される。
+
+```yaml
+version: 0.5
+nodes:
+  nested:
+    isResult: true
+    inputs:
+      dataA: 1
+      dataB: 2
+    agent: nestedAgent
+    graph:
+      version: 0.5
+      nodes:
+        copy:
+          isResult: true
+          agent: copyAgent
+          inputs:
+            dataA: :dataA
+            dataB: :dataB
 ```
-  passThrough: {
-    lang: ":lang",
-  },
-  output: {
-    text: ".text",
-    lang: ".lang",
-  },
-```                  
 
-### defaultValue( for if/unless )
-     - if/unlessでデータにマッチしなかった場合に結果渡す
-     
+このケースではnestedAgent実行時にサブグラフに
 
+```
+dataA: {
+ value: 1
+}
+dataB: {
+ value: 2
+}
+```
+のstatic nodeが追加されます。その結果
+
+```json
+{
+  "nested": {
+    "copy": {
+      "dataA": 1,
+      "dataB": 2
+    }
+  }
+}
+```
+
+となります。
+
+### nestedAgentの結果
+
+```yaml
+version: 0.5
+nodes:
+  nested:
+    isResult: true
+    inputs:
+      test: [a,b]
+      test2: z
+    agent: nestedAgent
+    graph:
+      version: 0.5
+      nodes:
+        copy:
+          isResult: true
+          agent: copyAgent
+          inputs:
+            test: :test
+        copy2:
+          isResult: true
+          agent: copyAgent
+          inputs:
+            test2: :test2
+```
+
+```json
+{
+  "nested": {
+    "copy": [
+      "a",
+      "b"
+    ],
+    "copy2": "z"
+  }
+}
+```
+
+
+#### MapAgent
+- `rows` に **必ず配列を指定** する必要がある。
+- 配列の各要素が `row` としてサブグラフに渡され、**配列の長さだけサブグラフが生成** される（MapReduce 的な処理）。
+- `rows` 以外の `inputs` は、そのままサブグラフに渡される。
+- `rows` 以外の `inputs` に **配列を指定すると、そのままコピーされ、すべてのサブグラフに渡る**。なので、rowsだけが配列を特殊に扱います。
+
+```yaml
+version: 0.5
+nodes:
+  map:
+    isResult: true
+    inputs:
+      rows: [1,2]
+      test: [a,b]
+      test2: z
+    agent: mapAgent
+    graph:
+      version: 0.5
+      nodes:
+        copy:
+          isResult: true
+          agent: copyAgent
+          inputs:
+            data: :row
+            test: :test
+            test2: :test2
+```
+
+### 3. サブグラフの結果処理
+#### MapAgent の通常の出力
+- サブグラフの結果は **配列として返される**。
+- そのため、サブグラフ内の特定のノードの結果だけを取得するのは少し不便。
+
+```json
+{
+  "map": [
+    {
+      "copy": {
+        "data": 1,
+        "test": [
+          "a",
+          "b"
+        ],
+        "test2": "z"
+      }
+    },
+    {
+      "copy": {
+        "data": 2,
+        "test": [
+          "a",
+          "b"
+        ],
+        "test2": "z"
+      }
+    }
+  ]
+}
+```
+
+
+#### `compositeResult: true` の利用
+- **ノードごとの結果を配列にまとめてくれる**。
+- これにより、次の Agent が **特定のノードの結果だけ** を取得しやすくなる。
+
+```yaml
+    params:
+      compositeResult: true
+```
+
+```json
+{
+  "map": {
+    "copy": [
+      {
+        "data": 1,
+        "test": [
+          "a",
+          "b"
+        ],
+        "test2": "z"
+      },
+      {
+        "data": 2,
+        "test": [
+          "a",
+          "b"
+        ],
+        "test2": "z"
+      }
+    ],
+    "copy2": [
+      {
+        "data": 1,
+        "test": [
+          "a",
+          "b"
+        ],
+        "test2": "z"
+      },
+      {
+        "data": 2,
+        "test": [
+          "a",
+          "b"
+        ],
+        "test2": "z"
+      }
+    ]
+  }
+}
+```
+
+# Appendix
+
+### defaultValue
+
+少し特殊な例でdefaultValueという機能があります。
+これは、if/unlessでnodeを制御するときに、条件にマッチしなかった場合の返す値を指定します。
+これを使わないと、if/unlessでデータフローをコントローするときに、if/unlessのそれぞれのnodeを作成し、それらのnodeからの入力とanyInputを指定したnodeが必要となります。defaultValueを使うとそのような複雑な構成は不要となります。
+
+TODO: anyinput とdefaultValueを使った例
 
 ### GUIツール向けのテクニック
   - GUIは入力を表現するのが難しい
@@ -341,10 +569,14 @@ passThroughは、指定したデータを追加するので元の結果はその
       - array, item -> array (NG)
       - UI上の制限や、判定をが必要になる
     - array -> arrayとitem -> itemだけに制約
-    - item, item -> array の変換は変換用のAgent。入力の数は常識的な有限個
-      - この変換にcopyAgentが使える
+  - このような問題を回避するためにGrapysでは、１つの入力には１つのEdgeしか接続できないようにしている。
+  - そのため複雑な入力は、直接GUI上では要しない。
+  - inputsのobjectの整形もGUIからagentにデータを渡す段階で、内部に変換コードを持たせている
+  - item, item -> array の変換は変換用のAgent。入力の数は常識的な有限個
+    - この変換にcopyAgentが使える
+  - 詳しくはGrapysのコードを参照
   
-- GUIツールを参考にさらなるデータの標準化
+- これらのGUIツールのテクニックを活用すると、通常のGraphDataでも汎用的な作りができる
 
 
 
