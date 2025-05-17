@@ -400,6 +400,9 @@ dataB: {
 
 ### nestedAgentの結果
 
+サブグラフの`isResult: true`で指定した結果が、そのagentの結果としてそのまま渡されます。
+
+Graph Data
 ```yaml
 version: 0.5
 nodes:
@@ -422,8 +425,13 @@ nodes:
           agent: copyAgent
           inputs:
             test2: :test2
+        copy3:
+          agent: copyAgent
+          inputs:
+            test2: :test2
 ```
 
+結果
 ```json
 {
   "nested": {
@@ -437,11 +445,13 @@ nodes:
 ```
 
 
-#### MapAgent
+### MapAgenthの暗黙の入力
+
 - `rows` に **必ず配列を指定** する必要がある。
 - 配列の各要素が `row` としてサブグラフに渡され、**配列の長さだけサブグラフが生成** される（MapReduce 的な処理）。
 - `rows` 以外の `inputs` は、そのままサブグラフに渡される。
 - `rows` 以外の `inputs` に **配列を指定すると、そのままコピーされ、すべてのサブグラフに渡る**。なので、rowsだけが配列を特殊に扱います。
+
 
 ```yaml
 version: 0.5
@@ -464,6 +474,24 @@ nodes:
             test: :test
             test2: :test2
 ```
+
+２つの処理が並列で実行され、それぞれのGraphDataには以下のデータがStatic Nodeとしてinjectされます。
+```
+{
+  data: 1
+  test: [a,b]
+  test2: z
+}
+```
+
+```
+{
+  data: 2
+  test: [a,b]
+  test2: z
+}
+```
+
 
 ### 3. サブグラフの結果処理
 #### MapAgent の通常の出力
