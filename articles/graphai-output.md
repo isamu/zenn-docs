@@ -172,44 +172,46 @@ llmのpayloadは
 
 ご意見・ご要望があれば、ぜひレポジトリにIssueを立てて議論にご参加ください！
 
+
 ## 結果の変形
 
+GraphAIでは、Agentの出力結果を柔軟に調整するための仕組みとして、  
+`output` と `passThrough` の2つの設定を提供しています。
+
+これらを活用することで、Agentが返すデータ構造を意図通りに制御でき、次のNodeへの連携がスムーズになります。
+
+---
+
 ### output
-    - agentの結果を整形
-### passThrough
-    - agentの動作に関係なく結果にデータを渡す
-      - leteral or god format
-      
 
+- Agentの**出力結果を整形**するためのオプションです。
+- 自身のNodeの出力のみを対象とし、**他のNodeを参照することはできません**。
+- GOD Formatによる指定が可能で、必要な項目だけをマッピングして返すことができます。
 
-## nested graph
-  - isResult
-  - このへんもコピペ
-### nestedGraphの暗黙の入力
-     - inputs -> static node 
-### mapAgentの暗黙の入力
-     - rows -> row, rowKey
-     - inputs -> static node 
-### mapAgentの結果
-     - normal
-       - [{}], [{}]
-     - compositeResult: true
-       - {node1: [], node2: []}
-
-### ２つを使った例
 ```
-  passThrough: {
-    lang: ":lang",
-  },
-  output: {
-    text: ".text",
-    lang: ".lang",
-  },
-```                  
+{ extraText: ".text" }
+```
 
-### defaultValue( for if/unless )
-     - if/unlessでデータにマッチしなかった場合に結果渡す
-     
+この例では、Agentの出力の `text` プロパティを `extraText` に変換し、それ以外のデータは除外されます。
+
+### passThrough
+
+- Agentの実行結果に**関係なく、指定した値を出力に追加**できます。
+- リテラル値の指定も、GOD Formatによる他ノードの参照も可能です。
+- 主に **固定値の付加** や **他ノードの出力をマージ** する用途に使います。
+
+```
+{ prevResult: ":node1.prop1" }
+```
+
+この例では、`:node1.prop1` の値を現在のNodeの出力に `prevResult` として追加します。
+passThroughは、指定したデータを追加するので元の結果はそのまま出力されます。
+重複するkeyの場合は上書きします
+
+---
+
+※ `output` は Nested Agent の出力整形に、`passThrough` は外部データや固定値の付加に使われることを想定して設計されています。
+
 
 ## データを変換するagent
 
@@ -285,6 +287,38 @@ llmのpayloadは
     - テンプレート記法ができたの不要
   - string_update_text
     - return oldText ?? newText;
+
+
+
+## nested graph
+  - isResult
+  - このへんもコピペ
+### nestedGraphの暗黙の入力
+     - inputs -> static node 
+### mapAgentの暗黙の入力
+     - rows -> row, rowKey
+     - inputs -> static node 
+### mapAgentの結果
+     - normal
+       - [{}], [{}]
+     - compositeResult: true
+       - {node1: [], node2: []}
+
+### ２つを使った例
+```
+  passThrough: {
+    lang: ":lang",
+  },
+  output: {
+    text: ".text",
+    lang: ".lang",
+  },
+```                  
+
+### defaultValue( for if/unless )
+     - if/unlessでデータにマッチしなかった場合に結果渡す
+     
+
 
 ### GUIツール向けのテクニック
   - GUIは入力を表現するのが難しい
