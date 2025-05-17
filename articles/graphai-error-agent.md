@@ -36,3 +36,9 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
   - mapAgentの場合は、それぞれの処理はmapAgent内では別のGraphAIとして実行されるので他のGraphAIインスタンスはエラーの影響を受けずに実行する
   - mapAgentはthrowErrorを指定できるのでthrowError: trueにしないとサブグラフでエラーが発生してもmapAgentの次の処理に進む
   - nestedAgentも同様にthrowErrorが必要
+
+## Loop時
+
+- 1.0.12まではLoop指定のときにエラーが発生してもloopの条件を満たす場合には次回も実行される
+- 1.0.13からはLopp指定でもエラーが発生するとそこで処理を終了
+  - forceLoopをoptionで指定すると、1.0.12と同様の処理となる
