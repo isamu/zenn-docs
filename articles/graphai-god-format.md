@@ -11,7 +11,7 @@ publication_name: "singularity"
 GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graphai-index)
 :::
 
-# GOD Format(Graph Object Dot Format)
+# GOD Format(GraphAI Object Dot Format)
 
 GOD Formatは、GraphAIデータ構造を表現するための軽量で人間が読みやすいフォーマットです。GraphAI Object Dot (GOD)仕様に基づき、GraphAI内で依存関係を定義したり、データを取得するために使用されます。
 
