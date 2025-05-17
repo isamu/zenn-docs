@@ -3,7 +3,7 @@ title: "GraphAI / Agent間のデータのやりとり"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech, GraphAI]
-published: true
+published: false
 publication_name: "singularity"
 ---
 
@@ -172,6 +172,15 @@ llmのpayloadは
 
 ご意見・ご要望があれば、ぜひレポジトリにIssueを立てて議論にご参加ください！
 
+## 結果の変形
+
+### output
+    - agentの結果を整形
+### passThrough
+    - agentの動作に関係なく結果にデータを渡す
+      - leteral or god format
+      
+
 
 ## nested graph
   - isResult
@@ -187,14 +196,6 @@ llmのpayloadは
      - compositeResult: true
        - {node1: [], node2: []}
 
-## 結果の変形
-
-### output
-    - agentの結果を整形
-### passThrough
-    - agentの動作に関係なく結果にデータを渡す
-      - leteral or god format
-      
 ### ２つを使った例
 ```
   passThrough: {
