@@ -29,6 +29,7 @@ publication_name: "singularity"
     - node(static/computed)
       - [Compted NodeとStatic Node](https://zenn.dev/singularity/articles/graphai-nodes)
     - inputs/result/params
+      - [GraphAI / Agent間のデータのやりとり(inputs/result/agent)完全版](https://zenn.dev/singularity/articles/graphai-data)
       - [GraphAIのデータ入力について](https://zenn.dev/singularity/articles/graphai-inputs)
     - inputsのdesign templateについて
       - https://github.com/receptron/graphai/blob/main/docs/guide/inputs.md
