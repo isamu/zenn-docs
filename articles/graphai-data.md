@@ -27,7 +27,7 @@ GraphAIでは、以下の3つの手法によってAgentの入出力をコント�
 1. **`inputs`(GOD Format)による入力指定**  
    - 最も基本的な方法
    - できる限りこの方法で必要なデータを整形し、他のAgentからデータを受け取れる
-   - Prop functionやutility functionでデータの加工も可能
+   - `Prop function`や`utility function`でデータの加工も可能
 
 2. **`output` / `passThrough`による出力整形**
    - Agentの出力形式を調整したい場合に使用します
@@ -44,9 +44,9 @@ GraphAIでは、以下の3つの手法によってAgentの入出力をコント�
 # inputの基本
 
 ## GOD Format(GraphAI Object Dot Format)で入力(前のノードの出力)を整形する
-GOD Formatは、GraphAIデータ構造を表現するための軽量で人間が読みやすいフォーマットです。GraphAI Object Dot (GOD)仕様に基づき、GraphAI内で依存関係を定義したり、データを取得するために使用されます。
+`GOD Format`は、GraphAIデータ構造を表現するための軽量で人間が読みやすいフォーマットです。GraphAI Object Dot (GOD)仕様に基づき、GraphAI内で依存関係を定義したり、データを取得するために使用されます。
 
-GOD Formatは、GraphAIでのデータ依存関係を簡潔に記述できるフォーマットです。構文はコロン (:) で始まり、ドット (.) で要素を区切ります。基本構造は以下の通りです。
+`GOD Format`は、GraphAIでのデータ依存関係を簡潔に記述できるフォーマットです。構文はコロン`(:)` で始まり、ドット`(.)`で要素を区切ります。基本構造は以下の通りです。
 
 ```typescript
 :nodeId.prop1.prop2.$0.prop3
@@ -69,14 +69,14 @@ nodeId["prop1"]["prop2"][0]["prop3]
 
 ## template記法
 
-入力のテンプレートにGOD formatのデータを埋め込むことができます。
+入力のテンプレートに`GOD Format`のデータを埋め込むことができます。
 
 ```typescript
 "hello, I'm ${:userNode.username}"
 ```
 
 ## 構造化されたinputs
-GOD formatをtemplateとして使い、またinputs自体が構造化できるので以下のような指定で入力を定義できます。
+`GOD Format`をtemplateとして使い、またinputs自体が構造化できるので以下のような指定で入力を定義できます。
 
 ```typescript
 inputs: {
@@ -96,19 +96,19 @@ inputs: {
 
 ### Prop funciton
 
-GOD Formatでは、**関数を使ってデータを柔軟に加工**することができ、この機能を**Prop Function**と呼びます。  
+`GOD Format`では、**関数を使ってデータを柔軟に加工**することができ、この機能を**Prop Function**と呼びます。  
 データの型(Array、Object、Stringなど)に応じた関数が用意されており、入力整形や前処理に活用できます。
 
 ### 基本構文
 
-GOD Formatのデータ参照に、関数をチェーンして記述します
+`GOD Format`のデータ参照に、関数をチェーンして記述します
 
 ```typescript
 :node1.array.length()
 :node2.object.toJSON()
 ```
 
-- 関数は**必ず()**を付けて呼び出します。
+- 関数は **必ず(\)** を付けて呼び出します。
 - 一部の関数は引数を受け取ることもできます。
 - **メソッドチェーン**にも対応しています：
 
@@ -134,8 +134,8 @@ GOD Formatのデータ参照に、関数をチェーンして記述します
 
 ### utility function
 
-Prop funcitonはデータを処理をする関数ですが、それに対して単体で動作する関数もあります。utility functionと呼びます。
-GOD formatとして利用できます
+`Prop funciton`はデータを処理をする関数ですが、それに対して単体で動作する関数もあります。`utility function`と呼びます。
+`GOD Format`として利用できます
 
 - `${@loop}` Loop利用時にloop counterの値を数値で取得
 - `${@now}` 現在時刻のtimestamp
@@ -195,7 +195,7 @@ GraphAIでは、Agentの出力結果を柔軟に調整するための仕組み�
 
 - Agentの**出力結果を整形**するためのオプションです。
 - 自身のNodeの出力のみを対象とし、**他のNodeを参照することはできません**。
-- GOD Formatによる指定が可能で、必要な項目だけをマッピングして返すことができます。
+- `GOD Format`による指定が可能で、必要な項目だけをマッピングして返すことができます。
 
 ```typescript
 { extraText: ".text" }
@@ -206,7 +206,7 @@ GraphAIでは、Agentの出力結果を柔軟に調整するための仕組み�
 ### passThrough
 
 - Agentの実行結果に**関係なく、指定した値を出力に追加**できます。
-- リテラル値の指定も、GOD Formatによる他ノードの参照も可能です。
+- リテラル値の指定も、`GOD Format`による他ノードの参照も可能です。
 - 主に **固定値の付加** や **他ノードの出力をマージ** する用途に使います。
 
 ```typescript
@@ -224,7 +224,7 @@ passThroughは、指定したデータを追加するので元の結果はその
 
 ## データを変換するAgent
 
-`GOD format` や `output` / `passThrough` では対応しきれないケースでは、**データ変換専用のAgent**を使います。
+`GOD Format` や `output` / `passThrough` では対応しきれないケースでは、**データ変換専用のAgent**を使います。
 
 これらのAgentは通常の LLM Agent と同様に、Nodeとして定義して使います。以下に、Vanilla Agentで提供されている主なデータ変換用Agentを紹介します。
 
@@ -276,7 +276,7 @@ JSでの実行イメージ
 #### copyAgent
 
 inputsのオブジェクトからparamsで指定したキーの値を抽出する
-keyを指定しない場合、オブジェクト全体を返す(GUIでのformat変換時に便利)
+keyを指定しない場合、オブジェクト全体を返す(GUIでのFormat変換時に便利)
 
 JSでの実行イメージ
 ```typescript
