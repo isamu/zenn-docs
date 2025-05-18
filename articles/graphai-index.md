@@ -31,21 +31,20 @@ publication_name: "singularity"
     - inputs/result/params
       - [GraphAI / Agent間のデータのやりとり(inputs/result/agent)完全版](https://zenn.dev/singularity/articles/graphai-data)
       - [GraphAIのデータ入力について](https://zenn.dev/singularity/articles/graphai-inputs)
+      - GOD Format
+        - [GraphAI - GOD Format](https://zenn.dev/singularity/articles/graphai-god-format)
+      - prop function
+        - [GraphAIのProp function](https://zenn.dev/singularity/articles/graphai-prop-function)
+      - anyInput
+        - [graphai-anyinput](https://zenn.dev/singularity/articles/graphai-anyinput)
     - inputsのdesign templateについて
       - https://github.com/receptron/graphai/blob/main/docs/guide/inputs.md
     - nestedGraph(mapAgent/nestedAgent) の利用時のinputsのデータと、結果データの変換方法
       - [GraphAI nestedGraphへのデータの受け渡し(input/result/outout)について](https://zenn.dev/singularity/articles/graphai-nested-input-output)
       - 暗黙のデータ受け渡し/compositeResult(mapAgent)/outputパラメータの使い方
-    - GOD Format
-      - [GraphAI - GOD Format](https://zenn.dev/singularity/articles/graphai-god-format)
-    - prop function
-      - [GraphAIのProp function](https://zenn.dev/singularity/articles/graphai-prop-function)
-    - anyInput
-      - [graphai-anyinput](https://zenn.dev/singularity/articles/graphai-anyinput)
     - nestedGraph
       - [GraphAI GraphData(ワークフロー)をAgent化するnestedAgentGeneratorの紹介](https://zenn.dev/singularity/articles/graphai-nested-agent-generator)
 
-    - その他GraphDataの細かい機能
   - Agent
     - 基礎
     - AgentFunctionInfoについて
