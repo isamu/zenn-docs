@@ -612,7 +612,6 @@ nodes:
 
 🔗 [anyInput](https://zenn.dev/singularity/articles/graphai-anyinput)
 
-TODO: anyinput とdefaultValueを使った例
 
 ### GUIツール向けのテクニック
   - GUIは入力を表現するのが難しい
