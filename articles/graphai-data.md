@@ -1,9 +1,9 @@
 ---
-title: "GraphAI / Agent間のデータのやりとり"
+title: "GraphAI / Agent間のデータのやりとり(inputs/result/agent)"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech, GraphAI]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
