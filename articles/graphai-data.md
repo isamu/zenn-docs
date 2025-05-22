@@ -283,7 +283,7 @@ JSでの実行イメージ
     return data[index];
 ```    
 
-#### [copyAgent](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts)
+#### copyAgent
 
 inputsのオブジェクトからparamsで指定したキーの値を抽出する
 keyを指定しない場合、オブジェクト全体を返す(GUIでのFormat変換時に便利)
@@ -302,6 +302,8 @@ JSでの実行イメージ
     const { namedKey } = namedInputs;
     return user[namedKey];
 ```
+
+[ソース](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts)
 
 #### propertyFilterAgent
 
