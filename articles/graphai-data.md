@@ -268,13 +268,13 @@ result
 ```
 #### lookupDictionaryAgent
 
-```
+```typescript
 params: {
   ja: "こんにちは", en: "hello"
 }
 inputs: { namedKey: "en" },
 ```
-のときに、"hello"が返ってきます。
+のときに、`hello` が返ってきます。
 
 paramsに定義した辞書から、inputsで指定されたキーの値を取り出す
 JSでの実行イメージ
@@ -283,12 +283,12 @@ JSでの実行イメージ
     return data[index];
 ```    
 
-#### copyAgent
+#### [copyAgent](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts)
 
 inputsのオブジェクトからparamsで指定したキーの値を抽出する
 keyを指定しない場合、オブジェクト全体を返す(GUIでのFormat変換時に便利)
 
-```
+```typescript
 inputs: { color: "red", model: "Model 3" },
 params: { namedKey: "color" },
 ```
@@ -303,9 +303,11 @@ JSでの実行イメージ
     return user[namedKey];
 ```
 
-#### property_filter
+#### propertyFilterAgent
 
 高度なプロパティ抽出を行う(やや複雑なため詳細はソースコード参照)
+
+https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/property_filter_agent.ts
 
 ---
 
