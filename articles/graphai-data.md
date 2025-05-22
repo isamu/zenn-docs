@@ -258,13 +258,23 @@ passThroughは、指定したデータを追加するので元の結果はその
 複数のオブジェクトをマージして1つにまとめる
 inputs
 ```json
-[{ color: "red" }, { model: "Model 3" }]
+{
+  items: [{ color: "red" }, { model: "Model 3" }]
+}
 ```
 result
 ```json
 { color: "red", model: "Model 3" }
 ```
 #### lookupDictionaryAgent
+
+```
+params: {
+  ja: "こんにちは", en: "hello"
+}
+inputs: { namedKey: "en" },
+```
+のときに、"hello"が返ってきます。
 
 paramsに定義した辞書から、inputsで指定されたキーの値を取り出す
 JSでの実行イメージ
@@ -277,6 +287,14 @@ JSでの実行イメージ
 
 inputsのオブジェクトからparamsで指定したキーの値を抽出する
 keyを指定しない場合、オブジェクト全体を返す(GUIでのFormat変換時に便利)
+
+```
+inputs: { color: "red", model: "Model 3" },
+params: { namedKey: "color" },
+```
+
+`red`が返ってきます
+
 
 JSでの実行イメージ
 ```typescript
