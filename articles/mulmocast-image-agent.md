@@ -21,7 +21,7 @@ MulmoCastはGraphAIで動いているのでGraphAIのimage agent を追加する
 画像の保存処理は agent 側で行う必要はありません。画像のキャッシュや保存は mulmo 側で処理されます。
 
 ```
-export const imageFooAgent: AgentFunction = async ({ namedInputs }) => {
+export const newImageAgent: AgentFunction = async ({ namedInputs }) => {
   const { prompt } = namedInputs;
 
   ...
@@ -34,21 +34,61 @@ export const imageFooAgent: AgentFunction = async ({ namedInputs }) => {
 
 作成した関数は、`agentInfoWrapper`か、もしくは通常の方法でagent化します。
 
+## imageAgents に登録する
+
+以下のいずれかの方法で、imageAgents に agent を追加します：
+
+- `src/actions/images.ts`にある`imageAgents`に直接追加する
+  - 追加するとGraphAIのインスタンスに渡すAgentとして登録されます。
+- または、generateImages 関数や images 関数の options 引数として imageAgents を渡す
+  - ライブラリとしてMulmoCastを使う場合は、この方法で外から追加できます。
+
+このときのagent名は、この後の設定でのagentNameやdictonaryのkeyとなります。
 
 # provider2agent に情報を追加する
 
 `src/utils/provider2agent.ts`に、作成した`image agent`の情報を追加します。
 
+```
+export const provider2ImageAgent = {
+  openai: {
+    agentName: "imageOpenaiAgent",
+    defaultModel: "gpt-image-1",
+    models: ["dall-e-3", "gpt-image-1"],
+  },
+  yourImageAgentProvider: {
+    agentName: "newImageAgent",
+    defaultModel: "image1",
+    models: ["image1", "image2"],
+  },
+};  
+```  
+keyはAgent名と一致させる必要があります。graphaiのagentsにわたすときのkeyです。
+defaultModelやmodelsはschemaのvalidationで使われます。
+
 追加方法は既存の他の`image agent`の定義を参考にしてください。
+
 
 # 環境変数の設定
 `agent`の動作に必要な環境変数を追加します。
 
 `src/utils/utils.ts`内の`settings2GraphAIConfig`関数にある`ConfigDataDictionary`に設定を追記してください。
 
+```
+  const config: ConfigDataDictionary<DefaultConfigData> = {
+    newImageAgent: {
+      apiKey: getKey("IMAGE", "NEW_IMAGE_API_KEY"),
+    },
+```
+keyはprovider2ImageAgentのagentNameと一致させる必要があります。
 環境変数または設定経由で`graphai config`から`agent`の`config`に値を渡すことができます。
 
+agentのconfigにapiKeyとして値が渡されます。
+IMAGE_NEW_IMAGE_API_KEY もしくは、NEW_IMAGE_API_KEYの環境変数で設定してください。
+
+
 API キーなどの機密情報はこの方法で渡してください。こちらも他の`image agent`を参考にすると実装しやすいです。
+
 
 # mulmoScriptにproviderとして指定する
 
