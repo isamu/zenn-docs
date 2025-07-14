@@ -2,7 +2,7 @@
 title: "MulmoCastにimage agentを追加する"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [agent, AI, LLM, Tech, GraphAI]
+topics: [agent, mulmocast, LLM, Tech, GraphAI]
 published: true
 publication_name: "singularity"
 ---
