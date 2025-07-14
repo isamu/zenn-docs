@@ -53,3 +53,6 @@ API キーなどの機密情報はこの方法で渡してください。こち�
 # mulmoScriptにproviderとして指定する
 
 scriptsを参考に、imageParamsを設定してください。
+
+
+以上で、image agentを追加して利用することができます。
