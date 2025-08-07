@@ -60,7 +60,7 @@ yarn run serve
 
 これらの機能は、以下の4つの要素で実現されています。
 
-- **[toolsAgent](https://github.com/receptron/graphai-demo-web/blob/main/src/agents/tools_agent.ts)** - ユーザの入力をLLMに渡し、function callingを呼び出すエージェント。
+- **[toolsAgent](https://github.com/receptron/graphai/blob/main/llm_agents/tools_agent/src/tools_agent.ts)** - ユーザの入力をLLMに渡し、function callingを呼び出すエージェント。
 - **[googleMapAgent](https://github.com/receptron/graphai-demo-web/blob/main/src/agents/google_map_agent.ts)** - function callingから実行される関数を持つエージェント。さらに、function callingのスキーマ情報も保持しています。
 - **[tools Graph Data](https://github.com/receptron/graphai-demo-web/blob/main/src/graph/tools.ts)** - 上記エージェントとユーザとの会話を制御するためのグラフデータ（ワークフロー）。
 - **[Web UI](https://github.com/receptron/graphai-demo-web/blob/main/src/views/GoogleMap.vue)** - フロントエンドとしてVueを使用したWebページ
