@@ -13,7 +13,8 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
 
 ## ToolsAgent
 
-GraphAI には、LLM を使って自然言語からエージェントを呼び出すための tools エージェントがあり、内部的には OpenAI などの LLM エージェントに tools のスキーマを渡し、その応答に含まれる tool_calls を基に、GraphAI 内の任意のエージェントを動的に呼び出している。
+GraphAI には、LLM を使って自然言語からエージェントを呼び出すための tools エージェントがあります。
+内部的には OpenAI などの LLM エージェントに tools のスキーマを渡し、その応答に含まれる tool_calls を基に、GraphAI 内の任意のエージェントを動的に呼び出している。
 動作の流れとしては以下のとおりです。
 
 
@@ -25,7 +26,7 @@ sequenceDiagram
     participant L as llmAgent
     participant T as 呼び出されるAgent
 
-    U->>GA: user入力
+    U->>GA: text入力
     GA->>L: tools付きでプロンプト送信
     L-->>GA: role=assistant + tool_calls（配列）
     GA->>T: tool_calls を実行
@@ -37,10 +38,9 @@ sequenceDiagram
     GA-->>U: messages 更新＋ data（tool結果を統合）
 ```
 
-GraphAIのデータ定義は以下。基本的には、openAIなどのllmのagentと同じ。
-messagesと、promptを渡す。llmのAgentはinputs.llmAgentに指定する
-toolsにはスキーマを渡す。
-これで、toolsが、
+GraphAI のデータ定義は以下のとおりで、基本的には OpenAI などの LLM エージェントと同様である。
+messages と prompt を渡し、LLM のエージェントは inputs.llmAgent に指定する。
+tools には、利用可能なツールのスキーマを渡します。
 
 ```
 llm: {
@@ -56,9 +56,12 @@ llm: {
   },
 },
 ```
-toolsにわたすデータのサンプル。
-ちょっと普通と異なるのが関数名が、agent名--agent内部での関数名となっている。
-複数のagentの関数を渡すための命名規則です。
+
+tools に渡すデータのサンプル。
+通常と異なる点として、関数名は agent名--agent内部での関数名 という形式になっている。
+これは、複数のエージェントの関数を同時に渡すための命名規則である。
+それ以外の部分は、一般的な OpenAI の tools スキーマに準拠している。
+
 
 ```
 [
@@ -96,6 +99,8 @@ toolsにわたすデータのサンプル。
   },
 ]
 ```
+
+
 
 ## toolsAgentから呼び出されるagentのspec
 
