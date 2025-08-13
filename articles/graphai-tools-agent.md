@@ -13,8 +13,8 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
 
 ## ToolsAgent
 
-GraphAI には、LLM を使って自然言語からエージェントを呼び出すための tools エージェントがあります。
-内部的には OpenAI などの LLM エージェントに tools のスキーマを渡し、その応答に含まれる tool_calls を基に、GraphAI 内の任意のエージェントを動的に呼び出している。
+GraphAI には、LLM を使って自然言語から動的にエージェントを呼び出すためAgent,  ToolsAgentがあります。
+MCPをイメージしていただければわかりやすいですが、ToolsAgentは、Tools(function call) のschemaをllmに渡すことによって、llmが関数(Agent）を呼べるAgentです。内部的に OpenAI の LLM エージェントに tools のスキーマを渡し、その応答に含まれる tool_calls を基に、GraphAI 内の任意のエージェントを動的に呼び出しています。
 動作の流れとしては以下のとおりです。
 
 
@@ -30,20 +30,18 @@ sequenceDiagram
     GA->>L: tools付きでプロンプト送信
     L-->>GA: role=assistant + tool_calls（配列）
     GA->>T: tool_calls を実行
-    T-->>GA: 結果(content=文字列, data=自由形式, meta.hasNest?)
-    alt hasNest = true
-      GA->>L: 直前のassistantメッセージを再投入
-      L-->>GA: 最終ボットコメント
-    end
+    T-->>GA: 結果(content=文字列, data=自由形式)
+    GA->>L: 直前のassistantメッセージを再投入
+    L-->>GA: 最終ボットコメント
     GA-->>U: messages 更新＋ data（tool結果を統合）
 ```
 
-GraphAI のデータ定義は以下のとおりで、基本的には OpenAI などの LLM エージェントと同様である。
-messages と prompt を渡し、LLM のエージェントは inputs.llmAgent に指定する。
+GraphAIで使うときのGraphDataの定義は以下のとおりです。基本的には OpenAI などの LLM エージェントと同じです。
+messages と prompt をtoolsAgentに渡します。LLM のエージェントは inputs.llmAgent で指定できますが通常はopenAIAgentを使います。
 tools には、利用可能なツールのスキーマを渡します。
 
 ```
-llm: {
+toolsLlmNode: {
   isResult: true,
   agent: "toolsAgent",
   inputs: {
@@ -54,14 +52,13 @@ llm: {
       text: ":prompt",
     },
   },
-},
+}
 ```
 
-tools に渡すデータのサンプル。
-通常と異なる点として、関数名は agent名--agent内部での関数名 という形式になっている。
-これは、複数のエージェントの関数を同時に渡すための命名規則である。
-それ以外の部分は、一般的な OpenAI の tools スキーマに準拠している。
-
+tools に渡すデータのサンプルです。
+一般的なToolsのSchemaと異なる点として、関数名は agent名--agent内部での関数名 という形式になっている部分です。
+これは、GraphAI独自の命名規則で、複数のエージェントで関数をユニークにし、かつ呼び出すAgentを指定するための命名規則です。
+それ以外の部分は、一般的な OpenAI の tools スキーマに準拠しています。
 
 ```
 [
@@ -100,9 +97,12 @@ tools に渡すデータのサンプル。
 ]
 ```
 
+このGraphDataにpromptを渡すと、promptの内容を判断して関数を呼び出したり、通常のチャットを返します。
 
 
 ## toolsAgentから呼び出されるagentのspec
+
+toolsAgentから呼び出されるagentは以下のようにデータが渡されます。
 
 - namedInputs
   - agentName - tool.name(funciton name)
@@ -110,10 +110,20 @@ tools に渡すデータのサンプル。
   - func - tool.name(funciton name)
   - data - passthrough from parent
 
+argでllmが生成した引数、funcでagent内で想定される関数名が渡されます。
+agentの処理が１つしかない場合でもfuncは渡されます。不要であれば無視してください。
+上記例のgoogleMapAgentのような内部で複数の処理を持つagentはfuncをみて、動作内容を切り替えます。
+
+返却値は以下です
+
 - result
   - content
   - data
-  - hasNext
+
+contentには続けて実行するllmに渡すテキストをセットします。
+dataはGraphAIの実行後、もしくはcallbackで受け取るデータをセットします。
+
+agentFunctionInfoにtoolsのスキーマをセットします
 
 - agentFunctionInfo
   - toolsにschema
