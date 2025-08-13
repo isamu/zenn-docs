@@ -123,8 +123,36 @@ agentの処理が１つしかない場合でもfuncは渡されます。不要�
 contentには続けて実行するllmに渡すテキストをセットします。
 dataはGraphAIの実行後、もしくはcallbackで受け取るデータをセットします。
 
+## agentFunctionInfo
+
 agentFunctionInfoにtoolsのスキーマをセットします
 
 - agentFunctionInfo
-  - toolsにschema
+  - toolsにschemaを定義する
+
+
+## sample
+
+
+### ブラウザのGoogle map apiを操作するAgent
+https://github.com/receptron/graphai-demo-web/blob/main/src/agents/google_map_agent.ts
+
+### ブラウザのVideo playerを操作するAgent
+https://github.com/receptron/graphai-demo-web/blob/main/src/agents/video_agent.ts
+
+### mulmo scriptのvalidator
+https://github.com/receptron/mulmocast-app/blob/main/src/renderer/agents/mulmo_script_validator.ts
+
+### exaと使ってweb検索するAgent
+https://github.com/receptron/mulmocast-app/blob/main/src/renderer/agents/exa_agent.ts
+
+### electronを使ってnode側でwebサイトをクロールするAgent
+https://github.com/receptron/mulmocast-app/blob/main/src/renderer/agents/puppeteer_agent.ts
+
+### Tools Agentのソース
+
+GraphAIで実装されています
+
+https://github.com/receptron/graphai/blob/main/llm_agents/tools_agent/src/tools_agent.ts
+
 
