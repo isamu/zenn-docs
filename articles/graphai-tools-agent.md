@@ -14,6 +14,9 @@ GraphAI記事の一覧は[こちら](https://zenn.dev/singularity/articles/graph
 ## ToolsAgent
 
 GraphAI には、LLM を使って自然言語から動的にエージェントを呼び出すためAgent,  ToolsAgentがあります。
+
+https://www.npmjs.com/package/@graphai/tools_agent
+
 MCPをイメージしていただければわかりやすいですが、ToolsAgentは、Tools(function call) のschemaをllmに渡すことによって、llmが関数(Agent）を呼べるAgentです。内部的に OpenAI の LLM エージェントに tools のスキーマを渡し、その応答に含まれる tool_calls を基に、GraphAI 内の任意のエージェントを動的に呼び出しています。
 動作の流れとしては以下のとおりです。
 
