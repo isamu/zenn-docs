@@ -128,14 +128,14 @@ dataはGraphAIの実行後、もしくはcallbackで受け取るデータをセ�
 
 ## agentFunctionInfo
 
-agentFunctionInfoにtoolsのスキーマをセットします
+toolsのスキーマとagentは対になっています。ついで管理/利用するために、
+agentFunctionInfoにtoolsのスキーマを定義しています
 
 - agentFunctionInfo
   - toolsにschemaを定義する
 
 
-## sample
-
+## Agentの実装例
 
 ### ブラウザのGoogle map apiを操作するAgent
 https://github.com/receptron/graphai-demo-web/blob/main/src/agents/google_map_agent.ts
@@ -159,7 +159,7 @@ GraphAIで実装されています
 https://github.com/receptron/graphai/blob/main/llm_agents/tools_agent/src/tools_agent.ts
 
 
-### 利用しているサンプル
+### ToolsAgentを利用しているVueのコード
 
 https://github.com/receptron/mulmocast-app/blob/main/src/renderer/pages/project/chat.vue
 
