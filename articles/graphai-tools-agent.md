@@ -159,3 +159,10 @@ GraphAIで実装されています
 https://github.com/receptron/graphai/blob/main/llm_agents/tools_agent/src/tools_agent.ts
 
 
+### 利用しているサンプル
+
+https://github.com/receptron/mulmocast-app/blob/main/src/renderer/pages/project/chat.vue
+
+https://github.com/receptron/graphai-demo-web/blob/main/src/views/Video.vue
+
+https://github.com/receptron/graphai-demo-web/blob/main/src/views/GoogleMap.vue
