@@ -40,7 +40,7 @@ GraphAIで使うときのGraphDataの定義は以下のとおりです。基本�
 messages と prompt をtoolsAgentに渡します。LLM のエージェントは inputs.llmAgent で指定できますが通常はopenAIAgentを使います。
 tools には、利用可能なツールのスキーマを渡します。
 
-```
+```TypeScript
 toolsLlmNode: {
   isResult: true,
   agent: "toolsAgent",
@@ -60,7 +60,7 @@ tools に渡すデータのサンプルです。
 これは、GraphAI独自の命名規則で、複数のエージェントで関数をユニークにし、かつ呼び出すAgentを指定するための命名規則です。
 それ以外の部分は、一般的な OpenAI の tools スキーマに準拠しています。
 
-```
+```TypeScript
 [
   {
     type: "function",
