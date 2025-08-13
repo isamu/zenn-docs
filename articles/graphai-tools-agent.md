@@ -1,5 +1,5 @@
 ---
-title: "GraphAI - ToolsAgentから呼び出されるAgent"
+title: "GraphAI - ToolsAgent - LLMと連携して動的にAgentを呼び出す"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech, GraphAI]
