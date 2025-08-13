@@ -34,7 +34,7 @@ sequenceDiagram
     L-->>GA: role=assistant + tool_calls（配列）
     GA->>T: tool_calls を実行
     T-->>GA: 結果(content=文字列, data=自由形式)
-    GA->>L: 直前のassistantメッセージを再投入
+    GA->>L: 呼び出されるAgentからの結果 + tool_call_id
     L-->>GA: 最終ボットコメント
     GA-->>U: messages 更新＋ data（tool結果を統合）
 ```
