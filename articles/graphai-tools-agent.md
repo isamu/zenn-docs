@@ -146,7 +146,7 @@ https://github.com/receptron/graphai-demo-web/blob/main/src/agents/video_agent.t
 ### mulmo scriptのvalidator
 https://github.com/receptron/mulmocast-app/blob/main/src/renderer/agents/mulmo_script_validator.ts
 
-### exaと使ってweb検索するAgent
+### exaを使ってweb検索するAgent
 https://github.com/receptron/mulmocast-app/blob/main/src/renderer/agents/exa_agent.ts
 
 ### electronを使ってnode側でwebサイトをクロールするAgent
