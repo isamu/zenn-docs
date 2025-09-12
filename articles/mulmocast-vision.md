@@ -2,7 +2,7 @@
 title: "MulmoCast Vision - mcpでスライドをつくる"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [ AI, LLM, Tech, mulmocast, GraphAI]
+topics: [ AI, MCP, Tech, mulmocast, GraphAI]
 published: true
 publication_name: "singularity"
 ---
