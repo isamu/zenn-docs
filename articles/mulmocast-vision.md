@@ -66,3 +66,10 @@ PDFは「書類/mulmocast-vision/{日付}」以下に作成されます。
 オープンソースなので、HTMLを変更することで様々なデザインを適用できます。  
 スタイルの追加については[こちら](https://github.com/receptron/mulmocast-vision/blob/main/Style.ja.md)を参考にしてください。
 
+---
+
+### 公式リポジトリ・パッケージ
+
+- [GitHub: receptron/mulmocast-vision](https://github.com/receptron/mulmocast-vision)
+- [npm: mulmocast-vision](https://www.npmjs.com/package/mulmocast-vision)
+
