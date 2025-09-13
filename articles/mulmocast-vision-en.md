@@ -46,14 +46,14 @@ If `npx` is not installed, please install it in advance.
 
 ## How to Use
 
-Just give an instruction like "Create about 20 slides on SoftBank's 300-year strategy" and the slides will be generated.  
+Just give an instruction like "Compare corporate analysis of AI companies such as OpenAi Anthropic Replicate. About 20 slides." and the slides will be generated.  
 That's all you need to do.
 
-![](https://storage.googleapis.com/zenn-user-upload/b179cd0d99ec-20250913.png)
+![](https://storage.googleapis.com/zenn-user-upload/b0489a29a3f7-20250913.png)
 
 Example of generated PDF:
 
-[SoftBank 300-Year Strategy Slide (PDF)](https://github.com/isamu/slide_example/blob/master/pdf/softbank_300year_strategy.pdf)
+[Sample AI Company Analysis Slide (PDF)](https://github.com/isamu/slide_example/blob/master/pdf/AI_Companies_Corporate_Analysis_2025.pdf)
 
 PDFs are created under `Documents/mulmocast-vision/{date}`.
 
@@ -65,7 +65,6 @@ You can instruct these actions via prompts.
 MulmoCast Vision is open source, so you can apply various designs by modifying the HTML.  
 For adding styles, please refer to [Style.ja.md](https://github.com/receptron/mulmocast-vision/blob/main/Style.ja.md).
 
----
 
 ### Official Repository & Package
 
