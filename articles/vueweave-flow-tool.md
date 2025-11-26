@@ -2,7 +2,7 @@
 title: "VueWeave: Vue 3用の現代的なノードベースフローエディタを作りました"
 emoji: "🌊"
 type: "tech"
-topics: ["vue", "vuejs", "typescript", "opensource", "ui"]
+topics: ["vue", "typescript", "ui"]
 published: true
 ---
 
