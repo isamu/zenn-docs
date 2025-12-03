@@ -2,7 +2,7 @@
 title: "SQL 必須と言い出すエンジニアの 8 割は、ただ設計が下手なだけだ"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: [TypeScript]
+topics: [firebase, firestore]
 published: true
 publication_name: "singularity"
 ---
