@@ -3,7 +3,7 @@ title: "MulmoCast - AI時代のマルチモーダルコンテンツ生成ツー�
 emoji: "🎬"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [mulmocast, MCP, AI, LLM, multimodal]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
