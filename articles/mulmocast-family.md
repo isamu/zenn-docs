@@ -59,20 +59,9 @@ mulmo bundle story-1746600802426.json
 
 ### ライブラリとしての使い方
 
-```typescript
-import { MulmoCast } from 'mulmocast';
+electron版のmulmocast-appが実装例になっています。参考にしてください
 
-// MulmoCastインスタンスを作成
-const mulmo = new MulmoCast({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
-// mulmoScriptから動画を生成
-await mulmo.generateMovie(mulmoScript);
-
-// バンドルを作成
-await mulmo.createBundle(mulmoScript);
-```
+https://github.com/receptron/mulmocast-app/blob/main/src/main/mulmo/handler_generator.ts
 
 ### 必要な環境変数
 - `OPENAI_API_KEY`: スクリプト生成と画像作成に必須
