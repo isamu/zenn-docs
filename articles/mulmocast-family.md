@@ -133,7 +133,7 @@ mulmocast-cliをより便利に使うための派生ツール群です。MCPサ�
 
 ### mulmocast-vision
 
-[mulmocast-vision](https://github.com/receptron/mulmocast-vision)は、LLMを使ってプロフェッショナルなプレゼンテーションスライドを自動生成するMCPサーバです。**80種類以上のビジネス向けスライドテンプレート**を提供し、提案書・戦略書・企業分析資料などを数秒で作成できます。
+[mulmocast-vision](https://github.com/receptron/mulmocast-vision)は、元々**mulmoScriptの`image.type = vision`のデータを扱うためのライブラリ**です。これを独立させて単体でも使えるようにし、さらにMCPサーバ化することで、LLMを使ってプロフェッショナルなプレゼンテーションスライドを自動生成できるようになりました。**80種類以上のビジネス向けスライドテンプレート**を提供し、提案書・戦略書・企業分析資料などを数秒で作成できます。
 
 **セットアップ** (Claude Desktop):
 ```json
@@ -160,6 +160,10 @@ mulmocast-cliをより便利に使うための派生ツール群です。MCPサ�
 ### mulmocast-viewer
 
 [mulmocast-viewer](https://github.com/receptron/mulmocast-viewer)は、MulmoCastで生成したコンテンツ（**`mulmo bundle`コマンドで作成したバンドルを展開したデータ**）をWebブラウザで表示するためのVue 3コンポーネントライブラリです。
+
+**デモサイト**:
+- [viewer.mulmocast.com/contents](https://viewer.mulmocast.com/contents)
+- [mulmocast.com/test](https://mulmocast.com/test)
 
 **使い方**: `mulmo bundle`で作成したZIPを展開し、Vue 3プロジェクトに組み込みます。
 
