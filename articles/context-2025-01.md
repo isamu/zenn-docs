@@ -1,5 +1,5 @@
 ---
-title: "Context Management 2025 - 完全ガイド 01"
+title: "Context Management 2025 - Context Management の進化"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [agent, AI, LLM, Tech]
