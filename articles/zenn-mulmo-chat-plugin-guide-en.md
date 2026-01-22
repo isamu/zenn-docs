@@ -1,5 +1,5 @@
 ---
-title: "Build Game Plugins for MulmoChat with AI - Using Akinator as an Example"
+title: "Build Game Plugins for MulmoChat - Using Akinator as an Example"
 emoji: "🔮"
 type: "tech"
 topics: ["vue", "react", "typescript", "llm", "ai"]
