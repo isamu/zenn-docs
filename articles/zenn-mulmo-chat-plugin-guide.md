@@ -3,7 +3,7 @@ title: "MulmoChatでAIと遊べるゲームプラグインを作ろう - Akinato
 emoji: "🔮"
 type: "tech"
 topics: ["vue", "react", "typescript", "llm", "ai"]
-published: false
+published: true
 ---
 
 # はじめに
