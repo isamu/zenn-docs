@@ -14,6 +14,11 @@ LLM（大規模言語モデル）とのチャットは楽しいですが、テ�
 
 そんな願いを叶えるのが **[MulmoChat](https://github.com/receptron/MulmoChat)** と **[GUIChatPluginTemplate](https://github.com/receptron/GUIChatPluginTemplate)** です。
 
+
+MulmoChatは何？って人はまずこちらを。
+
+https://www.youtube.com/watch?v=BiWRksxBofE
+
 ## プラグイン開発の魅力
 
 **GUIChatPluginTemplate** を使えば、MulmoChatの音声チャットで使えるGUIプラグインを簡単に作れます。
