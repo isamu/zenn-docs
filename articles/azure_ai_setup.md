@@ -3,7 +3,7 @@ title: "Azure OpenAI / Azure Speech Service セットアップガイド"
 emoji: "☁️"
 type: "tech"
 topics: ["azure", "openai", "tts", "typescript"]
-published: false
+published: true
 ---
 
 # Azure OpenAI / Azure Speech Service セットアップガイド
