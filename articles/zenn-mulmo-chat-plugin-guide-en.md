@@ -4,6 +4,7 @@ emoji: "🔮"
 type: "tech"
 topics: ["vue", "react", "typescript", "llm", "ai"]
 published: true
+publication_name: "singularity"
 ---
 
 # Introduction

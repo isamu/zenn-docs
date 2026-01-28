@@ -4,6 +4,7 @@ emoji: "☁️"
 type: "tech"
 topics: ["azure", "openai", "tts", "typescript"]
 published: true
+publication_name: "singularity"
 ---
 
 # Azure OpenAI / Azure Speech Service セットアップガイド
