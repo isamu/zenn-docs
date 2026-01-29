@@ -3,7 +3,8 @@ title: "Using Azure OpenAI / Vertex AI with MulmoCast"
 emoji: "🎬"
 type: "tech"
 topics: ["mulmocast", "azure", "vertexai", "openai", "gcp"]
-published: false
+published: true
+publication_name: "singularity"
 ---
 
 # Using Azure OpenAI / Vertex AI with MulmoCast
