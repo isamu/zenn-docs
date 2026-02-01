@@ -3,7 +3,7 @@ title: "MulmoCast Markdown新機能 - スタイル・レイアウト・Mermaid�
 emoji: "📊"
 type: "tech"
 topics: [AI, mulmocast, GraphAI, Markdown, Mermaid]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
