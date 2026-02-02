@@ -3,7 +3,8 @@ title: "MulmoScriptの作成方法まとめ - CLI、AI、変換ツール、GUI�
 emoji: "🎬"
 type: "tech"
 topics: ["mulmocast", "ai", "presentation", "typescript"]
-published: false
+published: true
+publication_name: "singularity"
 ---
 
 ## はじめに
