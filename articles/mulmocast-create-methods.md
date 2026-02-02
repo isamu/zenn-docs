@@ -7,6 +7,7 @@ published: true
 publication_name: "singularity"
 ---
 
+
 ## はじめに
 
 MulmoCastは、スライドとナレーションを組み合わせた動画やWebコンテンツを生成するツールです。その核となるのが**MulmoScript**というJSON形式のスクリプトファイルです。
