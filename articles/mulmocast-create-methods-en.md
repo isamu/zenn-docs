@@ -447,6 +447,7 @@ mulmo audio mulmo_script.json
 
 ## Summary
 
+
 MulmoScript can be created in multiple ways:
 
 1. **CLI** - Most convenient, interactive or URL-based
