@@ -9,18 +9,20 @@ publication_name: "singularity"
 
 # MulmoCast Markdownの新機能
 
-MulmoCastに4つの強力なMarkdown機能が追加されました。
+MulmoCastに5つの強力なMarkdown機能が追加されました。
 
 1. **100種類のプリセットスタイル** - 美しいデザインを簡単に適用
 2. **レイアウト機能** - 2列、4分割、ヘッダー、サイドバーに対応
 3. **Mermaid埋め込み** - 図とテキストを並べて表示
 4. **画像埋め込み** - 外部画像をレイアウト内に配置
+5. **背景画像** - スライドに背景画像を設定（透明度・サイズ調整可能）
 
 この記事では、それぞれの機能を初心者にもわかりやすく解説します。
 
 ## 必要なバージョン
 
 これらの機能を使用するには **MulmoCast 2.1.30** 以降が必要です。
+背景画像機能は **MulmoCast 2.1.31** 以降が必要です。
 
 ### インストール
 
@@ -248,7 +250,195 @@ Markdown記法で外部画像をレイアウト内に埋め込めます：
 
 外部URLの画像は自動的に読み込まれます。
 
-## 実践例：4つの機能を組み合わせる
+## 5. 背景画像（backgroundImage）
+
+### 背景画像とは？
+
+`backgroundImage`プロパティを使うと、スライドの背景に画像を設定できます。透明度やサイズの調整も可能で、テキストの視認性を保ちながら視覚的に印象的なスライドを作成できます。
+
+### 基本的な使い方
+
+```json
+{
+  "type": "textSlide",
+  "slide": {
+    "title": "タイトル",
+    "subtitle": "サブタイトル"
+  },
+  "backgroundImage": {
+    "source": {
+      "kind": "url",
+      "url": "https://example.com/background.png"
+    },
+    "opacity": 0.3,
+    "size": "cover"
+  }
+}
+```
+
+![textSlideの背景画像](/images/mulmocast-markdown/bg_textslide.png)
+
+### markdownでも使える
+
+markdownタイプでも同様に背景画像を設定できます：
+
+```json
+{
+  "type": "markdown",
+  "markdown": [
+    "# スライドタイトル",
+    "",
+    "- ポイント1",
+    "- ポイント2"
+  ],
+  "backgroundImage": {
+    "source": {
+      "kind": "url",
+      "url": "https://example.com/background.png"
+    },
+    "opacity": 0.3,
+    "size": "cover"
+  }
+}
+```
+
+### sizeオプション
+
+背景画像のサイズ調整方法を指定できます：
+
+| size | 説明 |
+|------|------|
+| `cover` | アスペクト比を維持しながら画面全体を覆う（デフォルト） |
+| `fill` | アスペクト比を無視して100%引き伸ばし |
+| `contain` | アスペクト比を維持しながら画像全体が収まるように表示 |
+| `auto` | 画像の元のサイズで表示 |
+
+`size: cover`の適用例：
+
+![size: coverの例](/images/mulmocast-markdown/bg_size_cover.png)
+
+### opacityオプション
+
+`opacity`で背景画像の透明度を0〜1の範囲で指定できます。テキストの視認性を確保するため、0.2〜0.5程度の値がおすすめです。
+
+```json
+{
+  "backgroundImage": {
+    "source": { "kind": "url", "url": "https://..." },
+    "opacity": 0.3
+  }
+}
+```
+
+### sourceの指定方法
+
+背景画像のソースは3種類の方法で指定できます：
+
+**URL指定：**
+```json
+{
+  "source": {
+    "kind": "url",
+    "url": "https://example.com/image.png"
+  }
+}
+```
+
+**ローカルファイル指定：**
+```json
+{
+  "source": {
+    "kind": "path",
+    "path": "./images/background.png"
+  }
+}
+```
+
+**Base64指定：**
+```json
+{
+  "source": {
+    "kind": "base64",
+    "base64": "data:image/png;base64,..."
+  }
+}
+```
+
+### レイアウトと組み合わせ
+
+レイアウト機能（row-2など）と背景画像を組み合わせることもできます：
+
+```json
+{
+  "type": "markdown",
+  "markdown": {
+    "row-2": [
+      ["## 左カラム", "- 項目1", "- 項目2"],
+      ["## 右カラム", "- 項目A", "- 項目B"]
+    ]
+  },
+  "backgroundImage": {
+    "source": {
+      "kind": "url",
+      "url": "https://example.com/background.png"
+    },
+    "opacity": 0.2,
+    "size": "cover"
+  }
+}
+```
+
+![レイアウトと背景画像の組み合わせ](/images/mulmocast-markdown/bg_layout_row2.png)
+
+### グローバル設定と個別設定
+
+`imageParams`でグローバルな背景画像を設定し、個別のbeatで上書きできます：
+
+```json
+{
+  "$mulmocast": { "version": "1.1" },
+  "imageParams": {
+    "backgroundImage": {
+      "source": { "kind": "url", "url": "https://example.com/default-bg.png" },
+      "opacity": 0.3
+    }
+  },
+  "beats": [
+    {
+      "text": "デフォルトの背景を使用",
+      "image": {
+        "type": "markdown",
+        "markdown": ["# スライド1"]
+      }
+    },
+    {
+      "text": "このスライドは別の背景",
+      "image": {
+        "type": "markdown",
+        "markdown": ["# スライド2"],
+        "backgroundImage": {
+          "source": { "kind": "url", "url": "https://example.com/special-bg.png" },
+          "opacity": 0.5
+        }
+      }
+    },
+    {
+      "text": "このスライドは背景なし",
+      "image": {
+        "type": "markdown",
+        "markdown": ["# スライド3"],
+        "backgroundImage": null
+      }
+    }
+  ]
+}
+```
+
+**優先順位：** beat個別設定 > imageParamsグローバル設定 > styleの背景
+
+`backgroundImage: null`を指定すると、グローバル設定を無効化してstyleの背景のみを使用できます。
+
+## 実践例：5つの機能を組み合わせる
 
 スタイル、レイアウト、Mermaidを組み合わせた実践例：
 
@@ -289,6 +479,7 @@ MulmoCastのMarkdown新機能により、より表現力豊かなプレゼンテ
 | レイアウト | 複数カラム、ヘッダー、サイドバー |
 | Mermaid | 図とテキストを並べて表示 |
 | 画像埋め込み | 外部画像をレイアウト内に配置 |
+| 背景画像 | スライドに背景画像を設定（透明度・サイズ調整可能） |
 
 ぜひお試しください！
 

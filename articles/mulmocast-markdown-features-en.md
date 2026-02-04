@@ -9,18 +9,20 @@ publication_name: "singularity"
 
 # New MulmoCast Markdown Features
 
-MulmoCast now includes four powerful Markdown features:
+MulmoCast now includes five powerful Markdown features:
 
 1. **100 Preset Styles** - Apply beautiful designs easily
 2. **Layout Features** - Support for 2-column, 4-grid, header, and sidebar layouts
 3. **Mermaid Embedding** - Display diagrams alongside text
 4. **Image Embedding** - Place external images within layouts
+5. **Background Images** - Set background images with opacity and size control
 
 This article explains each feature in a beginner-friendly way.
 
 ## Required Version
 
 These features require **MulmoCast 2.1.30** or later.
+The background image feature requires **MulmoCast 2.1.31** or later.
 
 ### Installation
 
@@ -248,7 +250,195 @@ Embed external images within layouts using Markdown notation:
 
 External URL images are loaded automatically.
 
-## Practical Example: Combining All Four Features
+## 5. Background Images (backgroundImage)
+
+### What are Background Images?
+
+The `backgroundImage` property allows you to set a background image for slides. You can adjust opacity and size to create visually impressive slides while maintaining text readability.
+
+### Basic Usage
+
+```json
+{
+  "type": "textSlide",
+  "slide": {
+    "title": "Title",
+    "subtitle": "Subtitle"
+  },
+  "backgroundImage": {
+    "source": {
+      "kind": "url",
+      "url": "https://example.com/background.png"
+    },
+    "opacity": 0.3,
+    "size": "cover"
+  }
+}
+```
+
+![textSlide with background image](/images/mulmocast-markdown-en/bg_textslide.png)
+
+### Works with Markdown Too
+
+You can set background images on markdown type as well:
+
+```json
+{
+  "type": "markdown",
+  "markdown": [
+    "# Slide Title",
+    "",
+    "- Point 1",
+    "- Point 2"
+  ],
+  "backgroundImage": {
+    "source": {
+      "kind": "url",
+      "url": "https://example.com/background.png"
+    },
+    "opacity": 0.3,
+    "size": "cover"
+  }
+}
+```
+
+### Size Options
+
+Specify how the background image should be sized:
+
+| size | Description |
+|------|------|
+| `cover` | Maintain aspect ratio while covering the entire screen (default) |
+| `fill` | Stretch to 100% ignoring aspect ratio |
+| `contain` | Maintain aspect ratio while fitting the entire image |
+| `auto` | Display at original image size |
+
+Example with `size: cover`:
+
+![size: cover example](/images/mulmocast-markdown-en/bg_size_cover.png)
+
+### Opacity Option
+
+Use `opacity` to set the background image transparency from 0 to 1. Values between 0.2 and 0.5 are recommended to ensure text readability.
+
+```json
+{
+  "backgroundImage": {
+    "source": { "kind": "url", "url": "https://..." },
+    "opacity": 0.3
+  }
+}
+```
+
+### Source Specification Methods
+
+Background image sources can be specified in three ways:
+
+**URL:**
+```json
+{
+  "source": {
+    "kind": "url",
+    "url": "https://example.com/image.png"
+  }
+}
+```
+
+**Local File:**
+```json
+{
+  "source": {
+    "kind": "path",
+    "path": "./images/background.png"
+  }
+}
+```
+
+**Base64:**
+```json
+{
+  "source": {
+    "kind": "base64",
+    "base64": "data:image/png;base64,..."
+  }
+}
+```
+
+### Combining with Layouts
+
+You can combine layout features (row-2, etc.) with background images:
+
+```json
+{
+  "type": "markdown",
+  "markdown": {
+    "row-2": [
+      ["## Left Column", "- Item 1", "- Item 2"],
+      ["## Right Column", "- Item A", "- Item B"]
+    ]
+  },
+  "backgroundImage": {
+    "source": {
+      "kind": "url",
+      "url": "https://example.com/background.png"
+    },
+    "opacity": 0.2,
+    "size": "cover"
+  }
+}
+```
+
+![Layout with background image](/images/mulmocast-markdown-en/bg_layout_row2.png)
+
+### Global and Individual Settings
+
+Set a global background image in `imageParams` and override it for individual beats:
+
+```json
+{
+  "$mulmocast": { "version": "1.1" },
+  "imageParams": {
+    "backgroundImage": {
+      "source": { "kind": "url", "url": "https://example.com/default-bg.png" },
+      "opacity": 0.3
+    }
+  },
+  "beats": [
+    {
+      "text": "Using default background",
+      "image": {
+        "type": "markdown",
+        "markdown": ["# Slide 1"]
+      }
+    },
+    {
+      "text": "This slide has a different background",
+      "image": {
+        "type": "markdown",
+        "markdown": ["# Slide 2"],
+        "backgroundImage": {
+          "source": { "kind": "url", "url": "https://example.com/special-bg.png" },
+          "opacity": 0.5
+        }
+      }
+    },
+    {
+      "text": "This slide has no background",
+      "image": {
+        "type": "markdown",
+        "markdown": ["# Slide 3"],
+        "backgroundImage": null
+      }
+    }
+  ]
+}
+```
+
+**Priority:** Beat-level setting > imageParams global setting > style background
+
+Use `backgroundImage: null` to disable the global setting and use only the style background.
+
+## Practical Example: Combining All Five Features
 
 A practical example combining styles, layouts, and Mermaid:
 
@@ -289,6 +479,7 @@ MulmoCast's new Markdown features enable more expressive presentations.
 | Layouts | Multi-column, header, sidebar |
 | Mermaid | Display diagrams alongside text |
 | Image Embedding | Place external images in layouts |
+| Background Images | Set slide backgrounds with opacity and size control |
 
 Give it a try!
 
