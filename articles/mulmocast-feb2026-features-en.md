@@ -1,5 +1,5 @@
 ---
-title: "MulmoCast Early February Features - Markdown to Video, AI Queries & Summaries"
+title: "MulmoCast New Features - Markdown to Video, AI Queries & Summaries"
 emoji: "🎬"
 type: "tech"
 topics: [AI, mulmocast, GraphAI, Markdown, LLM]
