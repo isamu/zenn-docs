@@ -56,6 +56,20 @@ Claude Code で `/mulmocast:story` コマンドを実行します。
 /mulmocast:story path/to/quarterly-report.pdf
 ```
 
+スタイルを指定することもできます：
+
+```
+/mulmocast:story MulmoCastの紹介 Star Wars風のオープニングクロールで
+```
+
+```
+/mulmocast:story https://example.com/article ターミネーターのHUD風に、English
+```
+
+```
+/mulmocast:story 量子コンピュータの最新動向 エヴァンゲリオンの警告画面スタイルで
+```
+
 ## 5フェーズの構造化プロセス
 
 プラグインは対話的な5フェーズのプロセスで動画を作成します。各フェーズでユーザーの承認を得てから次に進みます。
