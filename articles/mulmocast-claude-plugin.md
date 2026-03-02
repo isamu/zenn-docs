@@ -32,6 +32,20 @@ claude plugin marketplace add receptron/mulmocast-claude-plugin
 claude plugin install mulmocast@mulmocast-plugins
 ```
 
+### 更新
+
+プラグインを最新版に更新するには：
+
+```bash
+# マーケットプレイスのカタログを更新
+/plugin marketplace update mulmocast-plugins
+
+# プラグインを更新
+/plugin update mulmocast@mulmocast-plugins
+```
+
+インストール時にcommit hashが固定されるため、`marketplace update` だけではプラグイン本体は更新されません。`/plugin update` も実行してください。
+
 ## 必要条件
 
 - **Node.js** 22+
