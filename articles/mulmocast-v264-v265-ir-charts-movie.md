@@ -305,3 +305,4 @@ Veo 3.1のVideo Extension（8秒超の動画生成）では、`firstFrameImageNa
 📦 **npm**: `npx mulmocast@2.6.5`
 🔗 **GitHub**: https://github.com/receptron/mulmocast-cli
 📖 **テストスクリプト**: `scripts/test/test_ir_visualizations.json`, `scripts/test/test_movie_references.json`, `scripts/test/test_image_prompt_reference.json`
+
