@@ -6,6 +6,6 @@
   "author": "Isamu Arimoto <isamu@to-kyo.to>",
   "license": "No",
   "dependencies": {
-    "zenn-cli": "^0.4.0"
+    "zenn-cli": "^0.4.5"
   }
 }

@@ -56,6 +56,11 @@ open@^10.2.0:
     is-inside-container "^1.0.0"
     wsl-utils "^0.1.0"
 
+package-manager-detector@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/package-manager-detector/-/package-manager-detector-1.6.0.tgz"
+  integrity sha512-61A5ThoTiDG/C8s8UMZwSorAGwMJ0ERVGj2OjoW5pAalsNOg15+iQiPzrLJ4jhZ1HJzmC2PIHT2oEiH3R5fzNA==
+
 run-applescript@^7.0.0:
   version "7.1.0"
   resolved "https://registry.npmjs.org/run-applescript/-/run-applescript-7.1.0.tgz"
@@ -68,9 +73,10 @@ wsl-utils@^0.1.0:
   dependencies:
     is-wsl "^3.1.0"
 
-zenn-cli@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/zenn-cli/-/zenn-cli-0.4.0.tgz"
-  integrity sha512-CRWk+uy/+Mf9kop0iUNNMofUNySt4NFYQ9H6zgmouc/S3ZuqSNJnNmp9DXWQXj0irs+K5DFbzldKsw7ca/1B9Q==
+zenn-cli@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.npmjs.org/zenn-cli/-/zenn-cli-0.4.5.tgz"
+  integrity sha512-lrG5Bb8j8jhVKRLE1T6Fe/wYV+jBDaRZFHzDatS/tcxcoV1oNaK812PeXYr2rtvH77trZaIag6fYltGXAIN0oA==
   dependencies:
     open "^10.2.0"
+    package-manager-detector "^1.6.0"
