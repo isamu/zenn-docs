@@ -90,10 +90,6 @@ html_tailwindアニメーションの録画に、Chrome DevTools ProtocolのScre
 - `"animation": true` — フレームバイフレーム方式（確実、やや遅い）
 - `"animation": { "movie": true }` — CDP Screencast（高速）
 
-:::message alert
-macOS 15.4以降でScreencastが0バイトのmp4を出力する問題が確認されています。現在はフレーム方式に自動フォールバックします。
-:::
-
 ## data-animation宣言的アニメーション（v2.5.0）
 
 HTMLの`data-*`属性だけでアニメーションを定義できます。JavaScriptを書く必要がありません。
