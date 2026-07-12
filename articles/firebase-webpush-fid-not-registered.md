@@ -1,5 +1,5 @@
 ---
-title: "Firebase Web PushのFID送信がinstallation-id-not-registeredになる罠 — 犯人はhttpsCallableのgetToken"
+title: "Firebase Web PushのFID送信が失敗する理由"
 emoji: "🔔"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["firebase", "fcm", "webpush", "typescript", "pwa"]
