@@ -139,7 +139,46 @@ npx type-coverage --at-least 95 --detail --strict
 
 `--strict` は付けておくのを勧めます。手元の小さいファイルで試したところ、これを付けないと `as unknown as Foo` のような二段キャストが「型がついている」側に数えられてしまいました。上に挙げた抜け道のうち、推論 `any` と `JSON.parse()` の戻り値は既定でも拾えますが、キャストで black box にした箇所は `--strict` を付けて初めて数に入ります。
 
-もう一段強くやるなら、`@typescript-eslint` の `no-unsafe-*` 系（`any` 由来の値の代入・呼び出し・メンバーアクセスを禁止する）を有効にする手もあります。ただしこれらは**型情報を使うルール**なので、後述の最小構成のように `strictTypeChecked` へ切り替える必要があり、lint が型チェック相当の重さになります。MulmoClaude ではこの CI 時間の増加が見合わないと判断して入れていません。既存違反の量もさることながら、毎回の lint が重くなるコストを全員が払い続けることになるので。
+もう一段強くやるなら、`@typescript-eslint` の `no-unsafe-*` 系（`any` 由来の値の代入・呼び出し・メンバーアクセスを禁止する）を有効にする手もあります。これらは**型情報を使うルール**なので、パーサに型情報を渡す設定（`projectService`）が必要です。
+
+ここで素直に `strictTypeChecked` へ丸ごと切り替えたくなるのですが、MulmoClaude で実際に測ってみたら、そうしないほうがいいという結論になりました。
+
+まず速度。「型情報 lint ≒ lint + tsc」なので重くなるはず、と身構えていたのですが、実測では ESLint の起動コストのほうが支配的で、型情報の追加分は思ったより小さかった。このリポジトリは CI で既に `yarn typecheck` を回しているので、CI 全体で見れば「typecheck がもう一周する」程度です。**速度は思っていたほど障害ではありませんでした**（ただしこれは1パッケージ範囲での計測です。リポジトリ全体だと57個の tsconfig 分のプログラム構築が乗るので、そこは未検証）。
+
+本当の問題は、出てくる**違反の中身**のほうでした。16ファイルで21件、その内訳がこれです。
+
+```
+11  @typescript-eslint/no-confusing-void-expression
+ 6  @typescript-eslint/restrict-template-expressions
+ 1  sonarjs/no-alphabetical-sort
+ 1  @typescript-eslint/no-unnecessary-condition
+ 1  @typescript-eslint/no-unsafe-assignment
+ 1  @typescript-eslint/no-unnecessary-type-assertion
+```
+
+21件のうち、そもそもの目的だった `no-unsafe-*` は**1件だけ**。残り20件は `no-confusing-void-expression` や `restrict-template-expressions` といった、目的とは関係のない別系統のルールです。`any` の漏れ込みを止めたいだけなのに、ノイズが20倍付いてくる。これでは「とりあえず全部 disable」を誘発するだけで、前述の「信頼できない検査は形骸化する」パターンにまっすぐ突き進みます。
+
+なので入れるなら、`strictTypeChecked` を丸ごとではなく、**型情報パーサだけ有効にして、欲しいルールを名指しする**形が良さそうです。
+
+```js
+{
+  files: ["server/**/*.ts", "packages/**/src/**/*.ts", "src/**/*.ts"],
+  languageOptions: {
+    parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+  },
+  rules: {
+    "@typescript-eslint/no-unsafe-assignment": "error",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/no-unsafe-member-access": "error",
+    "@typescript-eslint/no-unsafe-return": "error",
+    "@typescript-eslint/no-unsafe-argument": "error",
+  },
+}
+```
+
+手元で試したところ、この構成でも「型定義のないライブラリから流れ込んでくる `any`」はきちんと捕まりました。目的は果たしつつ、返済すべき違反は桁違いに少なくなります。
+
+ここは一般論として書いておきたいのですが、**厳しい設定を「丸ごと」入れるかどうかは、速度ではなくノイズ比で決めるべき**だと思います。目的の指摘1件あたり無関係な指摘が何件付いてくるか。それが大きい設定は、たとえ速くても定着しません。
 
 名前の短さも見ています。ここで少し、そもそも「良い名前とは何か」を整理させてください。読みやすいコードの物差しは、突き詰めると一つです——**他人（そして未来の自分、そして AI）が、そのコードを理解するのにかかる時間を最小にすること**。名前も、この一点に効くかどうかで判断できます。
 
@@ -339,7 +378,9 @@ export default [
 ];
 ```
 
-`strict` ではなく `strictTypeChecked` を指定しているのが地味なポイントです。型情報を使うぶん lint は遅くなりますが、そのかわり `any` 由来の値が黙って流れていくのを `no-unsafe-*` 系が止めてくれます。そしてこれは**新規プロジェクトなら初日はタダ**です。既存違反がゼロなので。前述のとおり MulmoClaude では CI が重くなるのを嫌って入れていませんが、それは既に26万行あって毎回の lint 時間に効いてくるからで、ゼロから始めるなら話は別です。ここは最初に払っておく価値がいちばん大きいところだと思います。
+`strict` ではなく `strictTypeChecked` を指定しているのが地味なポイントです。`any` 由来の値が黙って流れていくのを `no-unsafe-*` 系が止めてくれます。速度面は、前述の実測のとおり身構えるほどではありませんでした。
+
+そして**これを丸ごと入れられるのは新規プロジェクトの特権**です。前の章で「ノイズが20倍」と書いたのは、既に26万行あるコードベースに後から入れた場合の話でした。ゼロから始めるなら、`no-confusing-void-expression` も `restrict-template-expressions` も最初から満たしながら書くだけなので、返済すべき違反自体が発生しません。逆に言えば、後から入れるプロジェクトは丸ごとではなく、前章のようにルールを名指しするほうが定着します。
 
 CI 側は、ESLint は「止める」設定で、jscpd と knip は「知らせる／差分で見せる」設定で置きます。既存コードに厳しいルールを入れるときは、いきなり全部 `error` にせず、まず新しく書くぶんだけ厳しくして既存は少しずつ直す、という段取りを思い出してもらえれば。
 
