@@ -132,12 +132,14 @@ AI は型が面倒になると `any` で流しにかかるので、ここは `er
 実際にどれだけ型がついているかを測るには、[type-coverage](https://github.com/plantain-00/type-coverage) という別のCLIが使えます。ESLint のルールではなく、jscpd や knip と同じ「ファイル横断の専用スキャン」の仲間です。
 
 ```bash
-npx type-coverage --at-least 95 --detail
+npx type-coverage --at-least 95 --detail --strict
 ```
 
-コードベース全体のうち型がついている式の割合を出して、下限を切ります。`--detail` を付けると、実際に `any` になっている箇所が並びます。
+コードベース中の識別子（変数・引数・プロパティなど）のうち型がついているものの割合を `(11 / 14) 78.57%` のような形で出して、下限を切ります。`--detail` を付けると、型のついていない識別子が位置つきで並びます。
 
-もう一段強くやるなら、`@typescript-eslint` の `no-unsafe-*` 系（`any` 由来の値の代入・呼び出し・メンバーアクセスを禁止する）を有効にする手もあります。ただしこれらは**型情報を使うルール**なので、後述の最小構成のように `strictTypeChecked` へ切り替える必要があり、lint が型チェック相当の重さになります。MulmoClaude はまだ `strict` のままで、ここは「新規だけ先に厳しく」の要領で返していく予定の負債です。この記事で偉そうに書いている当人が、まさに同じ後始末を抱えているわけです。
+`--strict` は付けておくのを勧めます。手元の小さいファイルで試したところ、これを付けないと `as unknown as Foo` のような二段キャストが「型がついている」側に数えられてしまいました。上に挙げた抜け道のうち、推論 `any` と `JSON.parse()` の戻り値は既定でも拾えますが、キャストで black box にした箇所は `--strict` を付けて初めて数に入ります。
+
+もう一段強くやるなら、`@typescript-eslint` の `no-unsafe-*` 系（`any` 由来の値の代入・呼び出し・メンバーアクセスを禁止する）を有効にする手もあります。ただしこれらは**型情報を使うルール**なので、後述の最小構成のように `strictTypeChecked` へ切り替える必要があり、lint が型チェック相当の重さになります。MulmoClaude ではこの CI 時間の増加が見合わないと判断して入れていません。既存違反の量もさることながら、毎回の lint が重くなるコストを全員が払い続けることになるので。
 
 名前の短さも見ています。ここで少し、そもそも「良い名前とは何か」を整理させてください。読みやすいコードの物差しは、突き詰めると一つです——**他人（そして未来の自分、そして AI）が、そのコードを理解するのにかかる時間を最小にすること**。名前も、この一点に効くかどうかで判断できます。
 
@@ -300,7 +302,7 @@ MulmoClaude の切り分けはこうなっています。
 
 ```bash
 # まず土台
-yarn add -D eslint typescript-eslint eslint-plugin-sonarjs @eslint/js eslint-config-prettier
+yarn add -D eslint typescript-eslint eslint-plugin-sonarjs eslint-plugin-import @eslint/js eslint-config-prettier
 # 次に専用スキャン
 yarn add -D jscpd knip
 ```
@@ -311,6 +313,7 @@ yarn add -D jscpd knip
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import sonarjs from "eslint-plugin-sonarjs";
+import importPlugin from "eslint-plugin-import";
 import prettier from "eslint-config-prettier";
 
 export default [
@@ -321,6 +324,7 @@ export default [
     languageOptions: {
       parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
     },
+    plugins: { import: importPlugin },   // import/no-cycle を使うのに必要
     rules: {
       "max-lines-per-function": ["error", { max: 50, skipBlankLines: true, skipComments: true }],
       complexity: ["error", { max: 15 }],
@@ -335,7 +339,7 @@ export default [
 ];
 ```
 
-`strict` ではなく `strictTypeChecked` を指定しているのが地味なポイントです。型情報を使うぶん lint は遅くなりますが、そのかわり `any` 由来の値が黙って流れていくのを `no-unsafe-*` 系が止めてくれます。そしてこれは**新規プロジェクトなら初日はタダ**です。既存違反がゼロなので。あとから入れると数百件の返済作業になる（MulmoClaude がまさにその状態です）ので、ここは最初に払っておく価値がいちばん大きいところだと思います。
+`strict` ではなく `strictTypeChecked` を指定しているのが地味なポイントです。型情報を使うぶん lint は遅くなりますが、そのかわり `any` 由来の値が黙って流れていくのを `no-unsafe-*` 系が止めてくれます。そしてこれは**新規プロジェクトなら初日はタダ**です。既存違反がゼロなので。前述のとおり MulmoClaude では CI が重くなるのを嫌って入れていませんが、それは既に26万行あって毎回の lint 時間に効いてくるからで、ゼロから始めるなら話は別です。ここは最初に払っておく価値がいちばん大きいところだと思います。
 
 CI 側は、ESLint は「止める」設定で、jscpd と knip は「知らせる／差分で見せる」設定で置きます。既存コードに厳しいルールを入れるときは、いきなり全部 `error` にせず、まず新しく書くぶんだけ厳しくして既存は少しずつ直す、という段取りを思い出してもらえれば。
 
