@@ -169,13 +169,34 @@ npx type-coverage --at-least 95 --detail --strict
     "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/no-misused-promises": "warn",
     "@typescript-eslint/await-thenable": "warn",
+    ...sonarTypeAwareRulesAsWarn,   // ← 後述
   },
 }
 ```
 
 全部 `warn` にしてあるので、これ単体では CI を落としません。出てきたぶんは「ゲート」ではなく「これから返すバックログ」として置いています。次章の「止めるか、知らせるか」の話にそのままつながる形です。
 
-罠を一つだけ。**`projectService` を有効にすると、SonarJS が持っている型情報ルールも一緒に目を覚まします。** 型プログラムがないと休眠しているので今まで動いていなかったのが、起きた瞬間に SonarJS プリセットの `error` severity で、一度も lint されたことのないコードに対して大量に出ます。同じブロックで `warn` に固定して回避しました。
+最後に、踏んだ罠を一つ。**`projectService` を有効にすると、SonarJS が持っている型情報ルールも一緒に目を覚まします。** 型プログラムがないと休眠しているので今まで動いていなかったのが、起きた瞬間に SonarJS プリセットの `error` severity で、一度も lint されたことのないコードに対して大量に出ます。
+
+最初は該当ルールを手で並べて `warn` に落としていたのですが、手で並べたリストは必ず腐ります（SonarJS が将来ルールを足したら、それが `error` で目を覚まして CI が落ちる）。幸い ESLint のルール metadata には「型情報が要るか」のフラグがあるので、そこから引けます。
+
+ただしここにもう一段罠があって、**flat config ではルールを名指しした時点で「有効化」になります**。metadata だけで絞ると、`recommended` が意図的に off にしているルールまで `warn` で有効化してしまう——実際、SonarJS の型情報ルール70個のうち14個がこれに該当しました。なので「型情報が要る」かつ「`recommended` で既に有効」の積を取ります。
+
+```js
+const rec = sonarjs.configs.recommended?.rules ?? {};
+const isEnabled = (level) => {
+  const severity = Array.isArray(level) ? level[0] : level;
+  return severity !== undefined && severity !== "off" && severity !== 0;
+};
+
+const sonarTypeAwareRulesAsWarn = Object.fromEntries(
+  Object.entries(sonarjs.rules ?? {})
+    .filter(([name, rule]) => rule?.meta?.docs?.requiresTypeChecking && isEnabled(rec[`sonarjs/${name}`]))
+    .map(([name]) => [`sonarjs/${name}`, "warn"]),
+);
+```
+
+「手で並べたリストは腐る」と「名指し＝有効化」は、ESLint の設定を書くときにわりと一般的に効く教訓だと思います。
 
 名前の短さも見ています。ここで少し、そもそも「良い名前とは何か」を整理させてください。読みやすいコードの物差しは、突き詰めると一つです——**他人（そして未来の自分、そして AI）が、そのコードを理解するのにかかる時間を最小にすること**。名前も、この一点に効くかどうかで判断できます。
 
