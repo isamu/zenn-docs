@@ -141,44 +141,41 @@ npx type-coverage --at-least 95 --detail --strict
 
 もう一段強くやるなら、`@typescript-eslint` の `no-unsafe-*` 系（`any` 由来の値の代入・呼び出し・メンバーアクセスを禁止する）を有効にする手もあります。これらは**型情報を使うルール**なので、パーサに型情報を渡す設定（`projectService`）が必要です。
 
-ここで素直に `strictTypeChecked` へ丸ごと切り替えたくなるのですが、MulmoClaude で実際に測ってみたら、そうしないほうがいいという結論になりました。
+ここで素直に `strictTypeChecked` へ丸ごと切り替えたくなります。MulmoClaude で実際にやってみたので（[PR #2183](https://github.com/receptron/mulmoclaude/pull/2183)）、要点だけ書いておきます。
 
-まず速度。「型情報 lint ≒ lint + tsc」なので重くなるはず、と身構えていたのですが、実測では ESLint の起動コストのほうが支配的で、型情報の追加分は思ったより小さかった。このリポジトリは CI で既に `yarn typecheck` を回しているので、CI 全体で見れば「typecheck がもう一周する」程度です。**速度は思っていたほど障害ではありませんでした**（ただしこれは1パッケージ範囲での計測です。リポジトリ全体だと57個の tsconfig 分のプログラム構築が乗るので、そこは未検証）。
+**コストは「ルールの数」ではなく「型プログラムを構築したこと」に付きます。** ルールを5個に絞っても44個入れても、実測時間はほぼ変わりませんでした。`projectService` を有効にした瞬間に代金は払い終わっているので、**コスト削減を理由にルールを絞る意味はない**。絞るなら信号の質で絞ることになります（フルスコープで +25% 程度でした）。
 
-本当の問題は、出てくる**違反の中身**のほうでした。16ファイルで21件、その内訳がこれです。
+一方で、丸ごと入れると出力の大半が style 系の指摘で埋まります。`any` にも正しさにも関係しない指摘が過半を占めて、本当に見たいものが沈む。
 
-```
-11  @typescript-eslint/no-confusing-void-expression
- 6  @typescript-eslint/restrict-template-expressions
- 1  sonarjs/no-alphabetical-sort
- 1  @typescript-eslint/no-unnecessary-condition
- 1  @typescript-eslint/no-unsafe-assignment
- 1  @typescript-eslint/no-unnecessary-type-assertion
-```
+ただし**一度は丸ごと測ってみるのを勧めます**。最初から `no-unsafe-*` だけ狙って絞っていたら、`no-floating-promises` 系が拾った実バグ——付け忘れた `await`、同期専用の API に渡された async コールバック——を丸ごと見逃していました。構文だけを見るルールには原理的に見えない種類のバグです。何が出るか分からないうちは、絞り込みの判断すらできません。
 
-21件のうち、そもそもの目的だった `no-unsafe-*` は**1件だけ**。残り20件は `no-confusing-void-expression` や `restrict-template-expressions` といった、目的とは関係のない別系統のルールです。`any` の漏れ込みを止めたいだけなのに、ノイズが20倍付いてくる。これでは「とりあえず全部 disable」を誘発するだけで、前述の「信頼できない検査は形骸化する」パターンにまっすぐ突き進みます。
-
-なので入れるなら、`strictTypeChecked` を丸ごとではなく、**型情報パーサだけ有効にして、欲しいルールを名指しする**形が良さそうです。
+結果として、型情報が本当に必要な2種類——**(1) `no-explicit-any` をすり抜ける `any`** と、**(2) 型チェッカにしか見えないバグ**——だけを名指しする形にしています。
 
 ```js
 {
-  files: ["server/**/*.ts", "packages/**/src/**/*.ts", "src/**/*.ts"],
+  files: ["server/**/*.ts", "src/**/*.ts", "packages/**/src/**/*.ts"],
   languageOptions: {
     parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
   },
   rules: {
-    "@typescript-eslint/no-unsafe-assignment": "error",
-    "@typescript-eslint/no-unsafe-call": "error",
-    "@typescript-eslint/no-unsafe-member-access": "error",
-    "@typescript-eslint/no-unsafe-return": "error",
-    "@typescript-eslint/no-unsafe-argument": "error",
+    // (1) no-explicit-any をすり抜ける any
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-unsafe-member-access": "warn",
+    "@typescript-eslint/no-unsafe-argument": "warn",
+    "@typescript-eslint/no-unsafe-call": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
+    // (2) 型チェッカにしか見えないバグ
+    "@typescript-eslint/no-base-to-string": "warn",
+    "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/no-misused-promises": "warn",
+    "@typescript-eslint/await-thenable": "warn",
   },
 }
 ```
 
-手元で試したところ、この構成でも「型定義のないライブラリから流れ込んでくる `any`」はきちんと捕まりました。目的は果たしつつ、返済すべき違反は桁違いに少なくなります。
+全部 `warn` にしてあるので、これ単体では CI を落としません。出てきたぶんは「ゲート」ではなく「これから返すバックログ」として置いています。次章の「止めるか、知らせるか」の話にそのままつながる形です。
 
-ここは一般論として書いておきたいのですが、**厳しい設定を「丸ごと」入れるかどうかは、速度ではなくノイズ比で決めるべき**だと思います。目的の指摘1件あたり無関係な指摘が何件付いてくるか。それが大きい設定は、たとえ速くても定着しません。
+罠を一つだけ。**`projectService` を有効にすると、SonarJS が持っている型情報ルールも一緒に目を覚まします。** 型プログラムがないと休眠しているので今まで動いていなかったのが、起きた瞬間に SonarJS プリセットの `error` severity で、一度も lint されたことのないコードに対して大量に出ます。同じブロックで `warn` に固定して回避しました。
 
 名前の短さも見ています。ここで少し、そもそも「良い名前とは何か」を整理させてください。読みやすいコードの物差しは、突き詰めると一つです——**他人（そして未来の自分、そして AI）が、そのコードを理解するのにかかる時間を最小にすること**。名前も、この一点に効くかどうかで判断できます。
 
@@ -341,7 +338,7 @@ MulmoClaude の切り分けはこうなっています。
 
 ```bash
 # まず土台
-yarn add -D eslint typescript-eslint eslint-plugin-sonarjs eslint-plugin-import @eslint/js eslint-config-prettier
+yarn add -D eslint typescript typescript-eslint eslint-plugin-sonarjs eslint-plugin-import @eslint/js eslint-config-prettier
 # 次に専用スキャン
 yarn add -D jscpd knip
 ```
@@ -378,9 +375,9 @@ export default [
 ];
 ```
 
-`strict` ではなく `strictTypeChecked` を指定しているのが地味なポイントです。`any` 由来の値が黙って流れていくのを `no-unsafe-*` 系が止めてくれます。速度面は、前述の実測のとおり身構えるほどではありませんでした。
+`strict` ではなく `strictTypeChecked` を指定しているのが地味なポイントです。`any` 由来の値が黙って流れていくのを `no-unsafe-*` 系が止めてくれます。
 
-そして**これを丸ごと入れられるのは新規プロジェクトの特権**です。前の章で「ノイズが20倍」と書いたのは、既に26万行あるコードベースに後から入れた場合の話でした。ゼロから始めるなら、`no-confusing-void-expression` も `restrict-template-expressions` も最初から満たしながら書くだけなので、返済すべき違反自体が発生しません。逆に言えば、後から入れるプロジェクトは丸ごとではなく、前章のようにルールを名指しするほうが定着します。
+そして**これを丸ごと入れられるのは新規プロジェクトの特権**です。前の章で「style 系の指摘で埋まる」と書いたのは、既に育ったコードベースに後から入れた場合の話でした。ゼロから始めるなら、`no-confusing-void-expression` も `restrict-template-expressions` も最初から満たしながら書くだけなので、返済すべき違反自体が発生しません。逆に言えば、後から入れるプロジェクトは丸ごとではなく、前章のようにルールを名指しするほうが定着します。
 
 CI 側は、ESLint は「止める」設定で、jscpd と knip は「知らせる／差分で見せる」設定で置きます。既存コードに厳しいルールを入れるときは、いきなり全部 `error` にせず、まず新しく書くぶんだけ厳しくして既存は少しずつ直す、という段取りを思い出してもらえれば。
 
