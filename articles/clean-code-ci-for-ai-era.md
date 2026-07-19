@@ -141,62 +141,59 @@ npx type-coverage --at-least 95 --detail --strict
 
 もう一段強くやるなら、`@typescript-eslint` の `no-unsafe-*` 系（`any` 由来の値の代入・呼び出し・メンバーアクセスを禁止する）を有効にする手もあります。これらは**型情報を使うルール**なので、パーサに型情報を渡す設定（`projectService`）が必要です。
 
-ここで素直に `strictTypeChecked` へ丸ごと切り替えたくなります。MulmoClaude で実際にやってみたので（[PR #2183](https://github.com/receptron/mulmoclaude/pull/2183)）、要点だけ書いておきます。
-
-**コストは「ルールの数」ではなく「型プログラムを構築したこと」に付きます。** ルールを5個に絞っても44個入れても、実測時間はほぼ変わりませんでした。`projectService` を有効にした瞬間に代金は払い終わっているので、**コスト削減を理由にルールを絞る意味はない**。絞るなら信号の質で絞ることになります（フルスコープで +25% 程度でした）。
-
-一方で、丸ごと入れると出力の大半が style 系の指摘で埋まります。`any` にも正しさにも関係しない指摘が過半を占めて、本当に見たいものが沈む。
-
-ただし**一度は丸ごと測ってみるのを勧めます**。最初から `no-unsafe-*` だけ狙って絞っていたら、`no-floating-promises` 系が拾った実バグ——付け忘れた `await`、同期専用の API に渡された async コールバック——を丸ごと見逃していました。構文だけを見るルールには原理的に見えない種類のバグです。何が出るか分からないうちは、絞り込みの判断すらできません。
-
-結果として、型情報が本当に必要な2種類——**(1) `no-explicit-any` をすり抜ける `any`** と、**(2) 型チェッカにしか見えないバグ**——だけを名指しする形にしています。
+MulmoClaude で実際に入れた構成がこれです（[PR #2183](https://github.com/receptron/mulmoclaude/pull/2183)）。
 
 ```js
-{
-  files: ["server/**/*.ts", "src/**/*.ts", "packages/**/src/**/*.ts"],
-  languageOptions: {
-    parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
-  },
-  rules: {
-    // (1) no-explicit-any をすり抜ける any
-    "@typescript-eslint/no-unsafe-assignment": "warn",
-    "@typescript-eslint/no-unsafe-member-access": "warn",
-    "@typescript-eslint/no-unsafe-argument": "warn",
-    "@typescript-eslint/no-unsafe-call": "warn",
-    "@typescript-eslint/no-unsafe-return": "warn",
-    // (2) 型チェッカにしか見えないバグ
-    "@typescript-eslint/no-base-to-string": "warn",
-    "@typescript-eslint/no-floating-promises": "warn",
-    "@typescript-eslint/no-misused-promises": "warn",
-    "@typescript-eslint/await-thenable": "warn",
-    ...sonarTypeAwareRulesAsWarn,   // ← 後述
-  },
-}
-```
-
-全部 `warn` にしてあるので、これ単体では CI を落としません。出てきたぶんは「ゲート」ではなく「これから返すバックログ」として置いています。次章の「止めるか、知らせるか」の話にそのままつながる形です。
-
-最後に、踏んだ罠を一つ。**`projectService` を有効にすると、SonarJS が持っている型情報ルールも一緒に目を覚まします。** 型プログラムがないと休眠しているので今まで動いていなかったのが、起きた瞬間に SonarJS プリセットの `error` severity で、一度も lint されたことのないコードに対して大量に出ます。
-
-最初は該当ルールを手で並べて `warn` に落としていたのですが、手で並べたリストは必ず腐ります（SonarJS が将来ルールを足したら、それが `error` で目を覚まして CI が落ちる）。幸い ESLint のルール metadata には「型情報が要るか」のフラグがあるので、そこから引けます。
-
-ただしここにもう一段罠があって、**flat config ではルールを名指しした時点で「有効化」になります**。metadata だけで絞ると、`recommended` が意図的に off にしているルールまで `warn` で有効化してしまう——実際、SonarJS の型情報ルール70個のうち14個がこれに該当しました。なので「型情報が要る」かつ「`recommended` で既に有効」の積を取ります。
-
-```js
+// projectService は SonarJS 自身の型情報ルールも起こす。手で列挙すると将来の
+// ルール追加で CI が落ちるので、plugin の metadata から導出する。flat config では
+// 「名指し＝有効化」なので、recommended で既に有効なものだけに絞る（そうしないと
+// recommended が意図的に off にしているルールまで有効化してしまう）。
 const rec = sonarjs.configs.recommended?.rules ?? {};
 const isEnabled = (level) => {
   const severity = Array.isArray(level) ? level[0] : level;
   return severity !== undefined && severity !== "off" && severity !== 0;
 };
-
 const sonarTypeAwareRulesAsWarn = Object.fromEntries(
   Object.entries(sonarjs.rules ?? {})
     .filter(([name, rule]) => rule?.meta?.docs?.requiresTypeChecking && isEnabled(rec[`sonarjs/${name}`]))
     .map(([name]) => [`sonarjs/${name}`, "warn"]),
 );
+
+export default [
+  // ...既存の設定
+  {
+    // テスト/e2e は入れない。型プログラムを小さく保つため
+    files: ["server/**/*.ts", "src/**/*.ts", "packages/**/src/**/*.ts"],
+    languageOptions: {
+      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+    },
+    rules: {
+      // (1) no-explicit-any をすり抜ける any
+      "@typescript-eslint/no-unsafe-assignment": "warn",
+      "@typescript-eslint/no-unsafe-member-access": "warn",
+      "@typescript-eslint/no-unsafe-argument": "warn",
+      "@typescript-eslint/no-unsafe-call": "warn",
+      "@typescript-eslint/no-unsafe-return": "warn",
+      // (2) 型チェッカにしか見えないバグ
+      "@typescript-eslint/no-base-to-string": "warn",
+      "@typescript-eslint/no-floating-promises": "warn",
+      "@typescript-eslint/no-misused-promises": "warn",
+      "@typescript-eslint/await-thenable": "warn",
+      ...sonarTypeAwareRulesAsWarn,
+    },
+  },
+];
 ```
 
-「手で並べたリストは腐る」と「名指し＝有効化」は、ESLint の設定を書くときにわりと一般的に効く教訓だと思います。
+設定上のポイントは4つです。
+
+**`strictTypeChecked` を丸ごとではなく、ルールを名指しする。** コストは「ルールの数」ではなく「型プログラムを構築したこと」に付くので、絞っても速くはなりません（フルスコープで +25% 程度）。絞る目的は速度ではなく、出力を読める量に保つことです。丸ごと入れると `restrict-template-expressions` のような style 系が過半を占めて、`any` と正しさの指摘が沈みます。
+
+**どのルールを選ぶかは、一度丸ごと動かして出力を見てから決める。** 先に絞ると、`no-floating-promises` 系が拾う実バグ——付け忘れた `await`、同期専用 API に渡した async コールバック——の存在に気づけません。構文だけを見るルールには原理的に見えない種類のバグです。
+
+**全部 `warn` にする。** これ単体では CI を落とさず、出たぶんは「ゲート」ではなく「これから返すバックログ」になります。次章の「止めるか、知らせるか」でいう後者の扱いです。
+
+**SonarJS の巻き添えを metadata で処理する。** `projectService` を有効にすると、型プログラムがなくて休眠していた SonarJS の型情報ルールが、プリセットの `error` severity で一斉に目を覚まします。上のコードで `warn` に落としていますが、ここで効いているのが「手書きリストは腐る」と「flat config では名指し＝有効化」の2点で、どちらも ESLint 設定で一般に効く注意点です。
 
 名前の短さも見ています。ここで少し、そもそも「良い名前とは何か」を整理させてください。読みやすいコードの物差しは、突き詰めると一つです——**他人（そして未来の自分、そして AI）が、そのコードを理解するのにかかる時間を最小にすること**。名前も、この一点に効くかどうかで判断できます。
 
