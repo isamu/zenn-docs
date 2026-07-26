@@ -44,7 +44,7 @@ publication_name: "singularity"
 
 僕は2を選びました。そして2を選ぶというのは、精神論ではなく、**「壊れたら赤くなって止まる」を積み上げる作業**でした。
 
-以下、実際に mulmoterminal / mulmoclaude で動いているものを、設定ファイルごと紹介します。
+以下、実際に [mulmoterminal](https://github.com/receptron/mulmoterminal) / [mulmoclaude](https://github.com/receptron/mulmoclaude) で動いているものを、設定ファイルごと紹介します。どちらも MIT で公開しています。
 
 ---
 
@@ -61,7 +61,7 @@ https://github.com/isamu/claude
 
 ### 正直に言うと、リポジトリ側はほとんど要りません
 
-mulmoterminal のリポジトリにも `CLAUDE.md` があります。46行の短いものですが、これは**別のエンジニアが書いたもの**で、**僕自身はほぼ使っていません**。中身の大半が、僕のグローバル側にすでに入っているからです。
+[mulmoterminal](https://github.com/receptron/mulmoterminal) のリポジトリにも `CLAUDE.md` があります。46行の短いものですが、これは**別のエンジニアが書いたもの**で、**僕自身はほぼ使っていません**。中身の大半が、僕のグローバル側にすでに入っているからです。
 
 なぜそうなるかというと、**開発スタックをほぼ揃えているから**です。
 
@@ -167,7 +167,7 @@ yarn、TypeScript、Vitest、同じ ESLint 構成、同じ CI の形、同じテ
 
 加えて `eslint-plugin-sonarjs` の **cognitive-complexity を error**（閾値15）にしています。循環的複雑度より、人間の読みにくさに近い指標です。
 
-mulmoclaude 側はもう少し厳しく、`max-lines-per-function` が **50**、`complexity` が **15** です。
+[mulmoclaude](https://github.com/receptron/mulmoclaude) 側はもう少し厳しく、`max-lines-per-function` が **50**、`complexity` が **15** です。
 
 📎 [`mulmoclaude eslint.config.mjs#L270-L282`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L270-L282)
 
@@ -331,7 +331,7 @@ export default [
 
 数字から出します。
 
-| | mulmoterminal | mulmoclaude |
+| | [mulmoterminal](https://github.com/receptron/mulmoterminal) | [mulmoclaude](https://github.com/receptron/mulmoclaude) |
 |---|---|---|
 | spec ファイル | **294** | **799** |
 | テストケース | **3,373** | — |
