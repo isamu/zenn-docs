@@ -440,6 +440,13 @@ export default [
 
 ちなみに、ESLint の `no-unused-vars` はファイル**内**しか見ません。重複スキャンはコピペしか見ません。**どこからも呼ばれなくなった export** は、そのどちらにも引っかからない——リファクタが最後の呼び出し元を消したときに残る、典型的な孤児です。knip はその隙間を埋めるために入れました。
 
+:::message
+この章（ESLint / SonarJS / jscpd / knip をどう組み合わせ、どれをゲートにしてどれをレポートにするか）だけを取り出して詳しく書いた記事があります。設定を実際に入れるなら、こちらが実装編です。
+
+→ [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era)
+→ 重複検出だけをさらに掘るなら [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono)
+:::
+
 ---
 
 ## ⑤ CI を mac / Linux / Windows で回す（Windows は daily）
@@ -766,3 +773,14 @@ MIT です。使い方は[日本語ガイド](https://receptron.github.io/mulmot
 - mulmoclaude: [`7773cd7`](https://github.com/receptron/mulmoclaude/tree/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a)
 - isamu/claude: [`273144a`](https://github.com/isamu/claude/tree/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541)
 :::
+
+---
+
+## 関連記事
+
+AI に思い切り書かせるための4本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+
+1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
+2. **1日500コミットは、もう読めない ── だからコードレビューをやめた** ← **いまここ**
+3. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
+4. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え

@@ -7,6 +7,10 @@ published: true
 publication_name: "singularity"
 ---
 
+:::message
+この記事は重複検出（jscpd）だけを深掘りしたものです。ESLint / SonarJS / knip も含めた**全体の組み立て**は [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era)、そもそも**なぜ機械に守らせるのか**は [1日500コミットは、もう読めない](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) にあります。
+:::
+
 この記事の結論を先に書きます。
 
 > **DRY をレビューで守るのは諦めて、jscpd に検出させる。使い方は二段構え——「定期的な全体監査」で棚卸しし、「CI の差分チェック」で新規流入を止める。**
@@ -277,3 +281,14 @@ npx skills add https://github.com/kucherenko/jscpd --skill dry-refactoring
 - **`ai` レポーター / MCP / `dry-refactoring` スキル**で、検出→提案→採否の分業が既製品で組める。
 
 「入れたら安心」ではなく「**何を止めたいのか**」を先に決める。全体監査と差分チェックはまったく別の道具だ、という整理さえできていれば、あとは設定するだけです。
+
+---
+
+## 関連記事
+
+AI に思い切り書かせるための4本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+
+1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
+2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
+3. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
+4. **jscpd で重複コードを機械的に潰す** ← **いまここ**
