@@ -571,11 +571,13 @@ draft でも docs だけの diff でも走らせています。「レビュー�
 なので、そこは道具のほうを作りました。**[MulmoTerminal](https://github.com/receptron/mulmoterminal)** —— ブラウザで動くターミナルです。
 
 ```bash
-npx mulmoterminal
+npx mulmoterminal@latest
 # → http://localhost:34567 が開きます
 ```
 
 これだけです。Node 22.9+ と `claude` CLI があれば、設定は要りません。インストールしたくなければ `npx` のままで構いません（常用するなら `npm install -g mulmoterminal`）。
+
+`@latest` を付けているのは、npx が前に落としたバージョンをキャッシュから使い回すことがあるからです。開発が速いので、付けておいたほうが確実です。
 
 何をしてくれるかというと:
 
