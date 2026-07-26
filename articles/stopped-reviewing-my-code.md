@@ -213,22 +213,32 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 
 ### sonarjs も入れて、かなり厳しめにする
 
-サイズと複雑さだけでは足りません。両リポジトリとも、`eslint-plugin-sonarjs` と `eslint-plugin-security` を **recommended ごと**入れています。
+サイズと複雑さだけでは足りません。プリセットの入れ方は、両リポジトリともこうです。
 
 ```js
 export default [
   js.configs.recommended,
   ...tseslint.configs.strict,        // ← recommended ではなく strict
   ...pluginVue.configs["flat/recommended"],
-  sonarjs.configs.recommended,
-  security.configs.recommended,
+  sonarjs.configs.recommended,       // sonarjs は recommended が最上位
+  security.configs.recommended,      // security も同じ
   // ...
 ];
 ```
 
 📎 [`eslint.config.js#L9-L15`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/eslint.config.js#L9-L15)
 
-その上で、個別にさらに締めています。
+**typescript-eslint は `strict` を選んでいます。** `recommended` との差は、`any` まわりや非 null アサーションのような「動くけれど後で困る」書き方を error にするかどうかです。
+
+そして `sonarjs` と `security` が `recommended` なのは、**手加減ではありません**。この2つには **strict プリセットがそもそも存在せず、`recommended` が全部**です。
+
+| プラグイン | 選んでいる設定 | 選べる設定 |
+|---|---|---|
+| typescript-eslint | **`strict`** | recommended / **strict** / strictTypeChecked / all |
+| eslint-plugin-sonarjs | `recommended` | **`recommended` のみ** |
+| eslint-plugin-security | `recommended` | **`recommended` のみ** |
+
+つまり**入れられるものは入れきった状態**で、その上で個別にさらに締めています。
 
 | ルール | 何を捕まえるか |
 |---|---|
