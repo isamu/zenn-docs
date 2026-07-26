@@ -42,47 +42,24 @@ publication_name: "singularity"
 
 ## ① CLAUDE.md — 規約を人の記憶ではなくファイルに置く
 
-まず、エージェントに渡す規約です。ここは**2層**に分けています。
+まず、エージェントに渡す規約です。置き場所は**2層**あります。
 
-- **グローバル**（`~/.claude/CLAUDE.md`）— 全プロジェクトに効く普遍的なルール
+- **グローバル**（`~/.claude/CLAUDE.md`）— 全プロジェクトに効くルール
 - **リポジトリ固有**（各リポジトリの `CLAUDE.md`）— そのリポでしか通用しない事実
 
-グローバル側は公開してあります。ここから先に出てくる規約は、だいたいこの中にあります。
+グローバル側は公開してあります。この記事に出てくる規約は、だいたいこの中にあります。
 
 https://github.com/isamu/claude
 
-意外に思われるかもしれませんが、リポジトリ側——mulmoterminal の `CLAUDE.md` は **46行しかありません**。
+### 正直に言うと、リポジトリ側はほとんど要りません
 
-長い規約は読まれません。これは人間の話ではなく、**AI についても同じ**です。数百行の憲法を書いても、実際に効くのは「毎回必ず踏む数行」だけでした。
+mulmoterminal のリポジトリにも `CLAUDE.md` があります。46行の短いものですが、これは**別のエンジニアが書いたもの**で、**僕自身はほぼ使っていません**。中身の大半が、僕のグローバル側にすでに入っているからです。
 
-だから、リポジトリ側に書くのは3種類に絞っています。
+なぜそうなるかというと、**開発スタックをほぼ揃えているから**です。
 
-**(a) スタックとパッケージマネージャ**
+yarn、TypeScript、Vitest、同じ ESLint 構成、同じ CI の形、同じテストの置き方。プロジェクトが違っても、中身の作法は変わりません。**作法が変わらないなら、規約をプロジェクトごとに書く理由がない。**
 
-```markdown
-- TypeScript. Web UI: Vue 3 (Composition API) + Vite (`src/`).
-  Backend: Express + node-pty, run via tsx (`server/`). Shared code in `common/`.
-- Package manager: yarn (yarn.lock). Use `yarn add`; don't hand-edit package.json.
-```
-
-**(b) 変更後に必ず走らせるコマンド**
-
-ここが一番効きます。そして一番、事故から生まれています。
-
-```markdown
-- `yarn typecheck` — vue-tsc -b. **App code only — it does NOT compile the specs.**
-- `yarn typecheck:server` / `yarn typecheck:test` — CI runs these too.
-  Change a shared type or a wire shape and run **all three**:
-  `yarn typecheck` alone passes while CI fails.
-```
-
-📎 [`CLAUDE.md#L15-L19`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/CLAUDE.md#L15-L19)
-
-太字の部分は、実際に何度もやられたやつです。`yarn typecheck` がローカルで通ったのに CI が落ちる。理由は、テストが型チェックの対象に入っていないから。
-
-これは「気をつける」で解決しません。**ファイルに書いて、毎回読ませる**しかない。
-
-**(c) どこに何を置くかの「理由」**
+結果として、リポジトリ側に本当に書く価値があるのは、**ディレクトリ構成くらいしか残りません。**
 
 ```markdown
 - `common/` — code shared by server and UI. Both tsconfig include it, so a value
@@ -92,11 +69,34 @@ https://github.com/isamu/claude
 
 📎 [`CLAUDE.md#L27-L32`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/CLAUDE.md#L27-L32)
 
-「同期を保つこと」というコメント付きのコピーを**禁止**しています。あれは、いつか必ず片方だけ直されます。
+「どこに置くか」と「なぜそこなのか」。これはリポジトリごとに違うので、ここだけは書く意味があります（ちなみにこの例は「同期を保つこと」というコメント付きのコピーを**禁止**しています。あれは、いつか必ず片方だけ直されるので）。
+
+もう1つ、書く価値があるとしたら**そのリポでしか起きない罠**です。たとえば mulmoterminal には、型チェックのコマンドが3つに分かれているという事情があります。
+
+```markdown
+- `yarn typecheck` — **App code only — it does NOT compile the specs.**
+- `yarn typecheck:server` / `yarn typecheck:test` — CI runs these too.
+  Change a shared type and run **all three**:
+  `yarn typecheck` alone passes while CI fails.
+```
+
+📎 [`CLAUDE.md#L15-L19`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/CLAUDE.md#L15-L19)
+
+ローカルで通ったのに CI で落ちる、というやつです。ただ、これも見方を変えれば「**tsconfig の分割がまだ揃っていない**」というだけの話で、揃えられるなら書かずに済みます。
+
+### リポジトリ側が厚くなったら、それはスタックが揃っていないサイン
+
+だから、僕はこう考えるようになりました。
+
+**リポジトリごとの `CLAUDE.md` が長くなってきたら、規約が足りないのではなく、揃え方が足りない。**
+
+同じ注意書きを3つのリポジトリに書き写しているなら、書き写すより先に、スタックのほうを合わせたほうが早い。規約は増やすものではなく、**書かなくて済むように環境を寄せていくもの**だと思っています。
+
+長い規約は読まれません。これは人間の話ではなく、**AI についても同じ**です。数百行の憲法を書いても、実際に効くのは「毎回必ず踏む数行」だけでした。
 
 ### グローバル側は「短い本体＋深いドキュメント」
 
-全プロジェクト共通のほう（`~/.claude/CLAUDE.md`）も、同じ問題を抱えます。共通ルールは書きたいことが多く、放っておくと膨らむ。
+そのぶん、重みは全部グローバル側に乗ります。そしてこちらは、放っておくと膨らみます。全プロジェクトの作法が集まる場所なので、書きたいことがいくらでもある。
 
 なので、**本体には1行のポインタだけ置いて、詳細は `docs/` に逃がしています**。
 
