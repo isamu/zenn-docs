@@ -491,6 +491,18 @@ CODEX VERDICT: CHANGES REQUESTED
 
 📎 [`codex_review.yaml#L215-L220`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/codex_review.yaml#L215-L220)
 
+発火条件は、意図的にゆるくしてあります。
+
+```yaml
+# Auto-fire on EVERY PR — including drafts and docs-only diffs.
+# Cost is bounded by concurrency.cancel-in-progress (a push burst collapses to one
+# review against the final commit) and the Azure deployment SKU's TPM cap.
+```
+
+📎 [`codex_review.yaml#L34-L40`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/codex_review.yaml#L34-L40)
+
+draft でも docs だけの diff でも走らせています。**「レビューするかどうかを判断するコスト」のほうが、レビュー自体のコストより高い**からです。連続 push は `concurrency` で最新コミットの1回に畳まれるので、無駄打ちにもなりません。
+
 ### 余談：レビューを1時間、2人で待っていた話
 
 いまの形になった経緯を書いておきます。わりと間抜けな話です。
@@ -507,7 +519,7 @@ CODEX VERDICT: CHANGES REQUESTED
 
 しかもこの「1時間に1回」は、**リポジトリに対して1回**であって、人数分ではありません。
 
-僕は日本、中島さんはアメリカ。時差のおかげで作業時間はほとんど重ならないので、普段はそれぞれが自分の番で黙って1時間待つ。それだけでも十分おかしいのですが、**たまたま2人の作業時間が重なった日は、レビュー枠の奪い合い**が始まります。
+僕は日本、一緒に作っている中島聡さん（Microsoft で Windows 95 や Internet Explorer を手がけた人で、いまもシアトル在住。**さっき出てきた Yohei さんのお父さん**です）はアメリカ。時差のおかげで作業時間はほとんど重ならないので、普段はそれぞれが自分の番で黙って1時間待つ。それだけでも十分おかしいのですが、**たまたま2人の作業時間が重なった日は、レビュー枠の奪い合い**が始まります。
 
 さらに笑えないのが、**間違ったコミットでトリガーしてしまったとき**です。直す前のコミットにレビューが1回使われて消える。そしてまた1時間。
 
@@ -537,19 +549,9 @@ AI レビューが本当に効いたのは、まずここでした。**誰かが
 
 空港で PR を開いていた人間が、いまは diff を読んでもいない。**半年で、そこまで来てしまった。**
 
-設定で意図的にゆるくしているところがあります。
-
-```yaml
-# Auto-fire on EVERY PR — including drafts and docs-only diffs.
-# Cost is bounded by concurrency.cancel-in-progress (a push burst collapses to one
-# review against the final commit) and the Azure deployment SKU's TPM cap.
-```
-
-📎 [`codex_review.yaml#L34-L40`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/codex_review.yaml#L34-L40)
-
-draft でも docs だけの diff でも走らせています。「レビューするかどうかを判断するコスト」のほうが、レビュー自体のコストより高いからです。連続 push は `concurrency` で最新コミットの1回に畳まれます。
-
 ### ここで一番大事なこと
+
+そうやってレビューを機械に預けると、今度は別の問題が出てきます。
 
 **ボットの指摘を機械的に全部適用してはいけません。**
 
