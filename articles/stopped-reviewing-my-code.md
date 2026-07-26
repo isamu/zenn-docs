@@ -3,7 +3,7 @@ title: "1日500コミットは、もう読めない ── だからコードレ
 emoji: "🚦"
 type: "tech"
 topics: ["ClaudeCode", "AI", "テスト", "CI", "vibecoding"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
