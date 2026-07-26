@@ -191,6 +191,120 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 
 「今は妥協している。理由はこれ。解消したら error にする」——**妥協にも期限と条件を書く**。
 
+### sonarjs も入れて、かなり厳しめにする
+
+サイズと複雑さだけでは足りません。両リポジトリとも、`eslint-plugin-sonarjs` と `eslint-plugin-security` を **recommended ごと**入れています。
+
+```js
+export default [
+  js.configs.recommended,
+  ...tseslint.configs.strict,        // ← recommended ではなく strict
+  ...pluginVue.configs["flat/recommended"],
+  sonarjs.configs.recommended,
+  security.configs.recommended,
+  // ...
+];
+```
+
+📎 [`eslint.config.js#L9-L15`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/eslint.config.js#L9-L15)
+
+その上で、個別にさらに締めています。
+
+| ルール | 何を捕まえるか |
+|---|---|
+| [`sonarjs/cognitive-complexity`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L303) | 循環的複雑度より「人間の読みにくさ」に近い指標 |
+| [`sonarjs/no-ignored-exceptions`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L296) | catch して握りつぶしている箇所 |
+| [`sonarjs/assertions-in-tests`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L321) | **アサーションのないテスト** |
+
+最後のものが個人的に好きです。設定ファイルにこう書いてあります。
+
+> assertion-less test can't slip in unnoticed — reviewers caught them by eye before, CI enforces it now.
+
+**「今までは人間が目で見つけていたものを、CI がやる」。** この記事で言いたいことが、この1行に詰まっています。
+
+外すルールにも理由を書きます。mulmoterminal では `sonarjs/no-os-command-from-path` を `bin/` でだけ切っています。**ユーザーがインストールした CLI（claude / gh / tmux / codex / git）を PATH から起動するのがこのツールの仕事**なので、このルールは前提そのものと喧嘩するからです。
+
+### 型を、もう一つの規約として使う
+
+そして型です。ここが一番大事だと思っています。
+
+`CLAUDE.md` が自然言語で書いた規約なら、**型は機械が強制する規約**です。そして僕が diff を読まなくなった以上、**読む役を型にやってもらう**しかありません。
+
+なので、逃げ道を塞いでいます。
+
+| ルール | 設定 |
+|---|---|
+| [`@typescript-eslint/no-explicit-any`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L193) | error |
+| [`@typescript-eslint/no-non-null-assertion`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L213) | error |
+| [`@typescript-eslint/consistent-type-assertions`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L258) | error |
+
+加えて、グローバルの `CLAUDE.md` 側にこう書いてあります。
+
+- `as` によるキャストは使わない。**型ガード**（`const isXxx = (x: unknown): x is Type => ...`）を書く
+- Zod スキーマからは `z.infer<typeof schema>` で導出する。**同じ型を二重に定義しない**
+- `any` は使わない
+- lint / 型エラーを `eslint-disable` / `@ts-ignore` / `@ts-expect-error` で黙らせない。**根本を直す**
+
+最後の1行がかなり効きます。エージェントは、放っておくと**エラーを消す最短経路**を選びます。`@ts-ignore` は最短経路です。禁止しておかないと、**型が守ってくれる範囲が静かに減っていきます**。
+
+### 型情報を使う lint は「コストに見合うものだけ」
+
+型を本気で使うなら、`projectService` を有効にして **TypeScript のプログラムを丸ごと構築する** lint パスが要ります。ただし重い。設定ファイルに実測が書いてあります。
+
+> that program is the whole cost (measured: five rules cost the same as all 44), and it runs the full scope in ~26s over the untyped pass.
+
+**5ルールでも44ルールでもコストは同じ**。プログラムの構築が全部で、ルールの数はほぼ関係ない。
+
+なのに全部は入れていません。理由もそこに書いてあります。
+
+> The rest of `strictTypeChecked` ... is dominated by style — `restrict-template-expressions` alone accounts for 439 of its 1213 findings — which would bury the two things type information is actually needed for here
+
+1213件のうち439件が、たった1つのスタイルルール。それに埋もれさせないために、**型情報でなければ絶対に捕まえられない2種類**に絞っています。
+
+1. `no-explicit-any` では構造的に見えない `any` —— 型のないライブラリからの値、`JSON.parse()`、`as unknown as T` の二段キャスト
+2. 構文ルールでは原理的に捕まえられない間違い —— **`await` の付け忘れ**、同期専用 API に渡された async コールバック、`"[object Object]"` になった文字列化
+
+そしてこの4つは、**バックログをゼロにしてから error に上げて**あります。
+
+```js
+"@typescript-eslint/no-base-to-string": "error",
+"@typescript-eslint/no-floating-promises": "error",
+"@typescript-eslint/no-misused-promises": "error",
+"@typescript-eslint/await-thenable": "error",
+```
+
+> Drained to zero and ratcheted to `error` — a dropped `await` or an async callback handed to a sync-only API is a real bug, and the backlog for these three is empty, so there is nothing to grandfather. **Re-introducing one now fails CI instead of joining a warning list nobody reads.**
+
+📎 [`mulmoclaude eslint.config.mjs#L525-L575`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L525-L575) ／ 運用方針は [`docs/lint-policy.md`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/docs/lint-policy.md)
+
+**「誰も読まない警告リストに1件足す」を許さない。** ゼロまで削ってから error に上げる。この「drain してから ratchet する」の考え方は、後で出てくる重複スキャンの話（初日からブロックすると回避の作法が育つ）とちょうど裏表になっています。
+
+### 人間なら耐えられない厳しさが、AI なら成立する
+
+ここまで並べておいて何ですが、**この設定は人間のチームなら3日で緩和 PR が飛んできます**。
+
+関数は60行まで。ネストは4段まで。`any` 禁止。非 null アサーション禁止。キャスト禁止。テストにはアサーション必須。握りつぶした catch は CI が落とす。
+
+人間が書いていたら、「いちいちうるさい」「今それは本質じゃない」となります。実際、昔の僕もそう思っていました。
+
+でも、**書いているのが AI なら文句を言いません**。指摘されたら直すだけです。
+
+これは地味に大きな変化だと思っています。これまで lint の厳しさは、「機械の正しさ」と「開発者の忍耐」のトレードオフでした。**緩めるという判断は、技術的な判断ではなく社会的な判断だった。**
+
+その社会的コストがゼロになったなら、天秤は片側にしか傾きません。
+
+しかも僕にとって、これは贅沢ではなく必需品です。**僕は diff を読んでいないので、うるさく言ってくれる存在がいないと困る。**
+
+### だから、型のない言語をもう選びたくない
+
+同じ理由で、言語の選び方も変わりました。
+
+**静的解析が効かない言語を、なるべく使いたくない。**
+
+型のない言語だと、この記事に書いたことの半分が成立しません。「読まなくても壊れない」の"読まなくても"を支えているのは、結局のところ**書いた瞬間に機械が読んでくれること**だからです。型がないと、その最初の読み手がいなくなる。
+
+昔は「型は書くのが面倒」というコストが確かにありました。今は、**その面倒を払うのが僕ではありません。**
+
 ---
 
 ## ③ テスト — できる限り pure 関数にして、エッジケースを潰す
@@ -289,6 +403,16 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 - **PR ごと**: ubuntu-latest + macOS-latest → [`ci.yml#L10-L18`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/ci.yml#L10-L18)
 - **Windows**: 毎日 03:00 JST（＋ main への push）→ [`windows-daily.yaml#L14-L21`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/windows-daily.yaml#L14-L21)
 
+### そもそも、チーム全員が Mac
+
+3 OS で回している一番の理由はこれかもしれません。**僕らのチームには Linux 使いも Windows 使いもいません。**
+
+つまり、Linux / Windows の CI が**唯一の実機**です。手元にない環境のバグは、ローカルでは一生再現できません。
+
+そして、これが効くのはリリース前だけではありません。**ユーザーからバグレポートが来たときに、そこで再現させられる。** 「Windows で動きません」という Issue に対して、「手元に Windows がないので分かりません」と返さずに済む。CI が、テスト環境であると同時に**再現環境**になっています。
+
+これは正直、想定していなかった副産物でした。3 OS の CI は「品質のため」に入れたつもりだったのに、いま一番効いているのは**サポートのため**だったりします。
+
 ### なぜ macOS を PR 毎に回すのか
 
 冗長性のためではありません。**Docker サンドボックスが darwin 限定の機能**なので、Keychain からの認証情報のエクスポート、マウント構築といったコードパスが本当に走るのは macOS ランナーだけだからです。
@@ -322,6 +446,27 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 「何を守っているか書けるなら、頻度は落としていい」。逆に、**書けないゲートは、たぶん要らないか、要るのに守れていないか、どちらかです**。
 
 Windows は本当に固有の罠が多くて、`fs.watch` が 8.3 短縮パス（`C:\Users\RUNNER~1\…`）でプロセスを丸ごと abort させる（catch できない）とか、`path.resolve("/etc")` が `C:\etc` になって POSIX のパス一覧が静かに全部マッチしなくなるとか、そういう類です。これは daily でも回しておかないと、リリース直前に発見することになります。
+
+### Windows 専用のテストケースを書く
+
+さらに、Windows のためのテストケースを個別に書いています。いま16個の spec ファイルが `win32` を意識したケースを持っています。
+
+目的は「Windows で動くこと」だけではありません。むしろ**他をいじったときに Windows をデグレさせないこと**のほうが大きい。パス処理や区切り文字は、Linux 前提の"きれいなリファクタ"で簡単に壊れます。そして壊れても、**Mac の上では誰も気づきません**。
+
+書き方にコツがあって、**プラットフォームを引数で渡す**ようにしています。
+
+```ts
+expect(namesAWindowsDevice("docs/NUL/readme.md", "win32")).toBe(true);
+expect(namesAWindowsDevice("docs\\CON\\readme.md", "win32")).toBe(true);
+```
+
+（`NUL` や `CON` は Windows の予約デバイス名で、ファイル名に使えません）
+
+関数の中で `process.platform` を見るのではなく引数で受け取ると、**Windows の挙動を Mac 上でテストできます**。daily の Windows CI を待たずに、手元で赤くできる。
+
+📎 [`test/server/files/pathContainment.spec.ts#L163-L182`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/test/server/files/pathContainment.spec.ts#L163-L182)
+
+これは前に書いた「境界では依存を引数で渡す」の実例でもあります。時計、ホームディレクトリ、プロセス、そして**プラットフォーム**。テストしやすさは、だいたい引数の形で決まります。
 
 ---
 
@@ -381,7 +526,21 @@ draft でも docs だけの diff でも走らせています。「レビュー�
 
 > **全ボットが sign off ＋ CI がグリーン ＋ 人間が確認**
 
-3つ目を残しているのが大事だと思っています。ここまで自動化しておいて何ですが、**最後のボタンまで機械に渡すと、本当に誰も見ていない状態**になります。僕が読まなくなったのは diff であって、マージの責任ではありません。
+……と書いてはあるのですが、正直に言うと、**最後の「人間が確認」は、最近ほとんど形骸化しています**。ボットが全部 OK を出して CI がグリーンなら、僕はだいたい押すだけです。
+
+そして、**そこも全自動にしたいと思っています。**
+
+怖くないのか、と言われれば、少しは怖い。でも考えてみると、僕が最後に押している「確認」の中身は、**すでに機械が出した結論をなぞっているだけ**です。なぞるだけの工程を人間に残すのは、安心のためであって品質のためではない。
+
+それでもまだ人間を残しているのは、品質の問題ではなく**責任の所在**の問題だと思っています。だから全自動に進むなら、たぶん次にやるべきは「もっと賢いレビュー」ではなく、**「何かあったときに確実に戻せること」**——ロールバックと、後から追える記録——のほうです。そっちが今の宿題です。
+
+### その先：判断そのものを学習させる
+
+もうひとつ考えているのが、**判断の基準そのものを機械に渡す**ことです。
+
+この記事ではずっと「機械に移した」と書いてきましたが、上でやっている分類——ボットの指摘を「本物の修正／妥当な nitpick／誤検知」に振り分けるところ——は、まだ僕がやっています。そしてこの判断は、**過去の自分の判断の積み重ね**でできています。だとしたら、それを学習させた"判断 AI"に寄せられるはずです。
+
+レビューを機械に移し、マージを機械に移し、最後に**判断の基準**を移す。並べてみると、順番としてはこれが自然な気がしています。
 
 ---
 
@@ -417,6 +576,34 @@ draft でも docs だけの diff でも走らせています。「レビュー�
 
 レビューをやめられたのではありません。**レビューを、機械に移した**だけです。
 
+そして今やりたいのは、**自分の判断を AI に学習させて、その AI に判断させること**です。
+
+ボットのどの指摘を直して、どれを「意図的」と返したか。どの PR をマージして、どれを差し戻したか。その履歴は、全部 GitHub に残っています。**過去の自分の判断のログ**です。
+
+それを学習させれば、途中の判断——いま僕がやっている分類——は僕でなくてもよくなるはずです。そして最終的には、マージまで自動で回したい。
+
+---
+
+## で、楽になったのかというと
+
+ここまで自動化して、では楽になったのか。
+
+**逆です。忙しくなりました。**
+
+思いついたことが、その日のうちに動くようになりました。動くと触ります。触るとまた思いつきます。**アイデアの回転が上がったぶん、やることが増えました。**
+
+減ったのは「待っている時間」と「読んでいる時間」であって、仕事そのものではなかった。
+
+機械に仕事を奪われるはずじゃなかったのかな、と思います。
+
+奪われたのは、たぶん仕事ではなく**言い訳**のほうでした。「時間がないからできない」が使えなくなった。空いた手にアイデアが流れ込んできて、結局また埋まっている。
+
+---
+
+最後に聞いてみたいのですが——**みなさんは、自分の書いた（書かせた）コードを、まだ全部読んでいますか？**
+
+読んでいないなら、代わりに何が守ってくれていますか。読んでいるなら、いつまで読めそうですか。そこがいま、一番知りたいところです。
+
 ---
 
 この記事で紹介したものは、全部この3つのリポジトリで動いています。そのまま持っていってください。
@@ -432,7 +619,3 @@ draft でも docs だけの diff でも走らせています。「レビュー�
 - mulmoclaude: [`7773cd7`](https://github.com/receptron/mulmoclaude/tree/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a)
 - isamu/claude: [`273144a`](https://github.com/isamu/claude/tree/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541)
 :::
-
-最後に聞いてみたいのですが——**みなさんは、自分の書いた（書かせた）コードを、まだ全部読んでいますか？**
-
-読んでいないなら、代わりに何が守ってくれていますか。読んでいるなら、いつまで読めそうですか。そこがいま、一番知りたいところです。
