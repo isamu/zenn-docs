@@ -74,6 +74,8 @@ https://github.com/isamu/claude
   `yarn typecheck` alone passes while CI fails.
 ```
 
+📎 [`CLAUDE.md#L15-L19`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/CLAUDE.md#L15-L19)
+
 太字の部分は、実際に何度もやられたやつです。`yarn typecheck` がローカルで通ったのに CI が落ちる。理由は、テストが型チェックの対象に入っていないから。
 
 これは「気をつける」で解決しません。**ファイルに書いて、毎回読ませる**しかない。
@@ -85,6 +87,8 @@ https://github.com/isamu/claude
   or wire type that BOTH sides decide from belongs here — never mirrored into
   `server/` and `src/` with a "keep the two copies in sync" comment.
 ```
+
+📎 [`CLAUDE.md#L27-L32`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/CLAUDE.md#L27-L32)
 
 「同期を保つこと」というコメント付きのコピーを**禁止**しています。あれは、いつか必ず片方だけ直されます。
 
@@ -101,15 +105,17 @@ https://github.com/isamu/claude
   — MUST read before debugging a Windows failure.
 ```
 
+📎 [`isamu/claude CLAUDE.md#L168-L169`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/CLAUDE.md#L168-L169)
+
 いま置いてあるのはこの5つです。
 
 | ファイル | 中身 |
 |---|---|
-| `docs/testing.md` | テストパターンの網羅リスト、テスタビリティのための設計 |
-| `docs/debugging-methodology.md` | バグの「家系図」マトリクス、ルールの横断掃除 |
-| `docs/windows-gotchas.md` | Windows 固有の罠 |
-| `docs/cross-platform-ci.md` | 3 OS 対応の書き方 |
-| `docs/web-debugging.md` | ブラウザを手で操作するときの手順 |
+| [`docs/testing.md`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/docs/testing.md) | テストパターンの網羅リスト、テスタビリティのための設計 |
+| [`docs/debugging-methodology.md`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/docs/debugging-methodology.md) | バグの「家系図」マトリクス、ルールの横断掃除 |
+| [`docs/windows-gotchas.md`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/docs/windows-gotchas.md) | Windows 固有の罠 |
+| [`docs/cross-platform-ci.md`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/docs/cross-platform-ci.md) | 3 OS 対応の書き方 |
+| [`docs/web-debugging.md`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/docs/web-debugging.md) | ブラウザを手で操作するときの手順 |
 
 ポイントは、ポインタに**「いつ読むか」を添える**ことです。`Read before writing tests` `MUST read before debugging a Windows failure`。こう書いておくと、エージェントは必要なときだけ深いほうを開きます。
 
@@ -137,9 +143,13 @@ https://github.com/isamu/claude
 }
 ```
 
+📎 [`eslint.config.js#L77-L87`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/eslint.config.js#L77-L87)
+
 加えて `eslint-plugin-sonarjs` の **cognitive-complexity を error**（閾値15）にしています。循環的複雑度より、人間の読みにくさに近い指標です。
 
 mulmoclaude 側はもう少し厳しく、`max-lines-per-function` が **50**、`complexity` が **15** です。
+
+📎 [`mulmoclaude eslint.config.mjs#L270-L282`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L270-L282)
 
 ### 大事なのは「例外の作法」
 
@@ -163,6 +173,8 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 }
 ```
 
+📎 [`eslint.config.js#L43-L57`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/eslint.config.js#L43-L57)
+
 **1行につき1つの理由**が書いてあります。そして「理由が消えたらエントリも消せ」と書いてある。
 
 こうしておくと、半年後に見返したときに「これはまだ必要か？」を判断できます。インラインの `eslint-disable` には、これができません。
@@ -174,6 +186,8 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 // spawnClaudePty's 7 params (hot path, not worth churning 5 call sites into an
 // options object) — flip it to error once resolved.
 ```
+
+📎 [`eslint.config.js#L77-L80`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/eslint.config.js#L77-L80)
 
 「今は妥協している。理由はこれ。解消したら error にする」——**妥協にも期限と条件を書く**。
 
@@ -238,19 +252,27 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 
 なので、CI に2本のスキャンを足しています。
 
-- **duplication-scan**（jscpd）— コピペの検出
-- **dead-code-scan**（knip）— どこからも import されていない export、誰も呼ばなくなったヘルパー
+- **duplication-scan**（[jscpd](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/duplication-scan.yaml#L45-L58)）— コピペの検出
+- **dead-code-scan**（[knip](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/dead-code-scan.yaml)）— どこからも import されていない export、誰も呼ばなくなったヘルパー
 
-面白いのは、**どちらもビルドを落とさない**ようにしてあることです（`continue-on-error`）。理由は workflow のコメントに書いてあります。
+面白いのは、**どちらもビルドを落とさない**ようにしてあることです。しかも、方法が違います。
+
+- **dead-code-scan** は明示的に `continue-on-error: true`
+- **duplication-scan** は閾値を設定せずに走らせ、結果を SARIF で **Code Scanning に上げる**（＝アラートとして残るが、ジョブは失敗しない）
+
+理由は workflow のコメントに書いてあります。
 
 ```yaml
-# Reports only — this workflow NEVER fails the build, mirroring duplication-scan.yaml:
+# Reports only — this workflow NEVER fails the build (`continue-on-error`), mirroring
+# duplication-scan.yaml:
 #   1. knip can't infer every entry point (CLI subcommands spawned via tsx, codegen),
 #      so a few false positives are expected. Blocking on day one would just train
 #      people to add `// knip-ignore` reflexively.
 #   2. knip has no base-branch diffing, so the report is the FULL current inventory,
 #      not this PR's delta. It's a review aid, not a gate.
 ```
+
+📎 [`dead-code-scan.yaml#L9-L19`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/dead-code-scan.yaml#L9-L19) ／ [`continue-on-error は L48`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/dead-code-scan.yaml#L48)
 
 **初日からブロックすると、無視の作法が育つ**。これは ESLint の例外の話とまったく同じ構造です。
 
@@ -264,12 +286,22 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 
 構成はこうなっています。
 
-- **PR ごと**: ubuntu-latest + macOS-latest
-- **Windows**: 毎日 03:00 JST（＋ main への push）
+- **PR ごと**: ubuntu-latest + macOS-latest → [`ci.yml#L10-L18`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/ci.yml#L10-L18)
+- **Windows**: 毎日 03:00 JST（＋ main への push）→ [`windows-daily.yaml#L14-L21`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/windows-daily.yaml#L14-L21)
 
 ### なぜ macOS を PR 毎に回すのか
 
 冗長性のためではありません。**Docker サンドボックスが darwin 限定の機能**なので、Keychain からの認証情報のエクスポート、マウント構築といったコードパスが本当に走るのは macOS ランナーだけだからです。
+
+その理由も、matrix のすぐ上にコメントとして置いてあります。
+
+```yaml
+# ubuntu + macOS on every PR. macOS matters here beyond redundancy: the Docker sandbox
+# is darwin-gated (sandboxPlatformSupported), so its code paths — Keychain credential
+# export/refresh, mount building — only run for real on a macOS runner.
+```
+
+📎 [`ci.yml#L10-L18`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/ci.yml#L10-L18)
 
 ### なぜ Windows を PR から外したのか
 
@@ -284,6 +316,8 @@ mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ES
 # a real PTY here; server/index.ts spawns powershell.exe; and the postinstall runs on
 # every install. None of that had ever executed on Windows before this workflow.
 ```
+
+📎 [`windows-daily.yaml#L1-L16`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/windows-daily.yaml#L1-L16)
 
 「何を守っているか書けるなら、頻度は落としていい」。逆に、**書けないゲートは、たぶん要らないか、要るのに守れていないか、どちらかです**。
 
@@ -304,6 +338,8 @@ CODEX VERDICT: LGTM
 CODEX VERDICT: CHANGES REQUESTED
 ```
 
+📎 [`codex_review.yaml#L215-L220`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/codex_review.yaml#L215-L220)
+
 さらに **CodeRabbit** と **Sourcery** も並走しているので、1つの PR に**3体のレビュアー**がぶら下がります。
 
 設定で意図的にゆるくしているところがあります。
@@ -313,6 +349,8 @@ CODEX VERDICT: CHANGES REQUESTED
 # Cost is bounded by concurrency.cancel-in-progress (a push burst collapses to one
 # review against the final commit) and the Azure deployment SKU's TPM cap.
 ```
+
+📎 [`codex_review.yaml#L34-L40`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/codex_review.yaml#L34-L40)
 
 draft でも docs だけの diff でも走らせています。「レビューするかどうかを判断するコスト」のほうが、レビュー自体のコストより高いからです。連続 push は `concurrency` で最新コミットの1回に畳まれます。
 
@@ -336,8 +374,8 @@ draft でも docs だけの diff でも走らせています。「レビュー�
 
 とはいえ、この繰り返しを手でやると疲れます。なので**ループそのものをスキルとして書いて**あります（[公開リポジトリ](https://github.com/isamu/claude)の `skills/` 配下です）。
 
-- **`codex-cross-review`** — ローカルで `codex exec` を回して指摘を受け取り、こちらが評価して直し、再レビューを要求する。**最大5イテレーションの安全キャップ**付きで、イテレーションごとに状態ファイルを残します。ループが空回りしたとき、後から「何を言われて何を直したか」を追えるようにするためです
-- **`gh-review-loop`** — GitHub 側のボット（Codex の Actions / CodeRabbit / Sourcery）が**最新コミットに**出したものを読み、直し、push し、再レビューを待つ。`gh pr view` では出てこない**インラインのスレッドまで読む**のがポイントです
+- **[`codex-cross-review`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/skills/codex-cross-review/SKILL.md)** — ローカルで `codex exec` を回して指摘を受け取り、こちらが評価して直し、再レビューを要求する。**最大5イテレーションの安全キャップ**付きで、イテレーションごとに状態ファイルを残します。ループが空回りしたとき、後から「何を言われて何を直したか」を追えるようにするためです
+- **[`gh-review-loop`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/skills/gh-review-loop/SKILL.md)** — GitHub 側のボット（Codex の Actions / CodeRabbit / Sourcery）が**最新コミットに**出したものを読み、直し、push し、再レビューを待つ。`gh pr view` では出てこない**インラインのスレッドまで読む**のがポイントです
 
 そして、マージ条件を明示してあります。
 
@@ -386,6 +424,14 @@ draft でも docs だけの diff でも走らせています。「レビュー�
 - [isamu/claude](https://github.com/isamu/claude) — 全プロジェクト共通の `CLAUDE.md` / `docs/` / レビュー用の `skills/`
 - [receptron/mulmoterminal](https://github.com/receptron/mulmoterminal) — `eslint.config.js` / `.github/workflows/` / リポジトリ側の `CLAUDE.md`
 - [receptron/mulmoclaude](https://github.com/receptron/mulmoclaude) — `eslint.config.mjs` / `.github/workflows/`
+
+:::message
+本文中の 📎 リンクは、**2026年7月26日時点のコミットに固定**してあります。設定は変わっていくので、最新を見たいときはリポジトリのデフォルトブランチをどうぞ。
+
+- mulmoterminal: [`5e82524`](https://github.com/receptron/mulmoterminal/tree/5e8252440ddb7cb5e4df94e9793935fada0d5d9a)
+- mulmoclaude: [`7773cd7`](https://github.com/receptron/mulmoclaude/tree/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a)
+- isamu/claude: [`273144a`](https://github.com/isamu/claude/tree/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541)
+:::
 
 最後に聞いてみたいのですが——**みなさんは、自分の書いた（書かせた）コードを、まだ全部読んでいますか？**
 
