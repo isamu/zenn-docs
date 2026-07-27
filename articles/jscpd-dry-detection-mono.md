@@ -215,9 +215,9 @@ echo 'npx jscpd --threshold 5 --reporters console,silent .' > .husky/pre-commit
 
 jscpd だけが手ではありません。**レイヤが違うので、競合ではなく補完**です。
 
-### eslint-plugin-sonarjs
+### [eslint-plugin-sonarjs](https://github.com/SonarSource/SonarJS/tree/master/packages/jsts/src/rules)
 
-すでに ESLint を使っているなら、これが一番導入コストが低い選択肢です。
+すでに [ESLint](https://eslint.org) を使っているなら、これが一番導入コストが低い選択肢です。
 
 ```bash
 npm i -D eslint-plugin-sonarjs
@@ -242,7 +242,7 @@ export default [
 
 ESLint に乗るぶん sonarjs は日常の開発フローに溶け込みますが、「ファイル跨ぎのコピペ」は jscpd のほうが広く拾えます。**両方入れるのが素直**です。
 
-### SonarQube / SonarCloud
+### [SonarQube](https://www.sonarsource.com/products/sonarqube/) / [SonarCloud](https://www.sonarsource.com/products/sonarcloud/)
 
 組織で回すならこちら。Duplication に加えて Maintainability / Cognitive Complexity / Security までまとめて見て、PR ごとに `Duplication: 3.2%` のようにデコレーションしてくれます。Quality Gate で「新規コードの重複率」を条件にできるのが強く、**先ほどの「新規流入を止める」問題にそのまま答えが用意されている**のが利点です。
 

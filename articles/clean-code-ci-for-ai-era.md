@@ -113,7 +113,7 @@ rules: {
 
 バグではありません——ちゃんと動く。でも、読みにくかったり、直しにくかったり、少し変更するとすぐ壊れそうだったり。今は平気でも後で面倒を呼ぶ、そういう書き方のことです。長すぎる関数、深いネスト、`any` での握りつぶし、意味の取れない変数名あたりが代表格です。
 
-MulmoClaude は `sonarjs.configs.recommended` と `tseslint.configs.strict` をベースに、こうした書き方を見つけるルールをさらにいくつか強めています。
+MulmoClaude は [`eslint-plugin-sonarjs`](https://github.com/SonarSource/SonarJS/tree/master/packages/jsts/src/rules) の `sonarjs.configs.recommended` と [typescript-eslint](https://typescript-eslint.io) の `tseslint.configs.strict` をベースに、こうした書き方を見つけるルールをさらにいくつか強めています。
 
 一番効いているのが認知的複雑度です。
 
