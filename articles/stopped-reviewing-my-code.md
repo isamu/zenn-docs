@@ -44,7 +44,7 @@ publication_name: "singularity"
 
 僕は2を選びました。そして2を選ぶというのは、精神論ではなく、**「壊れたら赤くなって止まる」を積み上げる作業**でした。
 
-以下、実際に [mulmoterminal](https://github.com/receptron/mulmoterminal) / [mulmoclaude](https://github.com/receptron/mulmoclaude) で動いているものを、設定ファイルごと紹介します。どちらも MIT で公開しています。
+以下、実際に [MulmoTerminal](https://github.com/receptron/mulmoterminal) / [MulmoClaude](https://github.com/receptron/mulmoclaude) で動いているものを、設定ファイルごと紹介します。どちらも MIT で公開しています。
 
 ---
 
@@ -61,7 +61,7 @@ https://github.com/isamu/claude
 
 ### 正直に言うと、リポジトリ側はほとんど要りません
 
-[mulmoterminal](https://github.com/receptron/mulmoterminal) のリポジトリにも `CLAUDE.md` があります。46行の短いものですが、これは**別のエンジニアが書いたもの**で、**僕自身はほぼ使っていません**。中身の大半が、僕のグローバル側にすでに入っているからです。
+[MulmoTerminal](https://github.com/receptron/mulmoterminal) のリポジトリにも `CLAUDE.md` があります。46行の短いものですが、これは**別のエンジニアが書いたもの**で、**僕自身はほぼ使っていません**。中身の大半が、僕のグローバル側にすでに入っているからです。
 
 なぜそうなるかというと、**開発スタックをほぼ揃えているから**です。
 
@@ -79,7 +79,7 @@ yarn、TypeScript、[Vitest](https://vitest.dev)、同じ [ESLint](https://eslin
 
 「どこに置くか」と「なぜそこなのか」。これはリポジトリごとに違うので、ここだけは書く意味があります（ちなみにこの例は「同期を保つこと」というコメント付きのコピーを**禁止**しています。あれは、いつか必ず片方だけ直されるので）。
 
-もう1つ、書く価値があるとしたら**そのリポでしか起きない罠**です。たとえば mulmoterminal には、型チェックのコマンドが3つに分かれているという事情があります。
+もう1つ、書く価値があるとしたら**そのリポでしか起きない罠**です。たとえば MulmoTerminal には、型チェックのコマンドが3つに分かれているという事情があります。
 
 ```markdown
 - `yarn typecheck` — **App code only — it does NOT compile the specs.**
@@ -167,7 +167,7 @@ yarn、TypeScript、[Vitest](https://vitest.dev)、同じ [ESLint](https://eslin
 
 加えて [`eslint-plugin-sonarjs`](https://github.com/SonarSource/SonarJS/tree/master/packages/jsts/src/rules) の **cognitive-complexity を error**（閾値15）にしています。循環的複雑度より、人間の読みにくさに近い指標です。
 
-[mulmoclaude](https://github.com/receptron/mulmoclaude) 側はもう少し厳しく、`max-lines-per-function` が **50**、`complexity` が **15** です。
+[MulmoClaude](https://github.com/receptron/mulmoclaude) 側はもう少し厳しく、`max-lines-per-function` が **50**、`complexity` が **15** です。
 
 📎 [`mulmoclaude eslint.config.mjs#L270-L282`](https://github.com/receptron/mulmoclaude/blob/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a/eslint.config.mjs#L270-L282)
 
@@ -177,7 +177,7 @@ yarn、TypeScript、[Vitest](https://vitest.dev)、同じ [ESLint](https://eslin
 
 なので、**例外はインラインで消さず、設定ファイルに理由付きで置く**ようにしています。
 
-mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ESLint で禁止しています（スタイルは [Tailwind](https://tailwindcss.com) ユーティリティで書く）。その上で、どうしても書けないものだけを許可リストに入れています。
+MulmoTerminal では、Vue コンポーネントの `<style>` ブロックを ESLint で禁止しています（スタイルは [Tailwind](https://tailwindcss.com) ユーティリティで書く）。その上で、どうしても書けないものだけを許可リストに入れています。
 
 ```js
 {
@@ -252,7 +252,7 @@ export default [
 
 **「今までは人間が目で見つけていたものを、CI がやる」。** この記事で言いたいことが、この1行に詰まっています。
 
-外すルールにも理由を書きます。mulmoterminal では `sonarjs/no-os-command-from-path` を `bin/` でだけ切っています。**ユーザーがインストールした CLI（claude / gh / tmux / codex / git）を PATH から起動するのがこのツールの仕事**なので、このルールは前提そのものと喧嘩するからです。
+外すルールにも理由を書きます。MulmoTerminal では `sonarjs/no-os-command-from-path` を `bin/` でだけ切っています。**ユーザーがインストールした CLI（claude / gh / tmux / codex / git）を PATH から起動するのがこのツールの仕事**なので、このルールは前提そのものと喧嘩するからです。
 
 ### 型を、もう一つの規約として使う
 
@@ -343,7 +343,7 @@ export default [
 
 数字から出します。
 
-| | [mulmoterminal](https://github.com/receptron/mulmoterminal) | [mulmoclaude](https://github.com/receptron/mulmoclaude) |
+| | [MulmoTerminal](https://github.com/receptron/mulmoterminal) | [MulmoClaude](https://github.com/receptron/mulmoclaude) |
 |---|---|---|
 | spec ファイル | **294** | **799** |
 | テストケース | **3,373** | — |
@@ -592,7 +592,7 @@ draft でも docs だけの diff でも走らせています。**「レビュー
 
 人間が「レビューして」と頼む工程や、順番待ちが1つでも挟まると、そこで必ず止まります。**push したら勝手にレビューが始まって、戻ってきたら指摘が積まれている。** この形でないと、レビューは自動化の輪に入りません。逆に言えば、輪の中に入れさえすれば、レビューは「待つもの」ではなく「流れてくるもの」になります。
 
-なお CodeRabbit 自体は、いまも mulmoclaude のほうでは動いています。**Codex とは見ている角度が違うので、拾う問題も違う。使えるなら使ったほうがいいです**（公開している mulmoterminal のほうでは、レビューの質とは関係ない事情で今は使っていません）。
+なお CodeRabbit 自体は、いまも MulmoClaude のほうでは動いています。**Codex とは見ている角度が違うので、拾う問題も違う。使えるなら使ったほうがいいです**（公開している MulmoTerminal のほうでは、レビューの質とは関係ない事情で今は使っていません）。
 
 レビュアーは、数を増やすというより**種類を増やす**のが効きます。同じ穴を3回見るより、違う穴を2回見るほうが価値がある。
 
@@ -757,8 +757,8 @@ MIT です。使い方は[日本語ガイド](https://receptron.github.io/mulmot
 冒頭にも書きましたが、この記事に出てきたものは全部、下の3つのリポジトリで**実際に動いています**。**そのままコピーすれば、同じように動くはずです。**
 
 - [isamu/claude](https://github.com/isamu/claude) — 全プロジェクト共通の `CLAUDE.md` / `docs/` / レビュー用の `skills/`
-- [receptron/mulmoterminal](https://github.com/receptron/mulmoterminal) — `eslint.config.js` / `.github/workflows/` / リポジトリ側の `CLAUDE.md`
-- [receptron/mulmoclaude](https://github.com/receptron/mulmoclaude) — `eslint.config.mjs` / `.github/workflows/`
+- [receptron/MulmoTerminal](https://github.com/receptron/mulmoterminal) — `eslint.config.js` / `.github/workflows/` / リポジトリ側の `CLAUDE.md`
+- [receptron/MulmoClaude](https://github.com/receptron/mulmoclaude) — `eslint.config.mjs` / `.github/workflows/`
 
 全部いっぺんに入れる必要はありません。**効く順に並べるとこうです。**
 
@@ -772,8 +772,8 @@ MIT です。使い方は[日本語ガイド](https://receptron.github.io/mulmot
 :::message
 本文中の 📎 リンクは、**2026年7月26日時点のコミットに固定**してあります。設定は変わっていくので、最新を見たいときはリポジトリのデフォルトブランチをどうぞ。
 
-- mulmoterminal: [`5e82524`](https://github.com/receptron/mulmoterminal/tree/5e8252440ddb7cb5e4df94e9793935fada0d5d9a)
-- mulmoclaude: [`7773cd7`](https://github.com/receptron/mulmoclaude/tree/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a)
+- MulmoTerminal: [`5e82524`](https://github.com/receptron/mulmoterminal/tree/5e8252440ddb7cb5e4df94e9793935fada0d5d9a)
+- MulmoClaude: [`7773cd7`](https://github.com/receptron/mulmoclaude/tree/7773cd70324c3c9e4be3e143fbe4c2bd83b7c46a)
 - isamu/claude: [`273144a`](https://github.com/isamu/claude/tree/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541)
 :::
 
