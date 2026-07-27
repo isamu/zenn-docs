@@ -584,7 +584,7 @@ draft でも docs だけの diff でも走らせています。**「レビュー
 
 なら CI でも動くんじゃないか。そう思って Codex の API キーを設定し、ワークフローから回してみました。すると、**まあまあちゃんとレビューが返ってくる**。それで今の形になりました。
 
-（このとき手元で書いたスキルが、後で出てくる `codex-cross-review` です。**ローカル版が先にあって、CI 版は後からついてきました**）
+（この「手元で回す」用は、いま [`codex-local-review`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/skills/codex-local-review/SKILL.md) というスキルになっています。**ローカル版が先にあって、CI 版は後からついてきました**）
 
 この体験で確信したのですが、**レビューが CI の中で、待ちなしに回ることが、とにかく重要**です。
 
@@ -628,9 +628,10 @@ AI レビューが本当に効いたのは、まずここでした。**誰かが
 
 ### そのループ自体をスキルにする
 
-とはいえ、この繰り返しを手でやると疲れます。なので**ループそのものをスキルとして書いて**あります（[公開リポジトリ](https://github.com/isamu/claude)の `skills/` 配下）。さっき出てきた「手元で試したスキル」が育ったもので、いまは2種類あります。
+とはいえ、この繰り返しを手でやると疲れます。なので**ループそのものをスキルとして書いて**あります（[公開リポジトリ](https://github.com/isamu/claude)の `skills/` 配下）。さっき出てきた「手元で試したスキル」が育ったもので、いまは**3種類**あります。どこで回すかが違います。
 
-- **[`codex-cross-review`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/skills/codex-cross-review/SKILL.md)** — ローカルで `codex exec` を回して指摘を受け取り、こちらが評価して直し、再レビューを要求する。**最大5イテレーションの安全キャップ**付きで、イテレーションごとに状態ファイルを残します。ループが空回りしたとき、後から「何を言われて何を直したか」を追えるようにするためです
+- **[`codex-local-review`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/skills/codex-local-review/SKILL.md)** — PR にする前に、作業ツリーや branch の diff を**ローカルで** Codex に読ませる。GitHub を往復しないので速い。「コミット前に一回見てもらう」用です
+- **[`codex-cross-review`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/skills/codex-cross-review/SKILL.md)** — **GitHub の PR に対して** `codex exec` を回し、指摘を受け取り、こちらが評価して直し、再レビューを要求する。**最大5イテレーションの安全キャップ**付きで、イテレーションごとに状態ファイルを残します。ループが空回りしたとき、後から「何を言われて何を直したか」を追えるようにするためです
 - **[`gh-review-loop`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/skills/gh-review-loop/SKILL.md)** — GitHub 側のボット（Codex の Actions、CodeRabbit など）が**最新コミットに**出したものを読み、直し、push し、再レビューを待つ。`gh pr view` では出てこない**インラインのスレッドまで読む**のがポイントです
 
 そして、マージ条件を明示してあります。
