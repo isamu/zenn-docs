@@ -65,7 +65,7 @@ https://github.com/isamu/claude
 
 なぜそうなるかというと、**開発スタックをほぼ揃えているから**です。
 
-yarn、TypeScript、Vitest、同じ ESLint 構成、同じ CI の形、同じテストの置き方。プロジェクトが違っても、中身の作法は変わりません。**作法が変わらないなら、規約をプロジェクトごとに書く理由がない。**
+yarn、TypeScript、[Vitest](https://vitest.dev)、同じ [ESLint](https://eslint.org) 構成、同じ CI の形、同じテストの置き方。プロジェクトが違っても、中身の作法は変わりません。**作法が変わらないなら、規約をプロジェクトごとに書く理由がない。**
 
 結果として、リポジトリ側に本当に書く価値があるのは、**ディレクトリ構成くらいしか残りません。**
 
@@ -165,7 +165,7 @@ yarn、TypeScript、Vitest、同じ ESLint 構成、同じ CI の形、同じテ
 
 📎 [`eslint.config.js#L77-L87`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/eslint.config.js#L77-L87)
 
-加えて `eslint-plugin-sonarjs` の **cognitive-complexity を error**（閾値15）にしています。循環的複雑度より、人間の読みにくさに近い指標です。
+加えて [`eslint-plugin-sonarjs`](https://github.com/SonarSource/SonarJS/tree/master/packages/jsts/src/rules) の **cognitive-complexity を error**（閾値15）にしています。循環的複雑度より、人間の読みにくさに近い指標です。
 
 [mulmoclaude](https://github.com/receptron/mulmoclaude) 側はもう少し厳しく、`max-lines-per-function` が **50**、`complexity` が **15** です。
 
@@ -177,7 +177,7 @@ yarn、TypeScript、Vitest、同じ ESLint 構成、同じ CI の形、同じテ
 
 なので、**例外はインラインで消さず、設定ファイルに理由付きで置く**ようにしています。
 
-mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ESLint で禁止しています（スタイルは Tailwind ユーティリティで書く）。その上で、どうしても書けないものだけを許可リストに入れています。
+mulmoterminal では、Vue コンポーネントの `<style>` ブロックを ESLint で禁止しています（スタイルは [Tailwind](https://tailwindcss.com) ユーティリティで書く）。その上で、どうしても書けないものだけを許可リストに入れています。
 
 ```js
 {
@@ -228,7 +228,7 @@ export default [
 
 📎 [`eslint.config.js#L9-L15`](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/eslint.config.js#L9-L15)
 
-**typescript-eslint は `strict` を選んでいます。** `recommended` との差は、`any` まわりや非 null アサーションのような「動くけれど後で困る」書き方を error にするかどうかです。
+**[typescript-eslint](https://typescript-eslint.io) は `strict` を選んでいます。** `recommended` との差は、`any` まわりや非 null アサーションのような「動くけれど後で困る」書き方を error にするかどうかです。
 
 そして `sonarjs` と `security` が `recommended` なのは、**手加減ではありません**。この2つには **strict プリセットがそもそも存在せず、`recommended` が全部**です。
 
@@ -236,7 +236,7 @@ export default [
 |---|---|---|
 | typescript-eslint | **`strict`** | recommended / **strict** / strictTypeChecked / all |
 | eslint-plugin-sonarjs | `recommended` | **`recommended` のみ** |
-| eslint-plugin-security | `recommended` | **`recommended` のみ** |
+| [eslint-plugin-security](https://github.com/eslint-community/eslint-plugin-security) | `recommended` | **`recommended` のみ** |
 
 つまり**入れられるものは入れきった状態**で、その上で個別にさらに締めています。
 
@@ -271,7 +271,7 @@ export default [
 加えて、グローバルの `CLAUDE.md` 側にこう書いてあります。
 
 - `as` によるキャストは使わない。**型ガード**（`const isXxx = (x: unknown): x is Type => ...`）を書く
-- Zod スキーマからは `z.infer<typeof schema>` で導出する。**同じ型を二重に定義しない**
+- [Zod](https://zod.dev) スキーマからは `z.infer<typeof schema>` で導出する。**同じ型を二重に定義しない**
 - `any` は使わない
 - lint / 型エラーを `eslint-disable` / `@ts-ignore` / `@ts-expect-error` で黙らせない。**根本を直す**
 
@@ -414,8 +414,8 @@ export default [
 
 なので、CI に2本のスキャンを足しています。
 
-- **duplication-scan**（[jscpd](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/duplication-scan.yaml#L45-L58)）— コピペの検出
-- **dead-code-scan**（[knip](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/dead-code-scan.yaml)）— どこからも import されていない export、誰も呼ばなくなったヘルパー
+- **duplication-scan**（[jscpd（公式）](https://jscpd.dev) / [設定](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/duplication-scan.yaml#L45-L58)）— コピペの検出
+- **dead-code-scan**（[knip（公式）](https://knip.dev) / [設定](https://github.com/receptron/mulmoterminal/blob/5e8252440ddb7cb5e4df94e9793935fada0d5d9a/.github/workflows/dead-code-scan.yaml)）— どこからも import されていない export、誰も呼ばなくなったヘルパー
 
 面白いのは、**どちらもビルドを落とさない**ようにしてあることです。しかも、方法が違います。
 
@@ -531,7 +531,7 @@ expect(namesAWindowsDevice("docs\\CON\\readme.md", "win32")).toBe(true);
 
 **実装したのと別の AI にレビューさせる。** これだけです。
 
-Claude Code が書いて、Codex が読む。逆もやります。この**書いた側と読む側を別のモデルにする**というだけのことで、**だいたいの問題点は見つかります**。体感で言うと、ここを入れてからバグらしいバグがほとんど出なくなりました。
+[Claude Code](https://claude.com/claude-code) が書いて、[Codex](https://github.com/openai/codex) が読む。逆もやります。この**書いた側と読む側を別のモデルにする**というだけのことで、**だいたいの問題点は見つかります**。体感で言うと、ここを入れてからバグらしいバグがほとんど出なくなりました。
 
 同じモデルに自分の書いたコードを読ませても、たいてい「良いと思います」と言ってきます。当然で、同じ判断でそう書いたからです。**別のモデルは、別の前提で読む。** それだけで指摘の質が変わります。
 
@@ -560,7 +560,7 @@ draft でも docs だけの diff でも走らせています。**「レビュー
 
 いまの形になった経緯を書いておきます。わりと間抜けな話です。
 
-そもそも **CodeRabbit** を知ったのは、[Yohei Nakajima](https://x.com/yoheinakajima) さん（BabyAGI の作者）のプロジェクトで使われているのを見たのがきっかけでした。PR に AI が勝手にコメントを付けている。「これは何だろう」と思って調べたのが最初です。
+そもそも **[CodeRabbit](https://coderabbit.ai/)** を知ったのは、[Yohei Nakajima](https://x.com/yoheinakajima) さん（[BabyAGI](https://github.com/yoheinakajima/babyagi) の作者）のプロジェクトで使われているのを見たのがきっかけでした。PR に AI が勝手にコメントを付けている。「これは何だろう」と思って調べたのが最初です。
 
 当時はまだ、PR が1日に数回しかありませんでした。だから出した PR には**全部コメントが付く**。なんて便利な AI なんだろう、と素直に驚きました。
 
@@ -693,7 +693,7 @@ npx mulmoterminal@latest
 - **グリッドで全セッションが一望できる。** セルの枠色が状態を表します —— 作業中 / 自分待ち / 完了
 - **入力待ちで音が鳴る。** 画面外で詰まったやつが自分から呼んでくる
 - **スマホに Web Push。** 散歩中でも、詰まった1本だけ捌ける
-- **裏は tmux。** ブラウザを閉じても、サーバを再起動しても、セッションは生きたまま
+- **裏は [tmux](https://github.com/tmux/tmux)。** ブラウザを閉じても、サーバを再起動しても、セッションは生きたまま
 - **セルごとに git worktree。** 同じリポジトリを複数のエージェントが同時に触っても衝突しない。グリッドから commit / push / PR まで
 - **Claude Code と Codex の両対応**、モデルもセッション単位で選べます
 
