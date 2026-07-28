@@ -105,6 +105,36 @@ publication_name: "singularity"
 
 だから僕は、速さを効率のためではなく、**言い続けてもらうために**維持しています。
 
+### そして、これは25年前に言われていたことでした
+
+書いていて思い出したのですが、この話はポール・グレアム（Y Combinator の創業者、『ハッカーと画家』）が**2001年**に書いています。Viaweb を運営していたときの話です。
+
+> **At Viaweb we often did three to five releases a day.**
+> （Viaweb では、1日に3〜5回リリースすることがよくあった）
+
+> If someone breaks your software, you don't have to try to guess what's going on, as you would with desktop software: **you should be able to reproduce the error while they're on the phone with you.**
+> （誰かがあなたのソフトを壊したとき、デスクトップソフトのように何が起きたか推測する必要はない。**その人と電話している間に、エラーを再現できるはずだ**）
+
+> When you can reproduce errors and release changes instantly, you can find and fix most bugs as soon as they appear.
+> **We never had enough bugs at any one time to bother with a formal bug-tracking system.**
+> （エラーを再現でき、変更を即座にリリースできるなら、バグは出た端から潰せる。**バグ管理システムを導入するほどバグが溜まったことがなかった**）
+
+—— Paul Graham, *[The Other Road Ahead](https://paulgraham.com/road.html)*, September 2001
+
+**1日3〜5回。** ちなみに、うちのこの4日間は13リリースなので **1日3.25回**です。**25年前に負けています。**
+
+### では、なぜ世の中はそうならなかったのか
+
+グレアムの主張は「**ソフトをサーバー側に置けばこれができる**」でした。そして実際、世の中のソフトはほぼ全部サーバー側に移りました。
+
+**なのに、返事が1ヶ月来ないサービスは今も普通にあります。**
+
+デプロイの問題ではなかった、ということだと思います。サーバー側に置いても、**その手前に「人間が確認する」工程が残っていた**。書いて、レビュー待ちで止まって、動作確認で止まって、リリース判断で止まる。**止まる場所が移っただけ**でした。
+
+前回の記事でやったのは、まさにその工程を機械に移すことでした。だから今回の速度が出ています。
+
+つまり——**2001年にグレアムが書いた速度に、AI でようやく戻ってきた**というのが、たぶん正確なところです。新しいことは何も言っていません。**言われていたことが、やっと普通の人にもできるようになった。**
+
 ## 速さは、前回の記事の副産物
 
 なぜ1時間で回るのか。頑張っているからではありません。前回書いた仕組みがそのまま効いています。
