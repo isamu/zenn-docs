@@ -781,9 +781,11 @@ MIT です。使い方は[日本語ガイド](https://receptron.github.io/mulmot
 
 ## 関連記事
 
-AI に思い切り書かせるための4本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための6本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. **1日500コミットは、もう読めない ── だからコードレビューをやめた** ← **いまここ**
-3. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
-4. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
+3. [コードはAIに任せた。残ったのは、ファンをつくる仕事だった](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
+4. [AIエージェントを並列で回している人が、実際に困っていること](https://zenn.dev/singularity/articles/parallel-agent-pains) — 6人に聞いて分かった痛みの構造
+5. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
+6. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
