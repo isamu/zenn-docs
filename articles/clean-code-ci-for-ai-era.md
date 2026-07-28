@@ -461,6 +461,6 @@ AI に思い切り書かせるための5本です。どこから読んでも大�
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
-3. [ユーザーが困ってから直るまで、中央値1時間](https://zenn.dev/singularity/articles/issue-median-one-hour) — その結果、リリース速度がどうなったか
+3. [コードはAIに任せた。残ったのは、ファンをつくる仕事だった](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
 4. **AIでがんがん書く時代の「きれいなコード」の守り方** ← **いまここ**
 5. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え

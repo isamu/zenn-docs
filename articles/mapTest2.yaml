@@ -1,0 +1,28 @@
+version: 0.6
+nodes:
+  map:
+    isResult: true
+    inputs:
+      rows: [1,2]
+      test: [a,b]
+      test2: z
+    params:
+      compositeResult: true
+    agent: mapAgent
+    graph:
+      version: 0.6
+      nodes:
+        copy:
+          isResult: true
+          agent: copyAgent
+          inputs:
+            data: :row
+            test: :test
+            test2: :test2
+        copy2:
+          isResult: true
+          agent: copyAgent
+          inputs:
+            data: :row
+            test: :test
+            test2: :test2
