@@ -135,6 +135,33 @@ publication_name: "singularity"
 
 つまり——**2001年にグレアムが書いた速度に、AI でようやく戻ってきた**というのが、たぶん正確なところです。新しいことは何も言っていません。**言われていたことが、やっと普通の人にもできるようになった。**
 
+### そして構図まで同じです
+
+当時、なぜ Viaweb にそれができたのか。グレアムは別の文章で、**Lisp を使っていたからだ**と書いています。
+
+> If we wrote our software in Lisp, **we'd be able to get features done faster than our competitors**, and also to do things in our software that they couldn't do.
+> （Lisp で書けば、**競合より速く機能を仕上げられる**し、彼らにできないことができる）
+
+—— Paul Graham, *[Beating the Averages](https://paulgraham.com/avg.html)*, April 2001
+
+C++ で書いていた競合が数ヶ月かけていた頃に、Lisp で1日に何度もデプロイしていた。**道具の差が、そのまま速度の差になっていた**わけです。
+
+いま起きているのは、まったく同じ構図だと思います。
+
+| | 遅い側 | 速い側 |
+|---|---|---|
+| 2001年 | C++ で手書き | **Lisp** |
+| 2026年 | **手でプログラムを書く** | **AI に書かせる** |
+
+そして、この構図でいちばん怖いのは速度差そのものではありません。グレアムはこう書いています。
+
+> As long as our hypothetical Blub programmer is looking down the power continuum, he knows he's looking down. … But when our hypothetical Blub programmer **looks in the other direction, up the power continuum, he doesn't realize he's looking up.**
+> （下を見ているときは、下を見ていると分かる。……しかし**上を見たとき、上を見ているとは気づかない**）
+
+有名な「**Blub パラドックス**」です。**自分より強力な道具は、使ってみるまで強力に見えない。** 足りないものが何なのか、そもそも認識できないからです。
+
+「AI に書かせるなんて」と言っている人と、「もう手では書いていない」人の間にあるのは、**能力差ではなく、この見え方の差**なのだと思います。僕自身、少し前は前者でした。上を見ていることに気づいていなかった。
+
 ## 速さは、前回の記事の副産物
 
 なぜ1時間で回るのか。頑張っているからではありません。前回書いた仕組みがそのまま効いています。
