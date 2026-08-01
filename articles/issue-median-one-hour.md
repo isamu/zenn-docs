@@ -1,6 +1,6 @@
 ---
-title: "コードはAIに任せた。残ったのは、ファンをつくる仕事だった"
-emoji: "🤝"
+title: "ユーザーの困りごとは、その日のうちに直す ── 中央値1時間、最速9分"
+emoji: "⏱️"
 type: "idea"
 topics: ["ClaudeCode", "AI", "OSS", "個人開発", "vibecoding"]
 published: false
@@ -19,9 +19,13 @@ publication_name: "singularity"
 
 [MulmoTerminal](https://github.com/receptron/mulmoterminal) の #886〜#989、2026年7月26日〜28日にクローズした32件（PR は除く）です。GitHub のタイムスタンプなので、誰でも数え直せます。
 
+夜に「ここが困る」と言われたものが、翌朝には入っている。だいたいそういう速度で回しています。
+
 ……という数字から始めておいて申し訳ないのですが、**この記事は速さの自慢ではありません。**
 
 速いこと自体には、実はあまり意味がない。意味があるのは、**速いと、言ってもらえるようになる**ことのほうです。
+
+そして最後まで書いて分かったのですが、**この速さで回すために手放したものと、逆に手放せなかったもの**が、この記事の本題になりました。
 
 :::message
 この記事は[前回](https://zenn.dev/singularity/articles/stopped-reviewing-my-code)の続きです。前回は「コードレビューをやめて、壊れたら赤くなる仕組みに全部移した」話でした。
