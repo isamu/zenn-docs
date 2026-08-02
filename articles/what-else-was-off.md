@@ -19,6 +19,8 @@ NEVER use `as` type casts; MUST use type guards instead
 
 ちなみに、これは自分だけの話ではないようです。r/ExperiencedDevs に、こういう相談が上がっていました（239 upvote / 203 コメント）。
 
+**[Senior dev keeps type asserting everything in TypeScript – how do I approach this?](https://www.reddit.com/r/ExperiencedDevs/comments/1mi5iuk/senior_dev_keeps_type_asserting_everything_in/)**
+
 > **シニア開発者がTypeScriptで何でも型アサーションしている – どう対処すればいい？**
 >
 > コードはAIツールのCursorで書かれたように見えることが多く、**コンパイラを喜ばせるためだけに `as` が多用されている**ことがあります。
