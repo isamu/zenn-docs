@@ -136,11 +136,25 @@ export const a4: T4 = { a: undefined };
 
 ```ts
 const patch = { name: undefined };
-Object.assign(user, patch);       // user.name が undefined で上書きされる
-// 「変更しない」つもりが「消す」になった
+Object.assign(user, patch);
+// user.name が undefined になる（キー自体は残る）
+console.log("name" in user);   // true
+console.log(user.name);        // undefined
 ```
 
-`{}` を渡していれば何も起きませんでした。**この設定は、実際にバグを見つけたことがあります**（詳細は[前回](https://zenn.dev/singularity/articles/what-else-was-off)）。
+「変更しない」つもりで `undefined` を渡したのに、**元の値が `undefined` で上書きされました**。`{}` を渡していれば何も起きません。
+
+そして厄介なのは、**キー自体は残る**ことです。`"name" in user` は `true` のままなので、「キーがあるかどうか」で判定しているコードは**値が入っていると誤認します**。
+
+```ts
+if ("name" in user) {
+  user.name.toUpperCase();   // 💥 undefined
+}
+```
+
+`a?: string` は「キーが無くてもいい」という意味で、「`undefined` が入っていてもいい」ではありません。**この設定を入れると、その2つが別物として扱われます。**
+
+実際にバグを見つけたこともあります（詳細は[前回](https://zenn.dev/singularity/articles/what-else-was-off)）。
 
 ### ⑤ `useUnknownInCatchVariables` — catch した値は何が来るか分からない
 
