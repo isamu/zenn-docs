@@ -293,86 +293,6 @@ TypeScript の型を、人間が書いて、人間がレビューして、人間
 
 そして僕は、その1行を書き忘れていました。
 
-## ついでに、`as` 以外も数えた
-
-`as` を潰す作業をしていて、ふと思いました。**他にも同じことが起きているのでは。**
-
-`eslint --print-config` で、実際に何が有効になっているかを出しました。
-
-| ルール | 状態 |
-|---|---|
-| `no-explicit-any` | 🔴 error |
-| `no-non-null-assertion` | 🔴 error |
-| **`no-unsafe-assignment`** | ❌ **未設定** |
-| **`no-unsafe-member-access`** | ❌ **未設定** |
-| **`no-floating-promises`** | ❌ **未設定** |
-| **`no-misused-promises`** | ❌ **未設定** |
-| **`await-thenable`** | ❌ **未設定** |
-
-**型情報を要するルールが、1つも入っていませんでした。**
-
-これは `as` を消しても残る穴です。`no-explicit-any` は「`any` という字が書かれている場所」しか見られないので、**型定義のないライブラリから流れ込む `any`、`JSON.parse()` の戻り値**は素通りします。
-
-そして構文ルールでは**原理的に捕まらない**ものがあります。`await` の付け忘れ、同期しか受けない API に async コールバックを渡す、オブジェクトが `"[object Object]"` になる——これらは型を見ないと分かりません。
-
-入れて数えたら、**165件**でした。
-
-| ルール | 件数 |
-|---|---|
-| `no-unsafe-member-access` | 65 |
-| `no-unsafe-assignment` | 49 |
-| **`no-floating-promises`** | **24** |
-| `no-unsafe-argument` | 14 |
-| その他 | 13 |
-
-**`no-floating-promises` の24件が一番こわい**です。これは「Promise を作ったのに `await` も `.catch()` も付いていない」なので、**実バグの可能性があります**。エラーが握り潰されて、何も起きなかったように見える。
-
-所要時間は **11秒**でした。入れない理由がありません。
-
-## tsconfig も測った
-
-同じ発想で、コンパイラ側も見ました。`tsc --showConfig` で**継承後の実効値**を出します（`tsconfig` は継承するので、ファイルを読むだけでは分かりません）。
-
-| 設定 | app | server | test |
-|---|---|---|---|
-| `strict` | ✅ | ✅ | ✅ |
-| **`noUncheckedIndexedAccess`** | ❌ | ❌ | ❌ |
-| **`useUnknownInCatchVariables`** | ❌ | ❌ | ❌ |
-| **`noImplicitReturns`** | ❌ | ❌ | ❌ |
-| **`noPropertyAccessFromIndexSignature`** | ❌ | ❌ | ❌ |
-| **`noImplicitOverride`** | ❌ | ❌ | ❌ |
-
-`strict` は付いているので安心していました。**`strict` はこれらを含みません。**
-
-そして、**全部フラグを立ててコンパイルしたら 0件**でした。
-
-```
-noUncheckedIndexedAccess            server 0 / app 0
-useUnknownInCatchVariables          server 0 / app 0
-noImplicitReturns                   server 0 / app 0
-noPropertyAccessFromIndexSignature  server 0 / app 0
-noImplicitOverride                  server 0 / app 0
-```
-
-**移行作業ゼロで入ります。** 5つとも、今日入れて何も壊れない。**入れていなかったのは、測っていなかったからでした。**
-
-### 設定の欠落が、別の設定の欠落を呼んでいた
-
-これが一番おもしろい発見でした。
-
-`eslint.config.js` に、あるルールを off にした理由が書いてあります。
-
-```js
-// 型の上で結果が変わらない比較を不要と指摘するルール。
-// noUncheckedIndexedAccess が off だと実行時に必要なガードまで
-// 「常に真」に見えるので、消すと落ちる。
-"sonarjs/different-types-comparison": "off",
-```
-
-**`noUncheckedIndexedAccess` を入れていなかったせいで、別のルールを off にしていた。** そして `noUncheckedIndexedAccess` は 0件で入る。
-
-つまりこの off は、**入れれば外せた可能性があります**。穴が穴を呼んでいました。
-
 ## で、どうするか
 
 一律禁止は使えないので、こうします。
@@ -385,11 +305,8 @@ noImplicitOverride                  server 0 / app 0
 
 作業は issue にしてあります。
 
-- [mulmoterminal#1231](https://github.com/receptron/mulmoterminal/issues/1231) — `as` の除去
-- [mulmoclaude#2692](https://github.com/receptron/mulmoclaude/issues/2692) — 同上
-- [mulmoterminal#1300](https://github.com/receptron/mulmoterminal/issues/1300) — 型情報ルールの導入（165件）
-- [mulmoterminal#1301](https://github.com/receptron/mulmoterminal/issues/1301) — tsconfig の5フラグ
-- [mulmoclaude#2736](https://github.com/receptron/mulmoclaude/issues/2736) — 同上（4フラグ）
+- [mulmoterminal#1231](https://github.com/receptron/mulmoterminal/issues/1231)
+- [mulmoclaude#2692](https://github.com/receptron/mulmoclaude/issues/2692)
 
 1ファイル目を終えて、残り **137箇所 / 72ファイル**。まず `warn` で入れて CI を緑のまま残数が見える状態にし、1ファイルずつ潰しています。最後に `error` へ上げます。
 
@@ -405,9 +322,6 @@ noImplicitOverride                  server 0 / app 0
 - **`as` を消すとき、最初に試すのは注釈**。見た目はほぼ同じで、検査されるかどうかが正反対
 - **Vue のテンプレート内は typescript-eslint から見えない。** 既存の禁止ルールをすり抜けた `!` が3つ、ちょうどそこに溜まっていた
 - 測ってみたら **React / Solid / Preact / Svelte / Astro は全部見えていた。Vue だけ**だった
-- **`as` 以外にも穴があった。** 型情報を要するルールが1つも入っておらず、入れたら **165件**（うち `no-floating-promises` が24件）
-- **`strict` は `noUncheckedIndexedAccess` などを含まない。** 5つ足りず、しかも**全部0件で入った**
-- **設定の欠落が別の設定の欠落を呼んでいた** — `noUncheckedIndexedAccess` が無いせいで、別のルールを off にしていた
 - **lint が通ったことは、lint が見たことを意味しない**
 - Reddit で 203 件のコメントが費やされていた「**同僚をどう説得するか**」は、書き手がエージェントなら発生しない
 - **人間が書くのは、型そのものではなく「何を許さないか」**
