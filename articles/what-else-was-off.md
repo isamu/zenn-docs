@@ -140,6 +140,8 @@ verbatimModuleSyntax = true
 
 `assertionStyle: "never"` を入れて、ESLint に数えさせました。**149箇所**。
 
+（結論から書くと、**この149箇所は全部片付きました**。いまルールは `error` で入っていて、後述の「本家の型が壊れている」2件だけが例外として残っています。以下はその過程で出てきたものです。）
+
 grep では90箇所しか見えていませんでした。複数行にまたがるものや、思いつかなかった書き方を取りこぼしていたわけです。**「だいたい数える」では足りませんでした。**
 
 そして直し始めたら、**バグが出ました。**
@@ -267,7 +269,7 @@ npx eslint --print-config src/main.ts
 
 そして構文ルールでは**原理的に**捕まらないものがあります。**`await` の付け忘れ**は、構文としては完全に正しい。
 
-入れて数えたら **165件**、所要 **11秒**でした。
+試しに入れて数えたら **165件**、所要 **11秒**でした。
 
 | ルール | 件数 |
 |---|---|
@@ -490,9 +492,9 @@ ESLint と TypeScript の設定は、正直むずかしいと思います。組�
 
 チェックリスト、作ります。
 
-作業中の issue はこちらです。
+issue はこちらです。
 
-- [mulmoterminal#1231](https://github.com/receptron/mulmoterminal/issues/1231) — `as` の除去
+- [mulmoterminal#1231](https://github.com/receptron/mulmoterminal/issues/1231) — `as` の除去（**完了**。149 → 0、例外2件）
 - [mulmoterminal#1300](https://github.com/receptron/mulmoterminal/issues/1300) — 型情報ルールの導入（165件）
 - [mulmoterminal#1301](https://github.com/receptron/mulmoterminal/issues/1301) — tsconfig の5フラグ
 - [mulmoclaude#2736](https://github.com/receptron/mulmoclaude/issues/2736) — 同（4フラグ）
