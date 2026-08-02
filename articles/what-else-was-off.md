@@ -323,6 +323,42 @@ npx eslint --print-config src/main.ts
 
 > **lint が通ったことは、lint が見たことを意味しません。**
 
+### さらに、`.vue` の `<script>` にも型情報は自動では届いていなかった
+
+これは記事を書いている途中で判明したことです。
+
+型情報ルールを入れたつもりでいたのに、**`.vue` ファイルには効いていませんでした**。配線を直したら `no-floating-promises` が **34件 → 66件**に増えて気づきました。**32件が `.vue` の `<script>` に隠れていた**わけです。
+
+必要だったのは2つです。
+
+**① `.vue` のブロックに `project` と `extraFileExtensions` を渡す**
+
+```js
+files: ["**/*.vue"],
+languageOptions: {
+  parserOptions: {
+    parser: tseslint.parser,
+    project: ["./tsconfig.app.json"],       // ← これ
+    tsconfigRootDir: import.meta.dirname,
+    extraFileExtensions: [".vue"],          // ← これ
+  },
+},
+```
+
+**② ルールは、`languageOptions` を持たない別のブロックで足す**
+
+ここが罠でした。型情報ルールのブロックの `files` に `.vue` を足すと、そのブロックに書いた `parser: tseslint.parser` が **`vue-eslint-parser` を置き換えてしまいます**。全 SFC がパースできなくなります。
+
+```
+1:8  error  Parsing error: '>' expected
+```
+
+flat config は**後のブロックが前を上書きする**ので、**ルールだけのブロックに分ける**のが正解でした。一度これを踏みました。
+
+コストは `yarn lint` が 31秒 → 41秒。
+
+そして **`<template>` の中は、これをやっても素通りのまま**です。届いたのは `<script>` までで、テンプレートは別扱いでした。
+
 ## 他のフレームワークは？ 全部試しました
 
 「うちは React だけど」と思った方のために、実際に測りました。**同じコードを各フレームワークで書いて、ESLint にかけたもの**です。
