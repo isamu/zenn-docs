@@ -44,9 +44,83 @@ ESLint と TypeScript の設定は、**組み合わせが多すぎます。**
 - Vue なら `vue-eslint-parser`、Node なら別の設定、モジュール解決の違い
 - そして **Node のバージョン、ESLint のバージョン、TypeScript のバージョン**で、有効なものが変わる
 
-**「プリセットを入れたから大丈夫」が成り立ちません。** どのプリセットが何を含むか、それが継承後にどうなるかは、**組み合わせごとに違います**。
+**「プリセットを入れたから大丈夫」が成り立ちません。** 抽象的な話ではないので、実際に測った表を出します。
 
-僕の場合はこうでした。`typescript-eslint` の `strict` を入れていたので、型まわりは締まっていると思っていた。**`strict` に `consistent-type-assertions` は入っていません。** 知らなかったわけではなく、**確かめたことがなかった**。
+### どのプリセットに何が入っているか（実測）
+
+`typescript-eslint` の各プリセットを読み込んで、ルールの有効状態を出しました。
+
+| ルール | `recommended` | `strict` | `stylistic` | `recommendedTypeChecked` | `strictTypeChecked` |
+|---|---|---|---|---|---|
+| `no-explicit-any` | ✅ | ✅ | — | ✅ | ✅ |
+| `no-non-null-assertion` | — | ✅ | — | — | ✅ |
+| **`consistent-type-assertions`** | — | **—** | **✅** | — | **—** |
+| `ban-ts-comment` | ✅ | ✅ | — | ✅ | ✅ |
+| `no-floating-promises` | — | — | — | ✅ | ✅ |
+| `no-unsafe-assignment` | — | — | — | ✅ | ✅ |
+| `await-thenable` | — | — | — | ✅ | ✅ |
+| `no-base-to-string` | — | — | — | ✅ | ✅ |
+
+**僕がハマったのは3行目です。**
+
+`strict` を入れていたので、型まわりは一番厳しくしたつもりでいました。ところが **`consistent-type-assertions`（`as` を止めるルール）は `strict` に入っていません**。`stylistic`（見た目・書き方の統一）のほうに入っています。
+
+名前から想像すると逆に思えます。`as` は「書き方」ではなく「安全性」の話に見えるので。**でも分類上は `stylistic` でした。**
+
+### 抜けやすい組み合わせ、3つ
+
+実測から分かった、**具体的に抜けるパターン**です。
+
+**① `strict` を入れた → `as` は止まらない**
+
+`stylistic` を併用しないと入りません。`strict` と `stylistic` は**排他ではなく、両方入れるもの**です。
+
+```js
+export default tseslint.config(
+  ...tseslint.configs.strict,
+  ...tseslint.configs.stylistic,   // ← これが無いと as が止まらない
+);
+```
+
+**② `strict` を入れた → 型情報を使うルールは1つも入らない**
+
+`no-floating-promises`（`await` の付け忘れ）も `no-unsafe-assignment`（`JSON.parse` の結果）も、**`TypeChecked` が付いたプリセットにしか入っていません**。
+
+しかも `TypeChecked` 版は `parserOptions.projectService` を設定しないと**動きさえしません**。プリセットを足すだけでは足りない、というのがもう一段の罠です。
+
+**③ `tsconfig` に `strict` を入れた → 6つ入らない**
+
+こちらも測りました。`strict: true` だけを書いた設定の実効値です。
+
+| `strict` が**含む**もの | `strict` が**含まない**もの |
+|---|---|
+| `noImplicitAny` | **`noUncheckedIndexedAccess`** |
+| `strictNullChecks` | **`exactOptionalPropertyTypes`** |
+| `strictFunctionTypes` | **`noImplicitReturns`** |
+| `strictBindCallApply` | **`noPropertyAccessFromIndexSignature`** |
+| `strictPropertyInitialization` | **`noImplicitOverride`** |
+| `noImplicitThis` | **`noFallthroughCasesInSwitch`** |
+| `useUnknownInCatchVariables` | `noUnusedLocals` / `noUnusedParameters` |
+| `alwaysStrict` | |
+
+**「`strict` を入れたから一番厳しい」ではありませんでした。** 右側は全部、個別に書かないと有効になりません。
+
+### さらに、フレームワークのプリセットが上書きする
+
+Vue のプロジェクトでは `@vue/tsconfig` を継承していました。実効値を出すと、こうなっています。
+
+```
+strict = true
+exactOptionalPropertyTypes = true     ← @vue/tsconfig が入れてくれている
+noUncheckedIndexedAccess = 未設定       ← 入っていない
+verbatimModuleSyntax = true
+```
+
+**自分では書いていない設定が入っていて、書いたつもりの設定が入っていない。** どちらも実効値を出すまで分かりませんでした。
+
+そしてこれは、**フレームワークとそのバージョン**によって変わります。Nuxt、Next、SvelteKit、それぞれ自前の tsconfig を配っていて、中身は同じではありません。
+
+知らなかったわけではなく、**確かめたことがなかった**、というのが正直なところです。
 
 ## AI に任せられる。でも、確認は別
 
