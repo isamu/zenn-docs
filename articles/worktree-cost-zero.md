@@ -238,13 +238,7 @@ issue 行の右端にある **▶** を押すと、こうなります。
 
 なので、削除を「閉じる」に結びつけました。worktree で動いているセルの × を押すと、閉じる前にこう聞かれます。
 
-```
-Close ⎇ mulmoterminal (fix-grid-order)
-
-Keep the worktree to reuse it later, or remove it.
-
-[ Keep worktree ]  [ Remove worktree ]  [ Cancel ]
-```
+![worktree のセルを閉じるときの確認](https://raw.githubusercontent.com/receptron/mulmoterminal/main/docs/guide/images/worktree-close-keep.png)
 
 **Remove worktree** を押すと、こうなります。
 
@@ -258,16 +252,11 @@ Keep the worktree to reuse it later, or remove it.
 
 そのまま消したら、作業が消えます。なので、その場合は文面が変わります。
 
-```
-Close ⎇ mulmoterminal (fix-grid-order)
+![未コミット・未 push があるときの確認](https://raw.githubusercontent.com/receptron/mulmoterminal/main/docs/guide/images/worktree-close-discard.png)
 
-2 unpushed commits + 5 uncommitted changes will be discarded
-if you remove the worktree.
+**2 unpushed commits + 5 uncommitted changes** と、何がどれだけ消えるかを数えて出します。ボタンのラベルも `Remove worktree` から **`Discard & remove`** に変わります。何が起きるかを、押す前にボタン自身が言うようにしました。
 
-[ Keep worktree ]  [ Discard & remove ]  [ Cancel ]
-```
-
-ボタンのラベルも `Remove worktree` から **`Discard & remove`** に変わります。何が起きるかを、押す前にボタン自身が言うようにしました。
+ヘッダーの `+2` と `●5` も同じものを指しています。**閉じようとした瞬間に初めて知る、ということにならない**ように、作業中からずっと出ています。
 
 細かいところですが、**この確認を出す瞬間に、差分を取り直しています。** 取り直している間、削除ボタンは `Checking…` になって押せません。
 
