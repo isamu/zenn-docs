@@ -3,7 +3,7 @@ title: "git worktree、便利なのは知っていた。使えなかったのは
 emoji: "🌳"
 type: "tech"
 topics: ["git", "ClaudeCode", "AI", "vibecoding", "個人開発"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
