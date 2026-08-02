@@ -457,10 +457,12 @@ AI 時代のボトルネックは「書く速度」ではなく「きれいな�
 
 ## 関連記事
 
-AI に思い切り書かせるための5本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための7本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
-3. [コードはAIに任せた。残ったのは、ファンをつくる仕事だった](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
-4. **AIでがんがん書く時代の「きれいなコード」の守り方** ← **いまここ**
-5. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
+3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
+4. [「as を使うな」と規約に書いた。数えたら90箇所あった](https://zenn.dev/singularity/articles/as-in-the-age-of-agents) — 規約に書くことと、規約で止めることは別だった
+5. [「as を数えたら90箇所」の続き ── ついでに他も測ったら、もっと大きい穴があった](https://zenn.dev/singularity/articles/what-else-was-off) — 入っていると思っていた設定が、入っていなかった
+6. **AIでがんがん書く時代の「きれいなコード」の守り方** ← **いまここ**
+7. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
