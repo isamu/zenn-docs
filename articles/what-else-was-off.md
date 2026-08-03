@@ -130,9 +130,11 @@ verbatimModuleSyntax = true
 
 エラーが出ないので。lint も通るし、CI も緑です。**設定が抜けていることは、何も報告しません。**
 
-（このあたり、チェックリストを作ろうと思っています。「新しいリポジトリで最初に確認する項目」みたいなやつを。）
+（この確認を毎回やるのは面倒なので、**[貼ると必ずエラーになるサンプル19本](https://zenn.dev/singularity/articles/typescript-setup-checklist)** にまとめました。設定が入っていれば落ちる、入っていなければ通る。それだけのコードです。）
 
-以下は、実際に何を確かめて、何が出てきたかの記録です。
+以下は、実際に何を確かめて、何が出てきたかの記録です。**一連の作業は終わりました**（`as` 149 → 0、型情報ルールの指摘 407 → 0、tsconfig 3フラグ追加）。数字は最後にまとめてあります。
+
+先に言っておくと、**バグはそれなりに出ました。** 型が「ある」と言っていたのに API が返していないフィールド、`"[object Object]"` を黙って画面に出していた文字列化、実行する人によって答えが変わり得た並び順。そして**検査していたつもりの検査が動いていなかった**のが2つ。
 
 ---
 
@@ -283,7 +285,7 @@ npx eslint --print-config src/main.ts
 
 `no-unsafe-*` の139件は「型が付いていない」で、必ずしもバグではありません。**`no-floating-promises` の24件**が問題です。Promise を作って `await` も `.catch()` も付けていないので、**握り潰された失敗がある可能性**があります。
 
-### 全部読んだら、実バグは0件でした
+### 全部読んだら、このルールでは実バグ0件でした
 
 先に結論を書きます。**この予想は外れました。**
 
@@ -316,6 +318,136 @@ void router.push("/settings");   // ← 意図的に待たない、とコード�
 （`void` は unhandled rejection を防ぐわけではありません。lint を黙らせるだけです。ただしサーバ側は `unhandledRejection` を拾ってログに出す仕組みがあり、ブラウザはコンソールに報告するので、**「意図的に待たない」という表明としては正直**だと判断しました。）
 
 ちなみに `void` を禁じる `sonarjs/void-use` というルールがあり、これと**正面から矛盾**します。`await` 忘れを捕まえる側を選びました。**ルール同士がぶつかることもある**、という例です。
+
+### ただし、バグが0件だったのは「このルール」だけでした
+
+ここは誤解を招くので、はっきり書き直します。
+
+**`no-floating-promises` の66件に実バグは無かった。でも、他のルールは実バグを出しました。** 全部片付けたので、出てきたものを並べます。
+
+#### 型が「ある」と言っていたフィールドを、API は返していなかった
+
+`/api/session/:id` の応答に `SessionDetail` という型を付けていました。ガードを足したら、**テストが4件落ちました。**
+
+**このエンドポイントは `id` を返していませんでした。** 型だけが「ある」と言っていて、実際には来ない。`as` で型を主張していたので、誰も気づきませんでした。型を消しました。
+
+#### 呼び出し側が名乗った型を、検証せずに返していた
+
+```ts
+const data = await fetchJson<Config>("/api/config");   // ← 中身は確かめていない
+```
+
+`fetchJson<T>` は**受け取った JSON をそのまま `T` として返していました。** 呼び出し側が `Config` と書けば `Config` になる。書いただけです。
+
+`read` 引数（検証関数）を**必須**にしました。オプションにすると既定が「全部通す」になって元に戻るので。
+
+#### 保存時は検証していて、読み込み時は検証していなかった
+
+設定の保存パスにはバリデーションがありました。**読み込みパスには無かった。** 壊れた設定エントリはそのまま起動時に入ってきます。
+
+#### 文字列化が、壊れた値を黙って通していた
+
+これが一番効きました。17箇所ありました。
+
+```ts
+const slug = String(x ?? "");
+```
+
+`x` がオブジェクトだと **`"[object Object]"`** になります。例外は出ません。そしてその文字列が**コレクションの slug としてルックアップに使われ、セッションのタイトルとして画面に出ます。**
+
+問題は「表示が変」ではありません。
+
+> **「値が無い」と「値が壊れている」が区別できなくなる。**
+
+どちらも「何か変な文字列」として同じ経路を流れていきます。`readString`（文字列ならそれ、でなければ `""`）に寄せました。人間向けのエラーメッセージだけは、**何を拒否したのか分からなくなる**ので `JSON.stringify` する側を選んでいます。
+
+#### `await` が、読み手に嘘をついていた
+
+```ts
+res.json(await readWikiIndex(workspace));
+```
+
+`readWikiIndex` は**同期関数**です。`await` は何も待っていません。**「ここは I/O だから遅い」という嘘の合図**を出していただけでした。
+
+#### 並び順が、実行する人によって変わり得た
+
+ファイル名のソートに `localeCompare` を使えという指摘が出ました。**が、対象はこれです。**
+
+```
+2026/08/02/rollout-2026-08-02T09-00-00-<uuid>.jsonl
+```
+
+ゼロ埋めの日付と ISO タイムスタンプを**ロケール順に並べると、答えがマシンによって変わります。** 呼び出し側が意味しているのはコード単位順なので、それを明示する関数に切り出して、**`localeCompare` と結果が分かれるケース（`"B"` vs `"a"`）をテストに入れて**固定しました。
+
+**指摘に従っていたら、バグを入れていました。**
+
+#### 常に偽のガードが1つ
+
+```ts
+for (const m of s.matchAll(re)) {
+  const start = m.index;
+  if (start === undefined) continue;   // ← ここに来ない
+```
+
+`matchAll` は global 正規表現を要求し、返すマッチには**仕様上つねに `index` が入ります**。死にコードでした。
+
+#### `any` の入口は、たった3つでした
+
+145件の `no-unsafe-*` が server に散らばって見えましたが、出どころは3種類だけです。**これは他のプロジェクトでもそのまま使えると思います。**
+
+| 入口 | なぜ `any` になるか |
+|---|---|
+| **`await import(name)`** | 動的 import の戻りは `any`。そこから辿る `mod.default` も `mod.execute()` も**全部型検査の外** |
+| **`JSON.parse(...)`** | 戻りが `any` |
+| **`req.body`** | Express の型が `any` |
+
+3つとも「外から来た値」です。**境界に1つ関数を置いて全部そこを通す**だけで消えました。
+
+ここで1つ発見がありました。**`typeof x === "function"` では絞りきれません。** `Function` にしか絞れず、`Function` の呼び出しは `any` を返すので、結果がまた型検査の外に出ます。
+
+そして、この `any` のために**わざわざ書かれた回避策**が見つかりました。
+
+```ts
+// Re-checked rather than reusing the guard above: `req.body` is `any`, and narrowing it there
+// does not survive to here — the call would take `any` and typecheck would not notice.
+```
+
+**「上でガードしたのに、`any` だから絞り込みがここまで残らない」** と書いてあります。型が通るようになって、この再チェックごと消えました。**設定の欠落は、コードの形にも跡を残します。**
+
+### そして、検査していたつもりの検査が動いていなかった
+
+最後にこれです。作業中に**別の穴**が見つかりました。
+
+```
+yarn typecheck   →   server と test を一切見ていない
+```
+
+root の `tsconfig.json` が app と node しか参照しておらず、`vue-tsc -b` はその参照を辿るだけだったので、**server のコードは1行も型検査されていませんでした。**
+
+「緑だった」は「検査した」の証拠になりません。なので、**4領域それぞれに `const x: number = "nope"` を仕込んで**確かめました。
+
+| 仕込んだ場所 | 修正前 | 修正後 |
+|---|---|---|
+| `server/config/workspace.ts` | 素通り | ✓ 検出 |
+| `src/utils/focusTrap.ts` | ✓ | ✓ |
+| `test/common/readString.spec.ts` | 素通り | ✓ 検出 |
+| `test/server/git/prs.spec.ts` | 素通り | ✓ 検出 |
+
+そして気づいたのは、**規約のほうにその跡があった**ことです。
+
+> `yarn typecheck` alone passes while CI fails. 3つ全部走らせろ
+
+これは**この欠落を運用でカバーするための注意書き**でした。参照を 2 → 5 にしたら、1本で済むようになりました。**規約に「気をつけろ」と書いてあるものは、たいてい設定で直せます。**
+
+姉妹プロジェクトでは、同じ形の穴がもう1つありました。
+
+```
+eslint src server test e2e e2e-live packages     ← scripts/ batch/ config/ が無い
+```
+
+`yarn lint` が **`scripts/` に一度も届いていませんでした。** そこにあるのは、ビルド駆動・リリース監査・npm smoke ── **CI が「この PR をマージしてよいか」を判断するために動かしているコード**です。**92 errors** が放置されていて、うち**9件はまさに禁止したはずの `as`** でした。
+
+> **ゲートを作るコードが、ゲートの外にいた。**
 
 ### ちなみに「重いから入れていない」ではありませんでした
 
@@ -428,11 +560,79 @@ const bad = m.get("x")!.a;              // ← script / 関数本体
 
 つまり **Vue の実装上の選択**であって、テンプレート言語だから避けられない、というものではありませんでした。
 
-### Vue を使っているなら
+### ここで諦めかけたのですが、埋められました
 
-- `eslint-plugin-vue` の**テンプレート専用ルール**は効きます（`vue/no-...` 系）。効かないのは **typescript-eslint 側**のルール
-- **テンプレートに式を書きすぎない**のが現実的な回避策です。ロジックを `<script>` の computed に出せば、そこは見られます
-- ちなみにうちの3箇所も、`v-if` のナローイングが**兄弟の属性に持ち越せない**せいで、テンプレート内で `!` を書く形になっていました。**computed に出すのが正解**です
+しばらく「Vue の構造上の問題だから、テンプレートに式を書かないよう気をつけるしかない」と思っていました。**それは間違いでした。**
+
+見落としていたのは、**typescript-eslint のルールが届かないだけで、AST 自体は歩ける**ということです。`eslint-plugin-vue` の **`vue/no-restricted-syntax`** が、テンプレートの AST を歩く唯一のルールでした。同じ禁止をセレクタとして書けば済みます。
+
+```js
+// .vue の override ブロック
+"vue/no-restricted-syntax": [
+  "error",
+  {
+    selector: "TSAsExpression",   // ← as
+    message: "Do not use any type assertions — narrow in <script> and pass the result to the template.",
+  },
+],
+```
+
+`!` を止めたいなら `TSNonNullExpression` を足します。
+
+姉妹プロジェクトに入れたら、**host とプラグインで16箇所**出てきました。**ルールを `error` にした後も、ずっとゲートの外にいた16箇所**です。
+
+そして直してみたら、**6箇所はそもそも不要**でした。
+
+```vue
+<div v-if="entry.spec.type === 'stdio'">
+  {{ (entry.spec as StdioSpec).command }}   <!-- v-if が既に絞っている -->
+</div>
+```
+
+Vue のテンプレートは `v-if` でナローイングが効きます。**キャストを書いた時点では必要だったのかもしれませんが、その後の変更で不要になっていた。** 誰も気づかなかったのは、**そこを見ているルールが無かったから**です。
+
+残りは、DOM のチェックを `<script>` の名前付きハンドラに移しました。
+
+```vue
+<!-- before -->
+@input="onChange(($event.target as HTMLTextAreaElement).value)"
+
+<!-- after -->
+@input="onInput"
+```
+
+```ts
+// script 側。外れたら早期 return（キャストは素通りさせていた）
+function onInput(e: Event) {
+  if (!(e.target instanceof HTMLTextAreaElement)) return;
+  onChange(e.target.value);
+}
+```
+
+**キャストが隠していたのは「チェックを書く場所を間違えている」ことでした。** DOM の型チェックは本来 `<script>` に置くものです。
+
+### そして、この記事を書いている今も1件残っています
+
+正直に書いておくと、**メインのリポジトリにはこのルールをまだ入れていません。** grep したら1件ありました。
+
+```vue
+<!-- src/components/SettingsField.vue:14 -->
+@input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+```
+
+このファイルに対する設定を出すと、こうです。
+
+```console
+$ npx eslint --print-config src/components/SettingsField.vue | jq '.rules["@typescript-eslint/consistent-type-assertions"]'
+[2, {"assertionStyle": "never"}]          ← error として効いている
+
+$ npx eslint src/components/SettingsField.vue
+                                          ← 何も出ない
+```
+
+**`error` に設定されているルールが、同じファイルの中の違反を報告しない。** `yarn lint` は 0 errors です。
+
+[issue にしました](https://github.com/receptron/mulmoterminal/issues/1339)。**「149箇所を0にした」と書いた作業は、実は 149 → 1 でした。**
 
 ## 「厳しい戦い」は、もう発生しない
 
@@ -588,6 +788,42 @@ lint の警告全体:            33件 → 25件
 
 ---
 
+## 終わったので、数字を置いておきます
+
+一連の作業は終わりました。最終状態です。
+
+| | 最初 | いま |
+|---|---|---|
+| `as` 型アサーション | 149 | **0**（allowlist 2件・理由と消せる条件つき） |
+| `no-unsafe-*`（本物） | **407** | **0** — 5ルールとも **error** |
+| `await-thenable` / `no-base-to-string` | 19 | **0** — どちらも **error** |
+| `no-floating-promises` | 102 | **0**（66件は `void` で意図を明示） |
+| 型情報つき sonarjs 8種 | 18 | 3件修正・4種 error・4種 off・1種 warn |
+| `yarn lint` | — | **0 errors / 11 warnings** |
+
+残る11件の warning は、**外部 API の `deprecation` 5件**（代替が無いか、外部由来）、**`max-lines` 5件**、**正規表現1件**です。**「0にする」ではなく「意味のある数字にする」**のが目的だったので、ここで止めています。
+
+### 入れなかったものもあります
+
+`tsconfig` の5フラグのうち、**2つは入れませんでした。** 「今はやらない」ではなく、**入れない**という判断です。
+
+**`noImplicitReturns`（58件）** — 指摘のほとんどが Express ハンドラのこの形です。
+
+```ts
+if (bad) return res.status(400).json({ error });
+res.json(result);   // ← 明示的な return が無い
+```
+
+**これは Express の書き方として正しい**ものです。ハンドラの戻り値は誰も見ていません。通すには58箇所に意味の無い `return` を足すことになり、**型の穴は1つも塞がりません。**
+
+**`noPropertyAccessFromIndexSignature`（1785件）** — `obj.key` を `obj["key"]` に書き換えるだけです。**アクセスの安全性は何も変わりません。**
+
+`noUncheckedIndexedAccess` の118件は「コンパイラが正しく、コードが暗黙に知っていたことを書く」作業でした。この2つは違います。**件数ではなく、その作業で型の穴が塞がるかどうか**が分かれ目でした。
+
+テストについても分けました。`noUncheckedIndexedAccess` は**テストだけ off** です。テストは自分で作った fixture を `rows[0]` で引くので、そこの `T | undefined` は**テスト自身が保証している値についての雑音**だからです。233件が0件になります。**フラグの価値は出荷されるコードにあります。**
+
+---
+
 ## まとめ：確認は3コマンドで済む
 
 やることは単純でした。**設定ファイルを読むのではなく、実効値を出力させて数える。**
@@ -609,25 +845,42 @@ npx tsc -p <config> --noEmit --<flag>
 
 - 規約に書いてあっても、**機械が止めていなければ守られない**
 - `strict` や `recommended` は、**あなたが思っているものを含んでいるとは限らない**
-- **`any` は構文だけでは見えない。** 型情報を使うルールが要る
+- **`any` は構文だけでは見えない。** 型情報を使うルールが要る。そして `any` の入口は**動的 import / `JSON.parse` / `req.body` の3つ**にほぼ集約される
 - キャストで黙らせていたものには、**ちゃんと言いたいことがあった**（`undefined` が入り得る、検査より先に主張している、そもそも不要）
 - **型が間違っているのが本家の場合だけ、cast を残す。** ただし本家に issue を立て、allowlist に理由と「いつ消せるか」を書く
 - **設定の欠落が、別の設定を off にさせることがある**
-- **Vue のテンプレート内は typescript-eslint から見えない。** 測ったら React / Solid / Preact / Svelte / Astro は全部見えていて、**Vue だけ**だった
+- **偽陽性を見たら、まず「別の設定が足りないのでは」と疑う。** ルールが間違っているのではなく、渡している型が嘘だから正しく推論して間違った結論に着く
+- **Vue のテンプレート内は typescript-eslint から見えない**（React / Solid / Preact / Svelte / Astro は全部見えていて Vue だけ）。ただし **`vue/no-restricted-syntax` で埋められる**
+- **ゲートを作るコードほど、ゲートの外にいやすい。** `scripts/` も、テストも、`.vue` も
+- **緑だったことは、検査したことの証拠にならない。** 疑ったら**わざと壊して、落ちることを確かめる**
 - **lint が通ったことは、lint が見たことを意味しない**
+
+そして、いちばん効いたのはこれでした。
+
+> **件数の多さは、作業量の指標であって、価値の指標ではない。**
+
+118件の `noUncheckedIndexedAccess` は全部直す価値がありましたが、1785件の `noPropertyAccessFromIndexSignature` は1件も価値がありませんでした。**「その作業で型の穴が塞がるか」だけが分かれ目**です。
 
 ESLint と TypeScript の設定は、正直むずかしいと思います。組み合わせが多く、バージョンで変わり、抜けても何も言われない。だから AI に任せるにしても、**「入れて」と頼んだあとに、入ったかを自分で確かめる**工程は要ります。
 
-チェックリスト、作ります。
+### issue と結果
 
-issue はこちらです。
+一連の作業で立てた issue と、その顛末です。
 
-- [mulmoterminal#1231](https://github.com/receptron/mulmoterminal/issues/1231) — `as` の除去（**完了**。149 → 0、例外2件）
-- [mulmoterminal#1300](https://github.com/receptron/mulmoterminal/issues/1300) — 型情報ルールの導入（165件）
-- [mulmoterminal#1301](https://github.com/receptron/mulmoterminal/issues/1301) — tsconfig の5フラグ
-- [mulmoclaude#2736](https://github.com/receptron/mulmoclaude/issues/2736) — 同（4フラグ）
+| issue | 中身 | 結果 |
+|---|---|---|
+| [mulmoterminal#1231](https://github.com/receptron/mulmoterminal/issues/1231) | `as` の除去 | ✅ 149 → **0**（allowlist 2件） |
+| [mulmoterminal#1300](https://github.com/receptron/mulmoterminal/issues/1300) | 型情報ルールが1つも入っていない | ✅ `no-unsafe-*` 407件 → **0**、5ルールとも error |
+| [mulmoterminal#1301](https://github.com/receptron/mulmoterminal/issues/1301) | tsconfig の5フラグ | ✅ 3つ導入（118件修正）・**2つは入れない判断**で close |
+| [mulmoterminal#1312](https://github.com/receptron/mulmoterminal/issues/1312) | `yarn typecheck` が server と test を見ていない | ✅ 参照を 2 → 5 に |
+| [mulmoterminal#1339](https://github.com/receptron/mulmoterminal/issues/1339) | **テンプレートの `as` が error なのにすり抜ける** | ⏳ この記事を書いていて見つけた |
+| [mulmoclaude#2692](https://github.com/receptron/mulmoclaude/issues/2692) | `as` の除去（187箇所） | ⏳ 進行中（テンプレート16件は完了） |
+| [mulmoclaude#2736](https://github.com/receptron/mulmoclaude/issues/2736) | tsconfig の4フラグ | ✅ 全部導入 |
+| [gui-chat-protocol#30](https://github.com/receptron/gui-chat-protocol/issues/30) | 本家の generic が検証していない | ✅ 2.0.0 で `parse` 必須化 |
 
 **自分のリポジトリでも、上の3コマンドを打ってみるといいと思います。** 入っていると思っているものが、入っているとは限りません。
+
+僕は、**この記事を書きながらもう1件見つけました。**
 
 ---
 
@@ -639,6 +892,6 @@ AI に思い切り書かせるための7本です。どこから読んでも大�
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
 3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
 4. **ESLint と TypeScript の設定、抜けてないと言い切れますか** ← **いまここ**
-5. [その設定、本当に効いてますか ── 貼ると必ずエラーになるサンプル17本](https://zenn.dev/singularity/articles/typescript-setup-checklist) — 設定の抜けを数秒で見つけるチェックリスト
+5. [その設定、本当に効いてますか ── 貼ると必ずエラーになるサンプル19本](https://zenn.dev/singularity/articles/typescript-setup-checklist) — 設定の抜けを数秒で見つけるチェックリスト
 6. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
 7. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え

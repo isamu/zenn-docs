@@ -1,5 +1,5 @@
 ---
-title: "その設定、本当に効いてますか ── 貼ると必ずエラーになるサンプル17本"
+title: "その設定、本当に効いてますか ── 貼ると必ずエラーになるサンプル19本"
 emoji: "🧪"
 type: "tech"
 topics: ["TypeScript", "ESLint", "設定", "AI", "vibecoding"]
@@ -440,7 +440,7 @@ throw new Error(`失敗: ${detail}`);
 
 ---
 
-## ⚠️ Vue を使っている人へ：テンプレート内は見られていません
+## ⚠️ Vue を使っている人へ：テンプレート内は見られていません（⑱⑲）
 
 これは測って驚いたところです。
 
@@ -469,7 +469,48 @@ const bad = m.get("x")!.a;        // ← error になる
 | Astro | ✅ | ✅ |
 | **Vue** | ✅ | ❌ |
 
-回避策は **テンプレートに式を書きすぎないこと**です。ロジックを `<script>` の computed に出せば、そこは見られます。
+### ⑱ 埋め方 — `vue/no-restricted-syntax`
+
+typescript-eslint のルールが届かないだけで、**テンプレートの AST は歩けます**。`eslint-plugin-vue` の `vue/no-restricted-syntax` がその唯一のルールなので、同じ禁止をセレクタとして書きます。
+
+```js
+// .vue の override ブロック
+"vue/no-restricted-syntax": [
+  "error",
+  { selector: "TSAsExpression", message: "テンプレートで as を使わない。<script> で絞って渡すこと" },
+  { selector: "TSNonNullExpression", message: "テンプレートで ! を使わない。<script> で絞って渡すこと" },
+],
+```
+
+**貼ると必ずエラーになるサンプル**
+
+```vue
+<script setup lang="ts">
+const m = new Map<string, { a: string }>();
+</script>
+
+<template>
+  <div>{{ m.get("y")!.a }}</div>                              <!-- TSNonNullExpression -->
+  <input @input="f(($event.target as HTMLInputElement).value)" />  <!-- TSAsExpression -->
+</template>
+```
+
+入っていれば2件とも落ちます。**入っていなければ、`consistent-type-assertions` を `error` にしていても1件も出ません。**
+
+直し方は、DOM のチェックを `<script>` の名前付きハンドラに移すことです。
+
+```vue
+<input @input="onInput" />
+```
+
+```ts
+function onInput(e: Event) {
+  if (!(e.target instanceof HTMLInputElement)) return;   // 外れたら早期 return
+  f(e.target.value);
+}
+```
+
+キャストは「チェックの書き場所を間違えている」ことを隠していただけ、というのが実際に直してみた感想です。**姉妹プロジェクトで16件出て、そのうち6件は `v-if` が既に絞っていて不要**でした。
 
 ---
 
@@ -482,8 +523,8 @@ const bad = m.get("x")!.a;        // ← error になる
 - [ ] `strict`
 - [ ] `noUncheckedIndexedAccess` ← **`strict` に含まれない**
 - [ ] `exactOptionalPropertyTypes` ← **含まれない**
-- [ ] `noImplicitReturns` ← **含まれない**
-- [ ] `noPropertyAccessFromIndexSignature` ← **含まれない**
+- [ ] `noImplicitReturns` ← **含まれない**（※ Express 中心なら**入れない**判断もあり。下記）
+- [ ] `noPropertyAccessFromIndexSignature` ← **含まれない**（※ 同上）
 - [ ] `noImplicitOverride` ← **含まれない**
 - [ ] `noFallthroughCasesInSwitch` ← **含まれない**
 
@@ -498,6 +539,7 @@ const bad = m.get("x")!.a;        // ← error になる
 - [ ] `no-unsafe-assignment`
 - [ ] `await-thenable`
 - [ ] `no-base-to-string`
+- [ ] **`vue/no-restricted-syntax`**（Vue のみ。テンプレートは上の全ルールが届かない）
 
 ### 確認コマンド
 
@@ -553,6 +595,6 @@ AI に思い切り書かせるための7本です。どこから読んでも大�
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
 3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
 4. [ESLint と TypeScript の設定、抜けてないと言い切れますか](https://zenn.dev/singularity/articles/what-else-was-off) — 規約に書いても、機械が止めていなければ守られない
-5. **その設定、本当に効いてますか ── 貼ると必ずエラーになるサンプル17本** ← **いまここ**
+5. **その設定、本当に効いてますか ── 貼ると必ずエラーになるサンプル19本** ← **いまここ**
 6. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
 7. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
