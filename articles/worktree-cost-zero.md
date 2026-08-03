@@ -142,6 +142,26 @@ stash@{2}: WIP on feature/x: 1a2b3c4 refactor: ...
 
 ![並行するエージェント](https://raw.githubusercontent.com/receptron/mulmoterminal/main/docs/guide/images/grid-2x2.png)
 
+### 追記：Claude Code 本体にも worktree 機能があります
+
+**この記事を書いたあとに指摘されて気づいたので、正直に足しておきます。** Claude Code には `--worktree`（`-w`）が **v2.1.49 から**あります。
+
+```bash
+claude --worktree feature-auth        # worktree を切ってそこで起動
+claude --worktree feature-auth --tmux # tmux セッションも作る
+```
+
+[公式ドキュメント](https://code.claude.com/docs/en/worktrees)には cleanup も `.worktreeinclude`（worktree に持ち込むファイルの指定）も、大きなモノレポ向けの `worktree.sparsePaths` もあります。**1体を隔離して走らせたいだけなら、これで足ります。** 何も入れなくていい。
+
+さらに **`claude agents`**（v2.1.139、Research Preview）というセッション一覧もあります。全セッションを状態別（Working / Needs input / Completed）に並べて、Haiku が各セッションの作業内容を1行で要約してくれる。**知らなかった人はぜひ一度打ってみてください。**
+
+そのうえで、この記事の話は消えません。
+
+- **どこに作ったか・何本あるか**は、結局こちらが把握することになります。`claude agents` は**セッション**の一覧であって、worktree の一覧ではありません
+- **消すきっかけ**が要ります。作るのが1コマンドでも、消し忘れは起きます
+
+以下は「**作る・消すを、既にやっている操作に完全に埋める**」とどうなるか、という話です。本体の機能で足りる人は、それでいいと思います。
+
 ## やったこと ── コマンドを簡単にするのをやめた
 
 僕たちが作っている [MulmoTerminal](https://github.com/receptron/mulmoterminal)（Claude Code / Codex を並べて監督するブラウザ UI）で、この問題に手を付けました。
