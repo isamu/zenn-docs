@@ -1,10 +1,32 @@
 ---
-title: "ESLint と TypeScript の設定、抜けてないと言い切れますか"
+title: "ESLint と TypeScript の設定、ネット記事のコピペで作っていませんか？"
 emoji: "📏"
 type: "tech"
 topics: ["TypeScript", "ESLint", "ClaudeCode", "AI", "vibecoding"]
 published: false
 publication_name: "singularity"
+---
+
+正直に聞きます。
+
+**あなたのプロジェクトの `tsconfig.json` と `eslint.config.js`、どこかからコピペして、そのままになっていませんか。**
+
+僕はなっていました。Zenn や Qiita の記事から持ってきて、動いたのでそのまま。中身を1行ずつ説明できるかというと、できません。
+
+そして、こういうことを聞かれたら答えられますか。
+
+- **`tsconfig` の設定**、なぜその値なのか説明できますか
+- **ESLint の flat config**、旧形式との違いを把握して書いていますか
+- **TypeScript 5 と 7**、何がどう変わったか言えますか（7.0 は**2026年7月8日に GA** しました。Go 製の別実装です。いま多くの人が使っている 6.0 は「最後の JavaScript 版」という位置づけの橋渡しリリースです）
+- **Node 20 → 22 → 24**、何が変わって何に影響しましたか
+- **`mjs` と `cjs`**、`"type": "module"` のとき、Web 向けにバンドルするとき、それぞれの解決の違いを説明できますか
+
+**僕は無理です。** 全部は追えていません。
+
+これ、人類には早すぎると思っています。**スレッドプログラミングと同じ種類の難しさ**です。一つ一つは理解できるのに、組み合わさった瞬間に、自分の頭の中のモデルと実際の挙動がずれる。しかも**ずれても、何も言われません。**
+
+で、実際にずれていました。
+
 ---
 
 自分の規約には、はっきりこう書いてあります。
@@ -891,7 +913,7 @@ AI に思い切り書かせるための7本です。どこから読んでも大�
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
 3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
-4. **ESLint と TypeScript の設定、抜けてないと言い切れますか** ← **いまここ**
+4. **ESLint と TypeScript の設定、ネット記事のコピペで作っていませんか？** ← **いまここ**
 5. [あなたの tsconfig と ESLint、本当にエラーになりますか ── 貼ると必ず落ちるサンプル19本](https://zenn.dev/singularity/articles/typescript-setup-checklist) — 設定の抜けを数秒で見つけるチェックリスト
 6. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
 7. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
