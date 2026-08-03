@@ -264,17 +264,45 @@ yarn run cli images script.json
 
 開発者がSkillをローカルでテストする際は `yarn run cli` を使い、マーケットプレイス経由でインストールしたユーザーは `mulmocast` を使うため、両方を記載しておくことで混乱を防げます。
 
-### マーケットプレイス名とプラグイン名の衝突
+### 【訂正】EXDEV エラーは名前の衝突が原因ではありません
 
-marketplace.jsonの`name`とplugin.jsonの`name`を同じにすると、Linux環境でインストールに失敗する場合があります（EXDEVエラー）。名前は必ず異なるものにしてください。
+:::message alert
+**この節には誤りがありました。** 公開当初、「marketplace.json と plugin.json の `name` を同じにすると Linux でインストールに失敗する（EXDEV エラー）」と書いていましたが、**名前とは無関係**でした。訂正します。
+:::
 
-```json
-// marketplace.json
-{ "name": "mulmocast-plugins" }    // ← "mulmocast-plugins"
+実際の原因は [anthropics/claude-code#14799](https://github.com/anthropics/claude-code/issues/14799) にあります。
 
-// plugin.json
-{ "name": "mulmocast" }             // ← "mulmocast"（異なる名前にする）
 ```
+Error: Failed to install: EXDEV: cross-device link not permitted,
+rename '/home/user/.claude/plugins/cache/…' -> '/tmp/claude-plugin-temp-…'
+```
+
+最近の Linux ディストリビューション（Ubuntu 21.04 以降、Fedora、Arch など）では `/tmp` が **tmpfs** としてマウントされます。一方 `~/.claude` は実ディスク上にあります。**別のファイルシステムをまたぐ `fs.rename()` は失敗する**ため、インストーラがその2つの間でリネームしていたことが原因でした。
+
+つまり**名前に関係なく、あらゆるプラグインで発生**します。当時の回避策は、一時ディレクトリを同じファイルシステムに置くことでした。
+
+```bash
+export TMPDIR="$HOME/.claude/tmp"
+```
+
+そして**この問題は修正済みです**（issue は 2026年2月にクローズ）。現在の Claude Code を使っているなら、対応は不要です。
+
+なお `marketplace.json` の `name` には**2種類ある**ので、そこは混同しないでください。
+
+```jsonc
+// .claude-plugin/marketplace.json
+{
+  "name": "mulmocast-plugins",          // マーケットプレイスの名前
+  "plugins": [
+    { "name": "mulmocast", ... }        // ← plugin.json と一致させる
+  ]
+}
+
+// .claude-plugin/plugin.json
+{ "name": "mulmocast" }
+```
+
+`plugins[]` の中の名前は、**plugin.json と一致させるのが正しい**書き方です（この2つで紐づけています）。異なるべきなのは、1階層上のマーケットプレイス自身の名前です。
 
 ## まとめ
 
