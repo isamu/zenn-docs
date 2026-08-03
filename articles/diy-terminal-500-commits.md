@@ -173,10 +173,11 @@ CSS Grid と Flexbox なので、思いついたら数分で試せる。コー�
 
 ## 関連記事
 
-AI に思い切り書かせるための5本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための6本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. **ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話** ← **いまここ**
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
-3. [コードはAIに任せた。残ったのは、ファンをつくる仕事だった](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
-4. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
-5. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
+3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
+4. [ESLint と TypeScript の設定、ネット記事のコピペで作っていませんか？](https://zenn.dev/singularity/articles/what-else-was-off) — 規約に書いても、機械が止めていなければ守られない
+5. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
+6. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
