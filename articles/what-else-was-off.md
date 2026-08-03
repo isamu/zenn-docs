@@ -3,7 +3,7 @@ title: "ESLint と TypeScript の設定、ネット記事のコピペで作っ�
 emoji: "📏"
 type: "tech"
 topics: ["TypeScript", "ESLint", "ClaudeCode", "AI", "vibecoding"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
@@ -182,7 +182,7 @@ verbatimModuleSyntax = true
 
 エラーが出ないので。lint も通るし、CI も緑です。**設定が抜けていることは、何も報告しません。**
 
-（この確認を毎回やるのは面倒なので、**[貼ると必ずエラーになるサンプル19本](https://zenn.dev/singularity/articles/typescript-setup-checklist)** にまとめました。設定が入っていれば落ちる、入っていなければ通る。それだけのコードです。）
+（この確認を毎回やるのは面倒なので、**貼ると必ずエラーになるサンプル集**を別記事にまとめています。設定が入っていれば落ちる、入っていなければ通る。それだけのコードです。近日公開します。）
 
 以下は、実際に何を確かめて、何が出てきたかの記録です。**一連の作業は終わりました**（`as` 149 → 0、型情報ルールの指摘 407 → 0、tsconfig 3フラグ追加）。数字は最後にまとめてあります。
 
@@ -938,12 +938,11 @@ ESLint と TypeScript の設定は、正直むずかしいと思います。組�
 
 ## 関連記事
 
-AI に思い切り書かせるための7本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための6本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
 3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
 4. **ESLint と TypeScript の設定、ネット記事のコピペで作っていませんか？** ← **いまここ**
-5. [あなたの tsconfig と ESLint、本当にエラーになりますか ── 貼ると必ず落ちるサンプル19本](https://zenn.dev/singularity/articles/typescript-setup-checklist) — 設定の抜けを数秒で見つけるチェックリスト
-6. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
-7. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
+5. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
+6. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
