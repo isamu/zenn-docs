@@ -29,15 +29,45 @@ publication_name: "singularity"
 
 ---
 
-自分の規約には、はっきりこう書いてあります。
+`CLAUDE.md` に、はっきりこう書いてあります。エージェントが毎回読む、うちのコーディング規約です。
 
 ```markdown
 NEVER use `as` type casts; MUST use type guards instead
 ```
 
+**型が合わないときに `as` でごまかすな、型ガードを書け**、という意味です。
+
+`as` は「この値はこの型だ」と**コンパイラに言い切る**構文です。検査ではありません。宣言です。
+
+```ts
+const user = JSON.parse(body) as User;   // ← 中身は何も確かめていない
+user.name.toUpperCase();                 // 💥 name が無ければここで落ちる
+```
+
+`JSON.parse` が返すのは `any` で、中身が `User` である保証はどこにもありません。それでも `as User` と書けば、そこから先は `User` として扱われます。**型エラーは消えます。バグは消えません。**
+
+型ガードなら、確かめてから通します。
+
+```ts
+const isUser = (x: unknown): x is User =>
+  typeof x === "object" && x !== null && "name" in x && typeof x.name === "string";
+
+const parsed: unknown = JSON.parse(body);
+if (!isUser(parsed)) return res.status(400).json({ error: "bad payload" });
+parsed.name.toUpperCase();   // ここでは本当に User
+```
+
+`x is User` は「この関数が `true` を返したら、その値は `User` だ」という宣言です。**`as` との違いは、根拠があること。** 中で実際に確かめた結果に、名前を付けているだけです。
+
+> 💡 `"name" in x` を挟むのが要点です。これを書くと `x.name` に触れるようになるので、**ここも `as` なしで書けます**。上のコードは `--strict` でエラー0、`as` は1つも使っていません（実際にコンパイルして動かしました）。
+
+書く量は増えます。でも増えた分が、**実行時に効く検査**です。`as` はそれを1単語で消せてしまう。だから禁止しています。
+
 なのにコードを読んでいたら、`as` がありました。1つではなく、あちこちに。
 
-「規約を守っていないな」と思って設定を見に行ったら、そもそも **ESLint で禁止していませんでした。**
+最初は「エージェントが規約を守っていないな」と思いました。**違いました。** 設定を見に行ったら、そもそも **ESLint で禁止していませんでした。**
+
+守らせていなかったのは、こちらです。
 
 ちなみに、これは自分だけの話ではないようです。r/ExperiencedDevs に、こういう相談が上がっていました（239 upvote / 203 コメント）。
 
