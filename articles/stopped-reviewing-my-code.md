@@ -787,6 +787,6 @@ AI に思い切り書かせるための7本です。どこから読んでも大�
 2. **1日500コミットは、もう読めない ── だからコードレビューをやめた** ← **いまここ**
 3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
 4. [ESLint と TypeScript の設定、抜けてないと言い切れますか](https://zenn.dev/singularity/articles/what-else-was-off) — 規約に書いても、機械が止めていなければ守られない
-5. [その設定、本当に効いてますか ── 貼ると必ずエラーになるサンプル19本](https://zenn.dev/singularity/articles/typescript-setup-checklist) — 設定の抜けを数秒で見つけるチェックリスト
+5. [あなたの tsconfig と ESLint、本当にエラーになりますか ── 貼ると必ず落ちるサンプル19本](https://zenn.dev/singularity/articles/typescript-setup-checklist) — 設定の抜けを数秒で見つけるチェックリスト
 6. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
 7. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
