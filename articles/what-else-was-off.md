@@ -1,5 +1,5 @@
 ---
-title: "ESLint と TypeScript の設定、ネット記事のコピペで作っていませんか？"
+title: "strict を入れても as は止まらない ── ESLint と tsconfig の「入れたつもり」を数える"
 emoji: "📏"
 type: "tech"
 topics: ["TypeScript", "ESLint", "ClaudeCode", "AI", "vibecoding"]
@@ -7,7 +7,9 @@ published: true
 publication_name: "singularity"
 ---
 
-正直に聞きます。
+`strict` を入れているから、型まわりは一番厳しくしてあるつもりでいました。**違いました。`as` を止めるルールは `strict` に入っていません。** うちのコードには `as` が **149箇所**残っていました。
+
+その話をする前に、正直に聞きます。
 
 **あなたのプロジェクトの `tsconfig.json` と `eslint.config.js`、どこかからコピペして、そのままになっていませんか。**
 
