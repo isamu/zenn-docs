@@ -194,13 +194,26 @@ AIは強力なレバレッジです。**ビジョンがあって、作りたい�
 
 ### 元CTOが「いちエンジニア」として移っているのも、たぶん同じ話
 
-米国のスタートアップでCTOをやっていたような人が、**AIの会社にいちエンジニアとして入る**。そういう話を、最近いくつか見かけました。ここから先は自分の見立てです。
+これは実際に起きていることです。
 
-理由はいろいろあるはずですが、**肩書きや処遇を上げたいだけなら、他社のCTOという選択肢もあった**わけです。それを選ばなかったこと自体が、何を優先したのかを示している気がします。
+- **Peter Bailis** — Workday の CTO（2025年5月就任）。2026年3月に退社し、Anthropic に **Member of Technical Staff** として参加。強化学習まわりの実装を担当しています（[The Next Web, 2026-04-09](https://thenextweb.com/news/workday-cto-bailis-anthropic-member-technical-staff)）
+- **Bryan McCann** — You.com の共同創業者兼 CTO。同じく Anthropic に Member of Technical Staff として移りました（[The Information](https://www.theinformation.com/briefings/ai-startup-com-appoints-new-cto-co-founder-joins-anthropic)）
+
+**上場企業や急成長スタートアップのCTOが、肩書きを外して、一エンジニアの職に就いている。** しかも1人ではなく、続けて起きています。
+
+The Next Web はこの流れをこう書いています。
+
+> executives at the top of established technology companies choosing proximity to cutting-edge research over the authority that comes with managing large organisations
+
+（確立された企業の頂点にいる幹部が、**大きな組織を率いる権限よりも、最先端の研究に近い場所のほうを選んでいる**）
+
+**肩書きや処遇を上げたいだけなら、他社のCTOという選択肢もあった**はずです。それを選ばなかったこと自体が、何を優先したのかを示している気がします。
+
+ここから先は自分の見立てです。
 
 **これまで、大きなプロダクトを作るには大きなチームが要りました。** CTOクラスの人が構想を形にするには、賢い部下と組織が必要だった。**その部分を、いまはAIが埋めます。**
 
-だとすると、**組織を率いるかわりに、一番賢いAIとそれを制限なく使える環境がある場所に、一人のエンジニアとして座る**という選択は、ありえる話だと思います。
+だとすると、**組織を率いるかわりに、一番賢いAIとそれを制限なく使える環境がある場所に、一人のエンジニアとして座る**という選択は、じゅうぶんありえる話だと思います。
 
 **これは「ビジョンを持っている人ほど、少ない人数で動けるようになった」という話**でもあります。この記事の結論と同じ方向を向いています。
 
