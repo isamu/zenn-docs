@@ -3,7 +3,7 @@ title: "AIに大きな仕様書を渡して一気に作らせるのは、宝く�
 emoji: "🍕"
 type: "idea"
 topics: ["AI", "ClaudeCode", "vibecoding", "開発プロセス", "マネジメント"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
