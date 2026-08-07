@@ -1,7 +1,7 @@
 ---
 title: "AIに大きな仕様書を渡して一気に作らせるのは、宝くじを買うようなものです"
 emoji: "🍕"
-type: "idea"
+type: "tech"
 topics: ["AI", "ClaudeCode", "vibecoding", "開発プロセス", "マネジメント"]
 published: true
 publication_name: "singularity"
