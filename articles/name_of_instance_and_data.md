@@ -1,7 +1,7 @@
 ---
 title: "データとインスタンスの変数名"
 emoji: "🚀"
-type: "idea"
+type: "tech"
 topics: [Node.js, naming, Tech]
 published: true
 publication_name: "singularity"

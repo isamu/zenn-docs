@@ -1,7 +1,7 @@
 ---
 title: "ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分"
 emoji: "⏱️"
-type: "idea"
+type: "tech"
 topics: ["ClaudeCode", "AI", "OSS", "個人開発", "vibecoding"]
 published: true
 publication_name: "singularity"
