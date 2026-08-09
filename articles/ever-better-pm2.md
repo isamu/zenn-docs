@@ -31,10 +31,10 @@ publication_name: "singularity"
 
 **[ever-better](https://github.com/isamu/ever-better)**（MIT・**ランタイム依存ゼロ**）。TS/JS のリポジトリを渡せば、**足りない品質ツールを診断して、入れて、いまの違反数を「天井」として固定します。**
 
-Claude Code のプラグインにしてあるので、実際にはこう使います。
+Claude Code のプラグインにしてあるので、実際にはこう言うだけです。
 
 ```
-run ever-better on this repo
+きれいにして
 ```
 
 **これだけです。** そこから先は勝手に進みます。
@@ -106,7 +106,17 @@ npx ever-better prune        # 直したぶん、天井を下げる
 /plugin install ever-better
 ```
 
-そのうえで `run ever-better on this repo` と言うと、**この順で PR が飛んできます。**
+あとは話しかけるだけです。**入口は2つあります。**
+
+```
+「この repo の品質を上げたい」「lint を入れたい」「どこから手を付ける？」
+   → まず診断して、何が足りないか・それぞれ何を意味するかを説明する
+
+「きれいにして」「全部やっておいて」「品質上げといて」
+   → 無人で最後まで回す
+```
+
+後者を選ぶと、**この順で PR が飛んできます。**
 
 ```
 1  整形の PR（Prettier）
@@ -164,7 +174,7 @@ open issue 1,098件
 
 Node.js のプロセスマネージャとして、**たぶん誰でも一度は使っています。** そして十分に古い。
 
-[フォークして](https://github.com/isamu/pm2)、`run ever-better on this repo` と言いました。
+[フォークして](https://github.com/isamu/pm2)、**「きれいにして」**と言いました。
 
 ### 1時間で、ここまで来ました
 
@@ -412,7 +422,7 @@ Object.keys(null)            オブジェクトのつもりが null
 
 - **1日500コミットには足回りが要る。** でも**最初から入っていたことは一度もない**。毎回、途中から入れて厳しくしていく
 - そこを埋める **[ever-better](https://github.com/isamu/ever-better)** を作った（MIT・依存ゼロ）。**今日の違反数を天井として固定し、そこから増やさない**
-- **TS/JS なら、Claude Code に `run ever-better on this repo` と言うだけ**。整形 → 導入 → 凍結 → ルール1本ずつの PR、と勝手に進む
+- **TS/JS なら、Claude Code に「きれいにして」と言うだけ**。整形 → 導入 → 凍結 → ルール1本ずつの PR、と勝手に進む
 - ★43,254・13年ものの [pm2](https://github.com/Unitech/pm2) に当てたら、**1時間で 4,942 件を凍結**できた
 - **`no-undef` だけで本物のバグが2件**。どちらもエラー処理の中で、13年見つかっていなかった → [本家に PR](https://github.com/Unitech/pm2/pull/6143)
 - **`.js` を `.ts` に改名しただけで、型エラーが 2,641 件**（eslint も 3,130 件）
