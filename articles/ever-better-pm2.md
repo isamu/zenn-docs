@@ -128,6 +128,22 @@ https://github.com/isamu/ever-better  これやって
 
 **記事にしていなければ、その穴は残ったままです。** 書くために自分のコードを読み直す、というのが効きました。
 
+しかも1つでは終わりませんでした。この記事に載せる手順を**自分で通しで実行して**いたら、さらに2つ出ました。
+
+```
+mocha を検出できていなかった   → テストがあるのに「無い」と判定し、
+                                 2つ目のテストランナーを入れようとしていた
+freeze の警告が不親切だった     → 「config を直せ」としか言わず、
+                                 どのファイルかを教えていなかった
+```
+
+**1つめは実害があります。** mocha を使っているリポジトリに vitest を追加してしまうので。しかも検出コードのすぐ下に、自分でこう書いていました。
+
+> a false "you are missing this" is how a diagnosis stops being trusted.
+> （無いものを「無い」と誤報するのは、診断が信用されなくなる道だ）
+
+**書いたルールを、自分で破っていました。** 両方直してあります。
+
 僕自身、前の記事ではリポジトリを出していませんでした。なので今回は、記事より先に公開しています。
 
 そのうえで、両方でやることにしました。
@@ -325,6 +341,52 @@ lint の 1255 件の差は全部 eslint --fix が機械的に直した分で、�
 ```
 
 **「通っていません」と最初に書いてあるのが大事です。** できたことだけ書いて止まると、受け取った人が状態を誤解します。そして**この exclude リストが残作業そのもの**、と次にやることまで指してあります。
+
+## そのまま手元で再現できる例
+
+この記事の後半は pm2 の話ですが、あれは規模が大きくて追いにくいと思います。**5分で終わる例**を先に置いておきます。**そのままコピペで動きます。**
+
+相手は [debug-js/debug](https://github.com/debug-js/debug) ── ★11,450、素の JavaScript、ソース7ファイル。小さいのに十分に古いリポジトリです。
+
+```bash
+git clone --depth 1 https://github.com/debug-js/debug.git
+cd debug
+
+npx ever-better diagnose     # 何が足りないか
+npx ever-better bootstrap    # 入れる
+npx prettier --write .       # 整形を先に済ませる
+npx ever-better freeze       # 天井を固定
+```
+
+`freeze` はこう返してきます。
+
+```
+Baseline pinned: 72 violations across 10 rules are now grandfathered.
+13 warnings stay visible — ESLint cannot suppress those, so their total is ratcheted instead.
+```
+
+**ここからが本題です。** 天井は本当に効くのか。新しいファイルを1つ足してみます。
+
+```bash
+cat > src/newfile.js <<'JS'
+const a = 1;
+module.exports = function (x) { return x + a; };
+JS
+
+npx ever-better check ; echo "exit=$?"
+```
+
+```
+8 unsuppressed error(s) — these are new since the baseline:
+  2  id-length
+  1  prettier/prettier
+  ...
+exit=1
+```
+
+**元からある72件は黙ったまま、いま足した3件だけが落ちます。** これが記事の全部です。消せば `exit` は戻ります。
+
+なお `check` の結果をパイプで受けないでください。`npx ever-better check | tail` の終了コードは `tail` のものになるので、**落ちているのに成功に見えます。** 僕はこの検証中にそれをやりました。
 
 ## 実験：13年もののリポジトリに当ててみた
 
