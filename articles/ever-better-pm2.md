@@ -3,7 +3,7 @@ title: "1日500コミットを日常にするツールを作りました ── 
 emoji: "🧨"
 type: "tech"
 topics: ["TypeScript", "ESLint", "JavaScript", "AI", "ClaudeCode"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
@@ -1020,6 +1020,8 @@ pure 関数を切り出す作業は、**テストを増やす作業でもあり�
 
 経過                    3日22時間（PR 188本 / コミット 528）
 ```
+
+（両端とも `npx eslint src backend apps` を同じ設定で回した数字です。**2026-08-11 時点**。いまも動いているので、読むころにはもう少し減っています）
 
 1つ、測り方について書いておきます。開始時点の `no-explicit-any` は「多すぎて今は直せない」というコメントつきで、**ほとんどのディレクトリで off にしてありました。** なので当時そのまま lint を回しても、79件しか出ません。上の 3,689 は、そのスイッチを全部 on に戻して測り直した数です。
 
