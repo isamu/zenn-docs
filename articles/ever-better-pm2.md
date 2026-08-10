@@ -522,11 +522,11 @@ pm2（13年もののJS）        users['constructor']   → プロトタイプ�
 sonarjs/super-linear-regex    163  →  51    （PR 14本）
 ```
 
-実際に直した1つを、そのまま出します。行頭の `PASS` / `FAIL` を拾うだけの正規表現です。
+実際に直した1つを、一般化した形で出します。行頭にある `DONE` を拾うだけの正規表現です（箇条書きの `-` や `*` が前に付いていてもよい）。
 
 ```js
 // 修正前
-/(?:^|\n)\s*(?:(?:✅|\*\*)\s*)?(PASS(?:ED)?)\b/i
+/(?:^|\n)\s*(?:[-*]\s*)?(DONE)\b/i
 ```
 
 **どこが問題か、ぱっと見て分かるでしょうか。** 僕は分かりませんでした。
@@ -537,7 +537,7 @@ sonarjs/super-linear-regex    163  →  51    （PR 14本）
 
 ```js
 // 修正後 ── \s* を「改行以外の空白」に変える
-/(?:^|\n)[^\S\n]*(?:(?:✅|\*\*)[^\S\n]*)?(PASS(?:ED)?)\b/i
+/(?:^|\n)[^\S\n]*(?:[-*][^\S\n]*)?(DONE)\b/i
 ```
 
 `[^\S\n]` は「空白であって、改行ではないもの」。これで分け方が1通りに決まります。
@@ -569,6 +569,57 @@ linter が指摘しなかったが、実際には爆発した      あった（c
 **両方向に外れます。** ルールは当たりを付ける道具であって、答えではありません。ここは記事の前半に書いた「機械が見つけた」の限界でもあります ── 機械が指摘した場所を人が確かめる、までやって初めて数字になります。
 
 これも古い/新しいの問題ではありません。「動いているから正しい」と「速い」が別物なだけです。
+
+### そもそも、その正規表現は要るのか
+
+これは今後の課題でもあるので、書いておきます。
+
+**AI に正規表現を書かせると、とんでもなく複雑なものが出てきます。** そして動きます。テストも通ります。だから通ってしまう。
+
+でも長い正規表現は、たいてい「**本当はパーサーを書くべきところを、力技で押している**」というサインです。実際、14本のうち何本かは、**正規表現をやめたこと**で直っています。
+
+1つめ。HTML からテキストを抜く処理です。
+
+```ts
+// before ── 正規表現4本のチェーン
+const text = raw
+  .replace(/<script[\s\S]*?<\/script>/gi, "")
+  .replace(/<style[\s\S]*?<\/style>/gi, "")
+  .replace(/<[^>]+>/g, " ")
+  .replace(/\s+/g, " ");
+
+// after
+const text = stripTags(raw);   // 前から1文字ずつ見ていくだけの関数（120行ほど）
+```
+
+**後者のほうが圧倒的に長いです。** でも**線形時間で、読めて、テストが書けます。** 前者は4本が絡み合っていて、どれが遅いのかも一目では分かりません。
+
+2つめ。文章から「作って」と言われた対象の名前を抜き出す処理です。
+
+```js
+// 「<動詞> a <名前> <名詞>」の <名前> を取りたい
+input.match(/\b(?:build|create|make)\s+(?:a|an|the)\s+(.+?)\s+(?:app|report)\b/i)
+```
+
+**一見ふつうです。** これを走査する関数に置き換えたときのコメントに、実測値が残っていました。
+
+```
+(.+?) と後ろの \s+ が空白の並びを分け合う           8,000文字で 121ms
+動詞のたびに末尾まで名詞を探しに行く                3,200句で   85ms
+書き直した走査でも、動詞ごとに slice すると          まだ quadratic（比 3.91）
+名詞側を \s+(?:app|report) にすると                 2,126ms
+末尾の空白を /\s+$/ で削ると                        107ms（ガード付きなら 0.06ms）
+```
+
+そしてコメントにこう書いてありました。
+
+> **ここで効いている2つは、どちらも推論ではなく計測で見つかった。**
+
+**書き直した側でさえ、素直に書くと quadratic に戻っています。** 正規表現をやめても、走査の書き方を間違えれば同じことが起きる、ということです。
+
+必要なのは、**長い正規表現を見たときに「これは怪しい」と感じる嗅覚**だと思っています。短い正規表現は道具ですが、長いものはたいてい**パーサーの下手な代用品**です。
+
+ただ、いまはまだ**この嗅覚をルールにできていません。** `sonarjs/regex-complexity` が近いことをしていますが、「複雑さ」と「パーサーにすべきか」は別の話です。ここは今後やっていきたいところです。
 
 ## 順番：簡単なところから始める
 
@@ -637,17 +688,17 @@ sonarjs.configs.recommended,   // 一気に数百件出る。ここでは怒ら�
 ```js
 // 片付いたところ = error。ここに新しい any を書くと落ちる
 {
-  files: ["backend/src/utils/**/*.ts", "backend/src/config/**/*.ts"],
+  files: ["src/core/**/*.ts", "src/config/**/*.ts"],
   rules: { "@typescript-eslint/no-explicit-any": "error" },
 },
 // 作業中 = warn。数は見えるが、CI は止めない
 {
-  files: ["backend/src/services/**/*.ts"],
+  files: ["src/services/**/*.ts"],
   rules: { "@typescript-eslint/no-explicit-any": "warn" },
 },
 // まだ手つかず = off。他のルールの指摘が埋もれるので、視界から外す
 {
-  files: ["backend/src/legacy/**/*.ts"],
+  files: ["src/legacy/**/*.ts"],
   rules: { "@typescript-eslint/no-explicit-any": "off" },
 },
 ```
@@ -664,7 +715,7 @@ sonarjs.configs.recommended,   // 一気に数百件出る。ここでは怒ら�
   rules: { "@typescript-eslint/no-explicit-any": "error" },
 },
 {
-  files: ["src/legacy/**", "src/admin/**"],   // 残りはこれだけ
+  files: ["src/legacy/**", "src/reports/**"],   // 残りはこれだけ
   rules: { "@typescript-eslint/no-explicit-any": "warn" },
 },
 ```
@@ -851,11 +902,11 @@ pure 関数を切り出す作業は、**テストを増やす作業でもあり�
 
 ```ts
 // before
-const rows: any[] = await prisma.job.findMany({ where: { orgId } });
+const rows: any[] = await db.order.findMany({ where: { shopId } });
 rows.forEach((row: any) => send(row.tittle));   // ← タイポに誰も気づけない
 
 // after ── 注釈を消しただけ。型は1文字も書いていない
-const rows = await prisma.job.findMany({ where: { orgId } });
+const rows = await db.order.findMany({ where: { shopId } });
 rows.forEach((row) => send(row.tittle));
 //                             ~~~~~~ Property 'tittle' does not exist on type 'Job'
 ```
@@ -931,15 +982,15 @@ private parse(raw: string): JobPayload { ... }
 
 ```ts
 // before ── where の中身は any なので、何を書いても通る
-const jobs = await prisma.job.findMany({
-  where: { organizationId: orgId } as any,
+const orders = await db.order.findMany({
+  where: { shopIdentifier: shopId } as any,
 });
 
 // after ── as any を外した瞬間
-const jobs = await prisma.job.findMany({
-  where: { organizationId: orgId },
-//         ~~~~~~~~~~~~~~ 'organizationId' does not exist in type 'JobWhereInput'
-});                                   // 実際のカラムは orgId だった
+const orders = await db.order.findMany({
+  where: { shopIdentifier: shopId },
+//         ~~~~~~~~~~~~~~ 'shopIdentifier' does not exist in type 'OrderWhereInput'
+});                                   // 実際のカラム名は shopId だった
 ```
 
 **絞り込みが効いていませんでした。** 全件返っていたわけです。テストは通っていました ── テストデータが1組織ぶんしかなかったので。
