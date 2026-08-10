@@ -185,6 +185,21 @@ warn に落とすと、何も強制されません。そして件数は静かに
 
 なお、この仕組み自体は **ESLint 本体に入っています**（`--suppress-all`）。ファイルごと・ルールごとに「いま何件あるか」を JSON に書き出して、その数だけ黙る。超えた分だけエラーにする。**ever-better はそれを使っているだけで、自前の発明ではありません。**
 
+書き出されるファイルは、こういう中身です（pm2 の実物から抜粋）。
+
+```json
+{
+  "lib/API.ts": {
+    "@typescript-eslint/no-this-alias": { "count": 25 },
+    "@typescript-eslint/no-unused-vars": { "count": 18 },
+    "complexity": { "count": 5 },
+    "id-length": { "count": 53 }
+  }
+}
+```
+
+**`lib/API.ts` の `id-length` は53件までは黙る。54件目でエラー。** それだけです。読めば分かるし、`git diff` に出るので、誰かが黙って天井を上げたら気づけます。
+
 やっているのは、その手前と後ろです ── **どのルールを入れるべきか決めて、入れて、記録して、CI で守って、減ったぶんを反映する。**
 
 ## 道具：覚えるのは5つだけ
@@ -198,6 +213,29 @@ npx ever-better prune        # 直したぶん、天井を下げる
 ```
 
 `freeze` が要です。ルールごとに現在の違反数を記録して、`.ever-better/state.json` というファイルに持ちます。`check` はそれと比べるだけ。1件でも増えていたら落とします。
+
+`status` を打つと、いまどこにいるかが出ます。pm2 の実物です。
+
+```
+$ npx ever-better status
+
+STALE      100 commits since the diagnosis; re-run diagnose before trusting it
+
+phase      drain
+frozen     2026-08-08T09:40:43.166Z
+backlog    3532
+improved   0 rules
+regressed  0 rules
+
+smallest remaining backlogs:
+  1  sonarjs/no-parameter-reassignment
+  1  sonarjs/reduce-initial-value
+  1  sonarjs/duplicates-in-character-class
+  1  sonarjs/code-eval
+  1  sonarjs/no-invariant-returns
+```
+
+**「残り1件のルール」から並べて出してきます。** 前に書いた「ゼロにできるものから当たる」を、道具の側から押してくる形です。`STALE` の行も地味に効いていて、**100コミット前の診断を信じるな**と言ってきます。
 
 実際には全部で11個あります（`status` `next` `migrate` `emit-diff` `catalog` `log` など）。ただ**この5つを順に打てば一周する**ので、最初はこれだけで足ります。
 
@@ -262,6 +300,29 @@ diagnose / bootstrap / freeze / check   →  CLI だけで完結する
 - そのリポジトリでは、そのルールが単に間違っている場合
 
 issue には選択肢と、自分ならどれを採るかを書きます。判断は人に返して、手は止めない。
+
+実際に立った issue の書き出しです。pm2 の TypeScript 化が途中で止まったときのもの。
+
+```
+## Summary
+
+lib/ の残り 49 ファイルを機械的に .ts へ改名した（quality/ts-mass-rename）。
+このブランチは現時点で yarn typecheck も yarn build も通らない
+  — 型エラーが 259 件残っている。
+改名そのものは git mv と eslint --fix だけで、ロジックは一行も書き換えていない。
+
+## 数字
+                改名前   改名後
+  eslint (未抑制)  3130 →  1875
+  型エラー         2641 →   259
+
+lint の 1255 件の差は全部 eslint --fix が機械的に直した分で、手で書き換えたものは無い。
+
+## 残り 259 件の内訳
+  ...
+```
+
+**「通っていません」と最初に書いてあるのが大事です。** できたことだけ書いて止まると、受け取った人が状態を誤解します。そして**この exclude リストが残作業そのもの**、と次にやることまで指してあります。
 
 ## 実験：13年もののリポジトリに当ててみた
 
@@ -461,14 +522,40 @@ pm2（13年もののJS）        users['constructor']   → プロトタイプ�
 sonarjs/super-linear-regex    163  →  51    （PR 14本）
 ```
 
-「計算量が爆発する」というのは、こういうことです。
+実際に直した1つを、そのまま出します。行頭の `PASS` / `FAIL` を拾うだけの正規表現です。
+
+```js
+// 修正前
+/(?:^|\n)\s*(?:(?:✅|\*\*)\s*)?(PASS(?:ED)?)\b/i
+```
+
+**どこが問題か、ぱっと見て分かるでしょうか。** 僕は分かりませんでした。
+
+`\s` には改行が含まれます。そして直前の `(?:^|\n)` も改行を食べています。つまり `"\n\n\n..."` という並びを、**どちらがどこまで食べるかで何通りにも分けられる**んです。マッチしないと分かるまで、その全パターンを試します。
+
+修正はこれだけです。
+
+```js
+// 修正後 ── \s* を「改行以外の空白」に変える
+/(?:^|\n)[^\S\n]*(?:(?:✅|\*\*)[^\S\n]*)?(PASS(?:ED)?)\b/i
+```
+
+`[^\S\n]` は「空白であって、改行ではないもの」。これで分け方が1通りに決まります。
+
+手元で測るとこうなりました。改行を並べた文字列を食わせただけです。
 
 ```
-入力が2倍になると、時間が4倍かかる（quadratic）
-入力が2倍になると、時間が8倍かかる（cubic）
+入力長      修正前        修正後
+  1000         2 ms      0.01 ms
+  2000         7 ms      0.01 ms
+  4000        27 ms      0.02 ms
+  8000       105 ms      0.05 ms
+ 16000       418 ms      0.09 ms
 ```
 
-普通の入力では気づきません。長い文字列を1つ投げられた瞬間に固まります。外から来る文字列に当てているものは、実質的に攻撃経路です。実際に、検索でゼロ幅の正規表現を使ってタブが固まる、というのも出ました。
+**入力が2倍になると、時間が4倍。** これが quadratic です（3乗になるのが cubic）。16,000文字で 418ms、**4,600倍の差**です。
+
+普通の入力では絶対に気づきません。1,000文字で 2ms なら誰も文句を言わない。**長い入力が1つ来た瞬間に固まります。** 外から来る文字列に当てているものは、実質的に攻撃経路です。実際に、検索でゼロ幅の正規表現を使ってタブが固まる、というのも出ました。
 
 ここで1つ、やり方の話を書いておきます。**linter の指摘をそのまま信じませんでした。** 実際に文字列の長さを変えて時間を測るスキャナを書いて、本当に爆発するかを確かめてから直しています。
 
@@ -670,6 +757,45 @@ sonarjs/cognitive-complexity    227  →  175
 5  それでも残るものだけ、最後に分割する
 ```
 
+2 の「pure 関数を切り出す」が具体的に何かというと、こういうことです。
+
+```ts
+// before ── 判断と I/O が混ざっている。テストを書くには DB とファイルが要る
+async function runJob(id: string) {
+  const job = await db.job.find(id);
+  const retries = job.attempts ?? 0;
+  if (job.status === "failed" && retries < 3 && !job.canceledAt) {
+    await queue.push(job.id, { delayMs: 1000 * 2 ** retries });
+    await log.write(`retrying ${job.id}`);
+  }
+}
+
+// after ── 「再試行すべきか」だけを外に出す
+export const retryPlan = (job: Job): { delayMs: number } | null => {
+  const retries = job.attempts ?? 0;
+  if (job.status !== "failed" || retries >= 3 || job.canceledAt) return null;
+  return { delayMs: 1000 * 2 ** retries };
+};
+
+async function runJob(id: string) {
+  const job = await db.job.find(id);
+  const plan = retryPlan(job);
+  if (!plan) return;
+  await queue.push(job.id, plan);
+  await log.write(`retrying ${job.id}`);
+}
+```
+
+`retryPlan` は**オブジェクトを1つ渡すだけで呼べます。** DB もキューもファイルも要りません。テストはこう書けます。
+
+```ts
+assert.deepEqual(retryPlan({ status: "failed", attempts: 2 }), { delayMs: 4000 });
+assert.equal(retryPlan({ status: "failed", attempts: 3 }), null);
+assert.equal(retryPlan({ status: "done", attempts: 0 }), null);
+```
+
+**そして `runJob` の分岐が3つ消えました。** 分割しようとしたわけではなく、テストできる形にしただけです。
+
 **4 が肝です。** 型を付けて、テストできる部分を外に出していくと、**分割しようと思っていないのに関数が痩せます。** そして残ったものだけが「本当に分割が必要なもの」です。最初から分割しにいくと、痩せれば消えたはずの複雑さまで、構造をいじって解決しようとしてしまいます。
 
 ### テストを増やすこと自体を、目的にしていい
@@ -721,7 +847,22 @@ pure 関数を切り出す作業は、**テストを増やす作業でもあり�
 - LLM の SDK が持っているイベントの型
 - UI ライブラリのコンポーネントが受け取る型
 
-どれも書く必要がありません。`any` を消すだけで、コンパイラが元から知っていた型に戻ります。一番数が多くて、一番簡単なので、ここから当たるのがおすすめです。
+こういう形です。
+
+```ts
+// before
+const rows: any[] = await prisma.job.findMany({ where: { orgId } });
+rows.forEach((row: any) => send(row.tittle));   // ← タイポに誰も気づけない
+
+// after ── 注釈を消しただけ。型は1文字も書いていない
+const rows = await prisma.job.findMany({ where: { orgId } });
+rows.forEach((row) => send(row.tittle));
+//                             ~~~~~~ Property 'tittle' does not exist on type 'Job'
+```
+
+**`: any[]` と `: any` を削除しただけです。** それだけでコンパイラが元から知っていた型に戻り、ついでにタイポが出ます。書く必要はありません。**消すだけです。**
+
+一番数が多くて、一番簡単なので、ここから当たるのがおすすめです。
 
 ### ② `catch (e: any)` が、単独で最大の群れだった
 
@@ -750,9 +891,32 @@ const errorMessage = (e: unknown): string =>
 
 > 1つのプライベートメソッドの `any` が、ルート1本まるごとの型を無効にしていた。
 
-`any` は伝染します。`any` を返す関数の戻り値は `any`、それを渡した先も `any`。1箇所直すだけで、連鎖的に何十箇所も型がつくことがあります。
+`any` は伝染します。
 
-なので「数」で優先順位をつけないでください。上流にある1個のほうが、末端の20個より効きます。
+```ts
+class JobService {
+  private parse(raw: string): any {        // ← ここ1箇所
+    return JSON.parse(raw);
+  }
+
+  handle(raw: string) {
+    const job = this.parse(raw);           // job は any
+    return this.dispatch(job.payload);     // payload も any
+  }
+
+  dispatch(payload: any) {                 // ← 上が any なので、ここも any にするしかない
+    return payload.steps.map((s: any) => run(s));   // ← 芋づるで any
+  }
+}
+```
+
+**`parse` の戻り値を直すだけで、下の4つが全部消えます。**
+
+```ts
+private parse(raw: string): JobPayload { ... }
+```
+
+なので「数」で優先順位をつけないでください。**上流にある1個のほうが、末端の20個より効きます。**
 
 ### ④ 外すとバグが出る
 
@@ -762,6 +926,23 @@ const errorMessage = (e: unknown): string =>
 - 送信側が送っている6つのフィールドが、型に書かれていなかった（だから受け取る側が全員 `any` にしていた）
 - 4つの実装が、どこにも書かれていない同じ形を前提にしていた
 - 型の上ではありえない分岐が残っていた
+
+1つめは、こういうものでした。
+
+```ts
+// before ── where の中身は any なので、何を書いても通る
+const jobs = await prisma.job.findMany({
+  where: { organizationId: orgId } as any,
+});
+
+// after ── as any を外した瞬間
+const jobs = await prisma.job.findMany({
+  where: { organizationId: orgId },
+//         ~~~~~~~~~~~~~~ 'organizationId' does not exist in type 'JobWhereInput'
+});                                   // 実際のカラムは orgId だった
+```
+
+**絞り込みが効いていませんでした。** 全件返っていたわけです。テストは通っていました ── テストデータが1組織ぶんしかなかったので。
 
 「片付け」のつもりが、バグ探しになります。
 
@@ -805,7 +986,19 @@ const errorMessage = (e: unknown): string =>
 
 ### ⑧ 変えていないことを、機械で確かめる
 
-`any` を消す作業は、動きを変えてはいけません。なので出力がバイト単位で同じであることを確認しながら進めました。型を直したつもりで挙動を変えていた、が一番怖いので、ここは機械に確認させるべきです。
+`any` を消す作業は、動きを変えてはいけません。
+
+**型は、コンパイルすると消えます。** ということは、型だけを直した変更なら、**出てくる JavaScript は1バイトも変わらないはず**です。変わっていたら、型以外を触っています。
+
+これを確かめるコマンドを入れてあります。
+
+```bash
+npx ever-better emit-diff --against main
+```
+
+作業ツリーと `main` の両方をコンパイルして、**出力された JavaScript を突き合わせる**だけです。同じなら、その変更は挙動を変えられません。違っていたら、違うファイル名を出してきます。
+
+**テストを何本書いても「変えていない」の証明にはなりません**（テストが見ていない経路は分からないので）。これは数秒で、しかも証明になります。型まわりの片付けでは、テストより先にこれを回したほうが速いです。
 
 ### まとめると
 
@@ -864,6 +1057,30 @@ linter が見ているのは「書き方」だけだからです。**設計が�
 置き場所が間違っている            警告は出ない
 そもそもその機能が要らない        警告は出ない
 ```
+
+たとえばこれは、どのルールにも引っかかりません。
+
+```ts
+// src/utils/date.ts
+export const formatDate = (d: Date): string => d.toISOString().slice(0, 10);
+
+// src/components/JobRow.tsx
+const toYmd = (d: Date) => d.toISOString().slice(0, 10);      // 知らずに再実装
+
+// src/services/report.ts
+const dateStr = (d: Date) => `${d.getFullYear()}-${...}`;     // しかも挙動が違う（ローカル時刻）
+```
+
+**3つとも短く、複雑でもなく、型も付いています。** linter は満点を出します。でも3つ目だけタイムゾーンの扱いが違います。
+
+```
+$ TZ=Asia/Tokyo node
+> 9月1日 朝8時（日本時間）
+  toISOString 版  →  2026-08-31   ← 前日を返す
+  ローカル版      →  2026-09-01
+```
+
+`toISOString()` は UTC に直してから切るので、**日本時間の朝9時前は、毎朝ずっと前日になります。** 3つのうち2つが同じバグを持っていて、1つだけ正しい。**どの警告にも出ません。**
 
 なので、これは要ります。
 
