@@ -535,6 +535,55 @@ sonarjs のセキュリティルールを全部 on（warn で）
 
 そして固定できたら、**ルールセットのほうを広げます。** 上の最後の2行がそれです。片付けて、固定して、広げて、また片付ける。
 
+### 広げ方は2方向あります
+
+「広げる」には2つの軸があります。設定で書くと、こうなります。
+
+**軸1：ルールを増やす。** プラグインを丸ごと足して、まず全部 warn で入れる。
+
+```js
+sonarjs.configs.recommended,   // 一気に数百件出る。ここでは怒らせない
+```
+
+**軸2：ディレクトリごとに段階を分ける。** 同じルールでも、場所によって強さを変えます。
+
+```js
+// 片付いたところ = error。ここに新しい any を書くと落ちる
+{
+  files: ["backend/src/utils/**/*.ts", "backend/src/config/**/*.ts"],
+  rules: { "@typescript-eslint/no-explicit-any": "error" },
+},
+// 作業中 = warn。数は見えるが、CI は止めない
+{
+  files: ["backend/src/services/**/*.ts"],
+  rules: { "@typescript-eslint/no-explicit-any": "warn" },
+},
+// まだ手つかず = off。他のルールの指摘が埋もれるので、視界から外す
+{
+  files: ["backend/src/legacy/**/*.ts"],
+  rules: { "@typescript-eslint/no-explicit-any": "off" },
+},
+```
+
+**ディレクトリ単位なのが大事です。** ファイル単位で列挙すると、隣にファイルが1つ増えた瞬間に穴が空きます。ディレクトリなら空きません。
+
+そして**片付いたディレクトリが多数派になったら、デフォルトを反転させます。**
+
+```js
+// before: 全体は warn。片付いた 8 ディレクトリを error として列挙
+// after:  全体を error にして、まだ owe している 8 ディレクトリだけ列挙
+{
+  files: ["src/**/*.{ts,tsx}"],
+  rules: { "@typescript-eslint/no-explicit-any": "error" },
+},
+{
+  files: ["src/legacy/**", "src/admin/**"],   // 残りはこれだけ
+  rules: { "@typescript-eslint/no-explicit-any": "warn" },
+},
+```
+
+実際、44 ディレクトリ中 36 が片付いた時点で反転させました。**列挙が短くなるからではありません。反転すると、明日作られるディレクトリが warn ではなく error から始まる**からです。前者だと、新しいディレクトリは「まだ気づかれていない場所」として静かに増えます。
+
 ### ただし、全部をゼロにするのが目的ではありません
 
 ここは間違えやすいので、はっきり書いておきます。
