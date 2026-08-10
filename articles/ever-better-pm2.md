@@ -7,9 +7,13 @@ published: true
 publication_name: "singularity"
 ---
 
-1日500コミットを日常にするために、環境を整えるツールを作りました。**これを使えば、だれでも500コミットは余裕です。**
+**AI にどんどん書かせて、コードレビューはしない。** それで1日500コミットを、毎日出しています。
 
-[ターミナルを自作したら1日500コミットを超えた話](https://zenn.dev/singularity/articles/diy-terminal-500-commits)と、[だからコードレビューをやめた話](https://zenn.dev/singularity/articles/stopped-reviewing-my-code)を書きました。どちらも、読まなくても壊れない足回りがあって初めて成立します。そして、読んで「やってみたい」と思った人から、こう言われました。
+無茶に聞こえると思いますが、**条件が1つだけあります。**「読まなくても壊れない足回り」が先に入っていること。[前に書いたとおり](https://zenn.dev/singularity/articles/stopped-reviewing-my-code)、**レビューをやめられたのではなく、レビューを機械に移しただけ**なので。
+
+**その足回りを作るツールを公開しました。これを使えば、だれでも500コミットは余裕です。**
+
+[ターミナルを自作したら1日500コミットを超えた話](https://zenn.dev/singularity/articles/diy-terminal-500-commits)と、[だからコードレビューをやめた話](https://zenn.dev/singularity/articles/stopped-reviewing-my-code)を書きました。どちらも、その足回りがあって初めて成立します。そして、読んで「やってみたい」と思った人から、こう言われました。
 
 > 記事を読めば簡単にできそうだと思った。でも実際にやると、手順も、細かいノウハウも分からない。
 
