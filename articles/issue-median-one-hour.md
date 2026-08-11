@@ -273,7 +273,7 @@ GitHub の [Issue](https://github.com/receptron/mulmoterminal/issues) でも、X
 
 ## 関連記事
 
-AI に思い切り書かせるための7本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための8本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
@@ -282,3 +282,4 @@ AI に思い切り書かせるための7本です。どこから読んでも大�
 5. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
 6. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
 7. [AIに大きな仕様書を渡して一気に作らせるのは、宝くじを買うようなものです](https://zenn.dev/singularity/articles/small-teams-ai) — そもそも作る前に、どこまで決めておくのか
+8. [1日500コミットを日常にするツールを作りました ── これを使えばだれでも余裕です](https://zenn.dev/singularity/articles/ever-better-pm2) — その足回りを作る道具。★43,000のOSSで実測した記録つき
