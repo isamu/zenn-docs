@@ -137,7 +137,7 @@ yarn、TypeScript、[Vitest](https://vitest.dev)、同じ [ESLint](https://eslin
 | [`docs/cross-platform-ci.md`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/docs/cross-platform-ci.md) | 3 OS 対応の書き方 |
 | [`docs/web-debugging.md`](https://github.com/isamu/claude/blob/273144a8bf83ff5ea2b92d78ae908cdb2ab4b541/docs/web-debugging.md) | ブラウザを手で操作するときの手順 |
 
-ポイントは、ポインタに**「いつ読むか」を添える**ことです。`Read before writing tests` `MUST read before debugging a Windows failure`。こう書いておくと、エージェントは必要なときだけ深いほうを開きます。
+ポイントは、ポインタに「いつ読むか」を添えることです。`Read before writing tests` `MUST read before debugging a Windows failure`。こう書いておくと、エージェントは必要なときだけ深いほうを開きます。
 
 常に全部を読ませようとすると、結局どれも効かなくなります。**規約は、量ではなく「踏む確率」で効きます。**
 
@@ -781,7 +781,7 @@ MIT です。使い方は[日本語ガイド](https://receptron.github.io/mulmot
 
 ## 関連記事
 
-AI に思い切り書かせるための7本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための8本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. **1日500コミットは、もう読めない ── だからコードレビューをやめた** ← **いまここ**
@@ -790,3 +790,4 @@ AI に思い切り書かせるための7本です。どこから読んでも大�
 5. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
 6. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
 7. [AIに大きな仕様書を渡して一気に作らせるのは、宝くじを買うようなものです](https://zenn.dev/singularity/articles/small-teams-ai) — そもそも作る前に、どこまで決めておくのか
+8. [1日500コミットを日常にするツールを作りました ── これを使えばだれでも余裕です](https://zenn.dev/singularity/articles/ever-better-pm2) — その足回りを作る道具。★43,000のOSSで実測した記録つき

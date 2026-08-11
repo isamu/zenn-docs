@@ -163,7 +163,7 @@ jscpd は「重複行 %」と「重複トークン %」の両方を出します�
 npx jscpd@5 src server -f typescript -r console-full,html --blame
 ```
 
-- `--blame` を付けると **git blame で「誰がいつ書いたコピペか」**まで出ます。犯人探しではなく、「この定型は当時こういう事情で…」という文脈をたどるのに有用です。
+- `--blame` を付けると **git blame で、誰がいつ書いたコピペかまで出ます。** 犯人探しではなく、「この定型は当時こういう事情で…」という文脈をたどるのに有用です。
 - `html` レポーターで一覧を出し、上位から「これは共通化すべきか？」を人間が判断していきます。
 - 頻度は週次〜月次で十分。スケジュール実行の GitHub Actions に置いて、レポートを artifact に上げておくのが楽です。
 
@@ -181,7 +181,7 @@ npx jscpd@5 src server -f typescript -r console-full,html --blame
 
 冒頭で触れたような「同じ `truncate()` が 6 実装に増える」タイプの事故は、**全体 % ゲートでは 1 件も止まらない**わけです。閾値を入れて安心するのが一番危ない。
 
-**全体 % 閾値は「大崩れの保険」**と割り切りましょう（安いので入れてよい）。新規流入を止めたいなら、母数に薄められない指標が要ります。
+全体 % 閾値は、**「大崩れの保険」と割り切りましょう。** 安いので入れてよいものです。新規流入を止めたいなら、母数に薄められない指標が要ります。
 
 ### 解: 公式 Action + SARIF + Code Scanning
 
@@ -286,7 +286,7 @@ npx skills add https://github.com/kucherenko/jscpd --skill dry-refactoring
 
 ## 関連記事
 
-AI に思い切り書かせるための7本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための8本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
@@ -295,3 +295,4 @@ AI に思い切り書かせるための7本です。どこから読んでも大�
 5. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
 6. **jscpd で重複コードを機械的に潰す** ← **いまここ**
 7. [AIに大きな仕様書を渡して一気に作らせるのは、宝くじを買うようなものです](https://zenn.dev/singularity/articles/small-teams-ai) — そもそも作る前に、どこまで決めておくのか
+8. [1日500コミットを日常にするツールを作りました ── これを使えばだれでも余裕です](https://zenn.dev/singularity/articles/ever-better-pm2) — その足回りを作る道具。★43,000のOSSで実測した記録つき
