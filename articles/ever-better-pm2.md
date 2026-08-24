@@ -1413,7 +1413,7 @@ Enjoy coding!
 
 ## 関連記事
 
-AI に思い切り書かせるための8本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための9本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
@@ -1423,5 +1423,6 @@ AI に思い切り書かせるための8本です。どこから読んでも大�
 6. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。全体監査と CI 差分チェックの二段構え
 7. [AIに大きな仕様書を渡して一気に作らせるのは、宝くじを買うようなものです](https://zenn.dev/singularity/articles/small-teams-ai) — 小さく切って並列に走らせる。この記事の前提
 8. **1日500コミットを日常にするツールを作りました** ← **いまここ**
+9. [1日500コミットを続けたら、Macが熱で落ちるようになりました](https://zenn.dev/singularity/articles/bottleneck-descends) — 速くしたら何が壊れたか。認知から物理まで、詰まる場所が降りていく話
 
 **4〜7 で「こうすべき」と書いたことを、この記事で道具にしました。** 読んでも再現できない、と言われたのがきっかけです。
