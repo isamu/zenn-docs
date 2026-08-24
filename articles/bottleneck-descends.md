@@ -2,7 +2,7 @@
 title: "1日500コミットを続けたら、Macが熱で落ちるようになりました"
 emoji: "🌡️"
 type: "tech"
-topics: ["ClaudeCode", "AI", "macOS", "個人開発", "vibecoding"]
+topics: ["ClaudeCode", "AI", "macOS", "開発環境", "vibecoding"]
 published: false
 publication_name: "singularity"
 ---
