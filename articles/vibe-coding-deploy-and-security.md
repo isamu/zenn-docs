@@ -3,7 +3,7 @@ title: "vibe coding の成果物はどこに置くか——公開範囲別のデ
 emoji: "🔐"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["vibecoding", "Supabase", "Vercel", "Cloudflare", "セキュリティ"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
