@@ -372,7 +372,7 @@ worktree だけ試すなら、こうです。
 `git worktree list` を一度も打たずに、ここまで来られるはずです。
 
 - [MulmoTerminal（GitHub）](https://github.com/receptron/mulmoterminal)
-- [日本語ガイド](https://receptron.github.io/mulmoterminal/guide/ja/)
-- [応用編 ── worktree で隔離して安全に試す](https://receptron.github.io/mulmoterminal/guide/ja/scenarios.html)
+- [日本語ガイド](https://www.mulmoterminal.com/guide/ja/)
+- [応用編 ── worktree で隔離して安全に試す](https://www.mulmoterminal.com/guide/ja/scenarios.html)
 
 開発は[中島聡](https://note.com/lifeisbeautiful)さんと Singularity Society のチームでやっています。**使ってみて不便なところがあったら教えてください。** [issue](https://github.com/receptron/mulmoterminal/issues) でも X でも。ここに書いた挙動のいくつかも、実際に言われて直したものです。

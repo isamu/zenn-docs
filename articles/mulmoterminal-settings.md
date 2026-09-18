@@ -211,4 +211,5 @@ CLAUDE_CWD=/Users/you/my-project
 
 - リポジトリ: https://github.com/receptron/mulmoterminal
 - npm: https://www.npmjs.com/package/mulmoterminal
+- 公式ガイド: [設定 — 色・音・ランチャ・プロジェクト別の設定](https://www.mulmoterminal.com/guide/ja/config.html)（この記事より新しい項目はこちらに入ります）
 - あわせて読みたい: [日本語ガイド](https://zenn.dev/singularity/articles/mulmoterminal-guide-ja) / [グリッドビュー](https://zenn.dev/singularity/articles/mulmoterminal-grid-view)

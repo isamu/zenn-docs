@@ -561,6 +561,6 @@ MulmoTerminal の「**拡張**」の柱がここ。稼働中ターミナルの�
 
 :::message
 この記事は **v2.4.0 時点**の内容です。開発が速いため、最新は
-[公式ガイド（日本語）](https://receptron.github.io/mulmoterminal/guide/ja/) と
+[公式ガイド（日本語）](https://www.mulmoterminal.com/guide/ja/) と
 [リリースノート](https://github.com/receptron/mulmoterminal/blob/main/docs/ChangeLog.md) をご覧ください。
 :::
