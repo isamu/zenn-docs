@@ -208,7 +208,7 @@ MulmoTerminal のグリッドビューは、
 という構成で、**「AI エージェントを何体も同時に回す」** ための運用画面になっています。しかも動かしているのは本物の対話 `claude`。だから **何体並列に回しても料金はいつもの Claude サブスクの枠内**（プラン利用の範囲）で、終わったら音で呼び戻してくれます。
 
 :::message
-この記事は **v2.4.0 時点**の内容です。開発が速いので、最新は[公式ガイド（日本語）](https://receptron.github.io/mulmoterminal/guide/ja/)と[リリースノート](https://github.com/receptron/mulmoterminal/blob/main/docs/ChangeLog.md)をご覧ください。
+この記事は **v2.4.0 時点**の内容です。開発が速いので、最新は[公式ガイド（日本語）](https://www.mulmoterminal.com/guide/ja/)と[リリースノート](https://github.com/receptron/mulmoterminal/blob/main/docs/ChangeLog.md)をご覧ください。
 :::
 
 ```sh

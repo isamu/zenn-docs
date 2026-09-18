@@ -147,7 +147,7 @@ CSS Grid と Flexbox なので、思いついたら数分で試せる。コー�
 
 そのターミナルを、いま **MulmoTerminal** として OSS 公開しています。`npx mulmoterminal@latest` で起動して、ブラウザで開くだけです。Claude Code と OpenAI Codex の両方に対応しています。
 
-使い方は日本語のマニュアルを用意してあります → **[MulmoTerminal ガイド（日本語）](https://receptron.github.io/mulmoterminal/guide/ja/)**
+使い方は日本語のマニュアルを用意してあります → **[MulmoTerminal ガイド（日本語）](https://www.mulmoterminal.com/guide/ja/)**
 
 - [MulmoTerminal](https://github.com/receptron/mulmoterminal) — ローカルの AI コーディングエージェントを、ブラウザから並列で監督する
 - [MulmoCast](https://mulmocast.com) — コンテンツをマルチフォーマットのメディアに変換する
