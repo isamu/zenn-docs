@@ -259,7 +259,7 @@ mulmoScriptは、**マルチモーダルコンテンツを記述するためのJ
 
 ## MCPとの統合
 
-mulmocastファミリーの主要コンポーネントは**MCP (Model Context Protocol)**に対応しており、Claude Desktop等のMCP対応クライアントから直接利用できます。
+mulmocastファミリーの主要コンポーネントは**MCP (Model Context Protocol)** に対応しており、Claude Desktop等のMCP対応クライアントから直接利用できます。
 
 **MCP対応コンポーネント**:
 - **mulmoscript-mcp**: 対話式でmulmoScriptを生成
@@ -297,9 +297,9 @@ mulmocastファミリーの主要コンポーネントは**MCP (Model Context Pr
 
 ## まとめ
 
-**MulmoCast（mulmocast-cli）**は、AI時代のマルチモーダルコンテンツ制作プラットフォームです。CLIツールとしてもライブラリとしても利用でき、動画、音声、画像、PDFなど様々な形式のコンテンツを自動生成します。
+**MulmoCast**（mulmocast-cli）は、AI時代のマルチモーダルコンテンツ制作プラットフォームです。CLIツールとしてもライブラリとしても利用でき、動画、音声、画像、PDFなど様々な形式のコンテンツを自動生成します。
 
-**派生ツール（MulmoCastファミリー）**により、MCPサーバとしての利用、Web表示、既存動画の変換など、様々な用途に対応できます。
+**派生ツール**（MulmoCastファミリー）により、MCPサーバとしての利用、Web表示、既存動画の変換など、様々な用途に対応できます。
 
 ### ツール一覧
 
