@@ -2,7 +2,7 @@
 title: "MulmoTerminal 設定リファレンス — 何を足すと何が変わるか、1つずつ"
 emoji: "⚙️"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["MulmoTerminal", "ClaudeCode", "設定", "TypeScript", "個人開発"]
+topics: ["ClaudeCode", "vibecoding", "設定", "TypeScript", "個人開発"]
 published: false
 publication_name: "singularity"
 ---
@@ -197,7 +197,7 @@ CLAUDE_CWD=/Users/you/my-project
 
 ### 使いどころ
 
-本番のリポジトリだけ `name: "PROD"` ＋ 赤い `headerColor` にしておく、といった**「どのセルがどの環境か」を一目で分かる**運用が定番です。色分けは事故防止に効きます。
+本番のリポジトリだけ `name: "PROD"` ＋ 赤い `headerColor` にしておく、といった、**「どのセルがどの環境か」を一目で分かる**運用が定番です。色分けは事故防止に効きます。
 
 ---
 
