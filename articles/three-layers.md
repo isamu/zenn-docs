@@ -3,7 +3,7 @@ title: "宣言1枚が、手元のアプリにも、共有サービスにもな�
 emoji: "🧩"
 type: "tech"
 topics: ["AI", "typescript", "firebase", "ClaudeCode", "設計"]
-published: true
+published: false
 publication_name: "singularity"
 ---
 
