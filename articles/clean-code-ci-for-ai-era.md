@@ -22,7 +22,7 @@ AI は、その場の文脈だけで「それっぽく動くコード」を出�
 
 一つひとつは些細ですが、これが積み重なるとコードベースがじわじわ腐ります。しかも厄介なのは、人間のレビューではこれらが見つけにくいこと。目の前の差分がどんなに綺麗でも、「26万行のどこかに同じ関数がもうあるか？」なんて記憶では追えません。
 
-だったら、こういう衛生管理は機械にやらせよう、という話です。この記事では、Claude Code をコアに開発している実プロダクト [MulmoClaude](https://github.com/receptron/mulmoclaude)（Vue + TypeScript、`packages/` に25超のワークスペースがあるモノレポ）で実際に使っている構成を、設定ファイルの実物つきで紹介します。
+だったら、こういう衛生管理は機械にやらせよう、という話です。題材は、Claude Code をコアに開発している実プロダクト [MulmoClaude](https://github.com/receptron/mulmoclaude)（Vue + TypeScript、`packages/` に25超のワークスペースがあるモノレポ）です。この記事では、そこで実際に使っている構成を、設定ファイルの実物つきで紹介します。
 
 ### そもそも「DRY」とは
 
@@ -306,7 +306,7 @@ npx jscpd@5 . --format typescript --ignore "**/node_modules/**,**/dist/**"
 
 CI に置くとき、一つ知っておいてほしい落とし穴があります。`--threshold 5`(重複率5%超で失敗)を置きたくなるんですが、これでは新規重複が止まりません。16万行に対して20行コピペしても、全体率は 3.27% から 3.28% くらいしか動かない。閾値には永遠に届かず、`truncate()` が6個に増える事故は1件も止まらないわけです。
 
-そこで MulmoClaude では、jscpd の結果を **SARIF**（静的解析の結果を表す、業界標準のファイル形式）で書き出し、**GitHub の Code Scanning**（解析結果を受け取って PR 上に警告を表示してくれる GitHub の機能）に渡しています。Code Scanning は「この PR で新しく増えた指摘」を、マージ先のブランチと比べて差分で見せてくれます。だから全体の母数に薄められることなく、この変更が新しく持ち込んだ重複だけを捕まえられるわけです([duplication-scan.yaml](https://github.com/receptron/mulmoclaude/blob/main/.github/workflows/duplication-scan.yaml)、[PR #2129](https://github.com/receptron/mulmoclaude/pull/2129))。
+そこで MulmoClaude では、jscpd の結果を **SARIF**（静的解析の結果を表す、業界標準のファイル形式）で書き出しています。それを **GitHub の Code Scanning**（解析結果を受け取って PR 上に警告を表示してくれる GitHub の機能）に渡しています。Code Scanning は「この PR で新しく増えた指摘」を、マージ先のブランチと比べて差分で見せてくれます。だから全体の母数に薄められることなく、この変更が新しく持ち込んだ重複だけを捕まえられるわけです([duplication-scan.yaml](https://github.com/receptron/mulmoclaude/blob/main/.github/workflows/duplication-scan.yaml)、[PR #2129](https://github.com/receptron/mulmoclaude/pull/2129))。
 
 ```yaml
 # duplication-scan.yaml（要点）
@@ -449,7 +449,7 @@ CI 側は、ESLint は「止める」設定で、jscpd と knip は「知らせ�
 
 AI 時代のボトルネックは「書く速度」ではなく「きれいなまま保つ速度」に移りました。そしてきれいでコンパクトなコードは、保守性だけでなく AI のトークン効率という面でも得をします。だからこそ、衛生管理は機械に任せてしまうのが合理的です。
 
-やることを一言でまとめると、見える範囲の違う4本(ESLint / SonarJS / jscpd / knip)を重ね、「新しく増えたぶんを正確に指せる検査」はCIを止める側に、「今ある全部しか出せない検査」は知らせる側に分け、既存の負債は「新規だけ先に厳しく」の要領で少しずつ返す。そして機械の検出(CI)と人間の予防(共有ヘルパーのカタログ)を両輪で回す。これだけです。
+やることをまとめると、こうです。見える範囲の違う4本(ESLint / SonarJS / jscpd / knip)を重ねる。「新しく増えたぶんを正確に指せる検査」はCIを止める側に、「今ある全部しか出せない検査」は知らせる側に分ける。既存の負債は「新規だけ先に厳しく」の要領で少しずつ返す。そして機械の検出(CI)と人間の予防(共有ヘルパーのカタログ)を両輪で回す。これだけです。
 
 こうしておくと、「AI に思い切り書かせる」ことと「コードベースを綺麗に保つ」ことが、ちゃんと両立します。速く書けるようになったぶん、守りを機械化しておく価値も上がっている、というのが今の実感です。
 
