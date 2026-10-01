@@ -262,7 +262,7 @@ initialTransitionProblems
 | **MINOR** | 古い読み手が安全に無視できる追加（`views[].live`、`views[].limit`） |
 | **PATCH** | どちらでもない |
 
-`APP_PROTOCOL` は **いまも 1.0.0**。キーを足しても番号は動かない。manifest スキーマが`.strict()` なので、**知らないキーを渡された古いビルドは、落とさずに止まる**からだ。
+`APP_PROTOCOL` は **いまも 1.0.0**。キーを足しても番号は動かない。manifest スキーマが `.strict()` なので、**知らないキーを渡された古いビルドは、落とさずに止まる**からだ。
 動くのは「既存キーの意味が変わる」ときだけで、それはスキーマに見えない。
 
 ### 宣言に出てくる主なキー
@@ -308,7 +308,7 @@ initialTransitionProblems
 | ホスト | MulmoTerminal | 上を全部束ね、deploy / publish / unpublish を持つ |
 | レンダラ | MulmoServer | 公開ビューを描く。**別リリース** |
 
-`sharedapp` が `core` から切り出された理由も記録されている。**切り出す前の90日で24コミットが`@mulmoclaude/core` のリリース（8パッケージ + フル CI）を通っていて、MulmoClaude 自身はそのコードを一行も使っていなかった。**
+`sharedapp` が `core` から切り出された理由も記録されている。**切り出す前の90日で24コミットが `@mulmoclaude/core` のリリース（8パッケージ + フル CI）を通っていて、MulmoClaude 自身はそのコードを一行も使っていなかった。**
 
 ---
 

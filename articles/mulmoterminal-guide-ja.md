@@ -292,7 +292,7 @@ MulmoTerminal の 4 本柱——**監督 / 可視化 / 自動化・調査 / 拡�
    **「Enable notifications」**
 
 :::message
-**iPhone は「ホーム画面に追加」してから**開いてください。iOS では**ホーム画面にインストールした PWA からでないとWeb Push が使えません（Safari のタブからは有効にできません）。
+**iPhone は「ホーム画面に追加」してから**開いてください。iOS では**ホーム画面にインストールした PWA からでないと Web Push が使えません（Safari のタブからは有効にできません）。
 :::
 
 散歩に出ても、詰まった 1 本だけをその場で捌いて、また歩き出せます。
@@ -544,5 +544,5 @@ MulmoTerminal の「**拡張**」の柱がここ。稼働中ターミナルの�
 ---
 
 :::message
-この記事は **v2.4.0 時点**の内容です。開発が速いため、最新は[公式ガイド（日本語）](https://www.mulmoterminal.com/guide/ja/) と[リリースノート](https://github.com/receptron/mulmoterminal/blob/main/docs/ChangeLog.md) をご覧ください。
+この記事は **v2.4.0 時点**の内容です。開発が速いため、最新は [公式ガイド（日本語）](https://www.mulmoterminal.com/guide/ja/) と [リリースノート](https://github.com/receptron/mulmoterminal/blob/main/docs/ChangeLog.md) をご覧ください。
 :::

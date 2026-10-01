@@ -21,7 +21,7 @@ description: 作業内容を Zenn 技術記事(md)に変換して保存する。
 # 本文（二人称の手順書）
 ```
 
-MulmoClaude のワークスペースでは、`data/skills/<slug>/SKILL.md` に書くと`.claude/skills/<slug>/` へ**自動ミラー**されて即ディスカバリ対象になる。ボタン一つの登録作業もいらない。
+MulmoClaude のワークスペースでは、`data/skills/<slug>/SKILL.md` に書くと `.claude/skills/<slug>/` へ**自動ミラー**されて即ディスカバリ対象になる。ボタン一つの登録作業もいらない。
 
 ## まず workspace スキルを 2 つ作る
 
@@ -30,7 +30,7 @@ MulmoClaude のワークスペースでは、`data/skills/<slug>/SKILL.md` に�
 - **`zenn-article`** — 今の会話・成果物を題材に Zenn 記事 md を生成して `articles/` に保存
 - **`zenn-setup`** — Zenn 連携リポジトリの検出・最新化・clone・新規作成
 
-frontmatter は Zenn の house style に合わせる。ポイントは `topics` に必ず `MulmoClaude`タグを入れること（Zenn のトピックは自由語なので、新しいタグもそのまま生やせる）。
+frontmatter は Zenn の house style に合わせる。ポイントは `topics` に必ず `MulmoClaude` タグを入れること（Zenn のトピックは自由語なので、新しいタグもそのまま生やせる）。
 
 ```yaml
 ---
@@ -43,16 +43,16 @@ published: true
 ```
 
 Zenn のスラッグ規約も押さえておく。**12〜50 文字、`^[a-z0-9_-]{12,50}$`**。
-そして **公開後はスラッグ＝記事 URL なので変更不可**。タイトルの英単語から読みやすいkebab-case を作り、短ければ日付や hex を足して伸ばす。
+そして **公開後はスラッグ＝記事 URL なので変更不可**。タイトルの英単語から読みやすい kebab-case を作り、短ければ日付や hex を足して伸ばす。
 
 ## 本体のシステム（プリセット）スキルに昇格させる
 
 ここからが本題。「個人スキルではなく、MulmoClaude に最初から入っている `mc-` 系のシステムスキルにしたい」という話になり、配布の仕組みを調べた。分かったのはこう。
 
-- プリセットスキルは本体リポの`packages/services/workspace-setup/assets/skills-preset/mc-<name>/SKILL.md` に置く
+- プリセットスキルは本体リポの `packages/services/workspace-setup/assets/skills-preset/mc-<name>/SKILL.md` に置く
 - 同期処理（`syncPresetSkills`）が **このディレクトリを走査**し、`mc-` プレフィックス＋
   `SKILL.md` を持つ各ディレクトリをワークスペースへコピーする
-- **マニフェストへの登録は不要**。`preset-list.ts` はあくまで**プラグイン**（MCP ツールやVue View を持つ npm パッケージ）用で、スキルには関係しない
+- **マニフェストへの登録は不要**。`preset-list.ts` はあくまで**プラグイン**（MCP ツールや Vue View を持つ npm パッケージ）用で、スキルには関係しない
 - 旧 `server/workspace/skills-preset.ts` は `@mulmoclaude/workspace-setup` への薄い shim になっていて、正本はパッケージ側の `assets/` に移っていた
 
 つまり、**`mc-zenn/SKILL.md` を 1 枚足すだけ**で配布される。コードもテストもいじらない。
