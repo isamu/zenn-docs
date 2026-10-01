@@ -77,7 +77,7 @@ npx mulmoterminal@latest
 
 ![ズームとフィルムストリップ](/images/mulmoterminal-grid/04-zoom.png)
 
-各行が何行ぶん使うかは `~/.mulmoterminal/config.json` の `cockpitLines` で変えられます（既定は サマリー2 / プロンプト2 / 返答3）。**サマリーの行数を増やすと、拡大しなくても中身が読めます。**
+各行が何行ぶん使うかは `~/.mulmoterminal/config.json` の `cockpitLines` で変えられます（既定はサマリー2 / プロンプト2 / 返答3）。**サマリーの行数を増やすと、拡大しなくても中身が読めます。**
 
 ```jsonc
 { "cockpitLines": { "summary": 4, "prompt": 2, "reply": 3 } }
