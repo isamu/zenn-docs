@@ -551,7 +551,7 @@ class GraphAIStreamingIntegration {
 
 Mulmoはマルチモーダル対応のエージェントフレームワークです。
 
-### 3.3 Mulmoのマルチモーダルコンテンツとの統合
+### 3.1 Mulmoのマルチモーダルコンテンツとの統合
 
 ```typescript
 interface MultimodalMessage extends Message {

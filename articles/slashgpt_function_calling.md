@@ -11,7 +11,7 @@ publication_name: "singularity"
 [SlashGPT](https://github.com/snakajima/SlashGPT/)は[中島聡](https://twitter.com/snakajima)が開発したChatGPTなどのLLMエージェントを手軽に開発するためのツールです。SlashGPTを使えば、jsonファイルを記述するだけでChatGPTを使ったLLMエージェントやチャットアプリを手軽に、簡単につくることができます。
 
 OpenAIから2023年6月に発表されたFunction callingにも対応し、プログラムを一切書くとことなく、Function callingとAPIサービスを連携させたLLMエージェントを作成することが可能です。
-SlashGPTはFunction callingの返却値を使い、ざまざまな動作をNoCodeで使うことができます。
+SlashGPTはFunction callingの返却値を使い、さまざまな動作をNoCodeで使うことができます。
 
 
 SlashGPTでのFunction callingの大まかな動作の流れを説明すると、
