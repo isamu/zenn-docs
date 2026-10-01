@@ -103,7 +103,7 @@ async function main() {
 main().catch(console.error);
 ```
 
-openAIのクライアントとして使うので制約あり。
+openAIのクライアントとして使うので、制約があります。
 
 - messagesをPOSTしてassistantのmessage（結果を受け取る）
 - POSTされたmessagesをGraphDataのmessagesにinjectionするので、messagesのstatic nodeは必須

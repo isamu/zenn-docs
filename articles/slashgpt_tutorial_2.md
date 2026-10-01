@@ -86,9 +86,9 @@ LLMの動作検証やユーザへの例として、サンプルクエリ（LLM�
 - functions (string, optional): location of the function definitions
    - LLMに渡すfunctionsの設定
 
-#### funcitonの返却値関連
+#### functionの返却値関連
 
-LLMエージェントからfunctionの結果が戻ってきた場合の動作を指定する。
+LLMエージェントからfunctionの結果が戻ってきた場合の動作を指定します。
 
 動作は大きく分けて２つ。
 actionが指定されている場合は、actionに定義されているapiアクセスか、templateによる表示がされる

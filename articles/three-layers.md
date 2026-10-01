@@ -57,11 +57,9 @@ return {
 };
 ```
 
-**LLM 側からは、標準の function calling と区別がつかない。** システムプロンプトでツール定義を
-受け取り、呼び、テキストを受け取る。新しい概念を覚える必要がない。
+**LLM 側からは、標準の function calling と区別がつかない。** システムプロンプトでツール定義を受け取り、呼び、テキストを受け取る。新しい概念を覚える必要がない。
 
-つまり**新しいアーキテクチャではなく、既存の tool call への加算**であり、MCP とも function
-calling とも競合しない。
+つまり**新しいアーキテクチャではなく、既存の tool call への加算**であり、MCP とも function calling とも競合しない。
 
 ### パッケージ構成
 
@@ -132,11 +130,9 @@ UI を持たないロジックはコアだけで書ける。描画の型付け�
 }
 ```
 
-これを置くと**表・入力フォーム・カレンダー**が描画される。**ホスト側にコレクション固有の
-コードは無い。** `views[]` を足すと自前の画面も足せる。
+これを置くと**表・入力フォーム・カレンダー**が描画される。**ホスト側にコレクション固有のコードは無い。** `views[]` を足すと自前の画面も足せる。
 
-データは **1件1ファイルの JSON** が `dataPath` の下に並ぶ。DB は無い。git に入るし、
-エディタで開けるし、`rm` で消える。
+データは **1件1ファイルの JSON** が `dataPath` の下に並ぶ。DB は無い。git に入るし、エディタで開けるし、`rm` で消える。
 
 ### SKILL.md — エージェント側の接続
 
@@ -162,8 +158,7 @@ description: 個人の映画リストコレクション。ユーザーが「こ�
 
 [receptron/mulmoclaude-collections](https://github.com/receptron/mulmoclaude-collections)。
 
-- `scripts/build-index.mjs` が `collections/` を走査して **`index.json`** を生成
-  （バックエンドが1回の GET で取る Discover のカタログ）
+- `scripts/build-index.mjs` が `collections/` を走査して **`index.json`** を生成（バックエンドが1回の GET で取る Discover のカタログ）
 - コレクションごとに **`manifest.json`**（取り込み時に取得するファイル一覧）
 - 投稿は `collections/<自分の GitHub ログイン名>/<slug>/` に足して PR。
   **他人の名前空間には出せない**（CI が弾く）
@@ -172,8 +167,7 @@ description: 個人の映画リストコレクション。ユーザーが「こ�
 
 ## 3. 共有アプリ — 同じスキーマを、他人のブラウザへ
 
-`@receptron/sharedapp`。自己申告は **「The shared-app compiler: `app.json` in, Firestore
-documents out — and what publish refuses before it writes any of them.」**
+`@receptron/sharedapp`。自己申告は **「The shared-app compiler: `app.json` in, Firestore documents out — and what publish refuses before it writes any of them.」**
 
 ### コレクションとの差は、実は小さい
 
@@ -192,9 +186,7 @@ documents out — and what publish refuses before it writes any of them.」**
 **`storage` が変わるだけで、`fields` も `views` もコレクションと同じ形。**
 置き場所も `.claude/skills/<name>/schema.json` で変わらない。
 
-`sharedapp` は `@mulmoclaude/core` から **`CollectionSchema` 型と `isValidCollectionName`、
-`isSafeCustomViewPath` を peer で借りている**。**型を共有している**のがその証拠で、
-機能の設計名も「shareable collections」だった。
+`sharedapp` は `@mulmoclaude/core` から **`CollectionSchema` 型と `isValidCollectionName`、`isSafeCustomViewPath` を peer で借りている**。**型を共有している**のがその証拠で、機能の設計名も「shareable collections」だった。
 
 ### 足すのは app.json
 
@@ -233,11 +225,9 @@ documents out — and what publish refuses before it writes any of them.」**
 }
 ```
 
-**定義はコミットされ、回答はコミットされない。** スキーマとビューはリポジトリのファイル、
-レコードはクラウドの store。
+**定義はコミットされ、回答はコミットされない。** スキーマとビューはリポジトリのファイル、レコードはクラウドの store。
 
-**権限はメールアドレスの列挙。** 招待は行を足して publish するだけで、相手はこのリポジトリも
-このマシンも要らない。
+**権限はメールアドレスの列挙。** 招待は行を足して publish するだけで、相手はこのリポジトリもこのマシンも要らない。
 
 ### publish は compiler であり、gate でもある
 
@@ -257,17 +247,14 @@ keyFieldCountProblems / coherenceProblems / statusCoherenceProblems
 initialTransitionProblems
 ```
 
-**Firestore のルールを人が書かない。** 宣言から生成され、安全にできない形は publish 自体が
-止まる。ソース中のコメントに **「a linter is not a substitute for a rule」** とある。
+**Firestore のルールを人が書かない。** 宣言から生成され、安全にできない形は publish 自体が止まる。ソース中のコメントに **「a linter is not a substitute for a rule」** とある。
 
-そして **MulmoServer が、publish の出力を Firestore rules エミュレータに通すテスト**を
-持っている。両リポジトリを通じて「publish が書くものが `firestore.rules` の許すものと一致する」
+そして **MulmoServer が、publish の出力を Firestore rules エミュレータに通すテスト**を持っている。両リポジトリを通じて「publish が書くものが `firestore.rules` の許すものと一致する」
 ことを証明している唯一のテスト。
 
 ### protocol — 契約の版
 
-すべての射影に `protocol` が刻まれる（`src/appProtocol.ts`）。**レンダラ（mulmoserver）は
-別リリースで、1ヶ月古いブラウザで動きうる**ので、文書の中でそれを知らせる唯一の手段。
+すべての射影に `protocol` が刻まれる（`src/appProtocol.ts`）。**レンダラ（mulmoserver）は別リリースで、1ヶ月古いブラウザで動きうる**ので、文書の中でそれを知らせる唯一の手段。
 
 | | |
 |---|---|
@@ -275,14 +262,12 @@ initialTransitionProblems
 | **MINOR** | 古い読み手が安全に無視できる追加（`views[].live`、`views[].limit`） |
 | **PATCH** | どちらでもない |
 
-`APP_PROTOCOL` は **いまも 1.0.0**。キーを足しても番号は動かない。manifest スキーマが
-`.strict()` なので、**知らないキーを渡された古いビルドは、落とさずに止まる**からだ。
+`APP_PROTOCOL` は **いまも 1.0.0**。キーを足しても番号は動かない。manifest スキーマが `.strict()` なので、**知らないキーを渡された古いビルドは、落とさずに止まる**からだ。
 動くのは「既存キーの意味が変わる」ときだけで、それはスキーマに見えない。
 
 ### 宣言に出てくる主なキー
 
-テンプレート9種（`server/skills/mulmoterminal-shared-app/templates/`）が、どのキーが何のために
-あるかを実例で書いている。
+テンプレート9種（`server/skills/mulmoterminal-shared-app/templates/`）が、どのキーが何のためにあるかを実例で書いている。
 
 | キー | 何のため | 実例 |
 |---|---|---|
@@ -323,9 +308,7 @@ initialTransitionProblems
 | ホスト | MulmoTerminal | 上を全部束ね、deploy / publish / unpublish を持つ |
 | レンダラ | MulmoServer | 公開ビューを描く。**別リリース** |
 
-`sharedapp` が `core` から切り出された理由も記録されている。**切り出す前の90日で24コミットが
-`@mulmoclaude/core` のリリース（8パッケージ + フル CI）を通っていて、MulmoClaude 自身はその
-コードを一行も使っていなかった。**
+`sharedapp` が `core` から切り出された理由も記録されている。**切り出す前の90日で24コミットが `@mulmoclaude/core` のリリース（8パッケージ + フル CI）を通っていて、MulmoClaude 自身はそのコードを一行も使っていなかった。**
 
 ---
 
@@ -335,8 +318,7 @@ initialTransitionProblems
 
 - `gui-chat-protocol` の返り値2口・パッケージ構成・入力ハンドラ（README と spec）
 - コレクションの構成と `schema.json` / `SKILL.md` の実物（`mulmoclaude-collections` の3件）
-- 共有アプリのスキーマが `storage: { type: "firestore" }` 以外コレクションと同形であること
-  （`templates/survey.md`）
+- 共有アプリのスキーマが `storage: { type: "firestore" }` 以外コレクションと同形であること（`templates/survey.md`）
 - `publishChecks.ts` の検査名一覧、`protocol` の MAJOR/MINOR/PATCH 規則（sharedapp の README）
 - パッケージ間の peer 依存（sharedapp README）
 

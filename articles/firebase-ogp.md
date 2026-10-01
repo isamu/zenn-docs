@@ -9,8 +9,8 @@ publication_name: "singularity"
 
 # Firebase + Vue3でOGP
 
-OGPとは、Twitter, Facebook, SlackなどでURLを共有したときに、previewとして表示される文章や画像をページごとに指定する手法です。HTMLのHeaderのMetaタグに情報を記述して読み込みませる。
-Firebase + Vueの場合は、主にSPAとしてクライアント再度で処理するのでOGPとはあまり相性は良くありません。また、そのためだけにSSRを使うのはToo muchです.
+OGPとは、Twitter, Facebook, SlackなどでURLを共有したときに、previewとして表示される文章や画像をページごとに指定する手法です。HTMLのHeaderのMetaタグに情報を記述して読み込ませます。
+Firebase + Vueの場合は、主にSPAとしてクライアント側で処理するのでOGPとはあまり相性は良くありません。また、そのためだけにSSRを使うのはToo muchです.
 
 そこで簡単にOGPを書き出す方法は２つ紹介します。
 
@@ -63,7 +63,7 @@ DispatchのRuleを指定。
 <meta property="og:site_name" content="OGPテストページ"/>
 <meta property="og:title" content="OGPテストページ"/>
 ```
-など、ogp.htmlに独自のOGPを追加する。
+など、ogp.htmlに独自のOGPを追加します。
 
 vue.config.jsにBuild設定を追加。
 

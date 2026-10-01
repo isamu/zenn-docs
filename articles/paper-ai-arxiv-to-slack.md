@@ -107,7 +107,7 @@ SLACKCHANNELはbotが要約を出力するチャンネル。このチャンネ�
 
 OPENAI_API_KEYはopenaiのapikeyを指定します。
 
-Secret Manager APIの設定を要求された場合は、それに従って有効にする。
+Secret Manager APIの設定を要求された場合は、それに従って有効にします。
 
 ```
 firebase functions:secrets:set SLACKTOKEN --project=default
@@ -188,7 +188,7 @@ Paper AIを実際に動かすのは、FirebaseのFirestore, Functionsが必要�
 
 そのためlocalでテストするために、各それぞれの機能を関数にして、Firebaseに依存しない形でテスト可能にしています。
 
-以下のスクリプトで、単体の動作が可能となる。
+以下のスクリプトで、単体で動作を確かめられます。
 
 ### 論文を検索するスクリプト
 

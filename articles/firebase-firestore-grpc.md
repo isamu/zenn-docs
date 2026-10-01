@@ -9,7 +9,7 @@ publication_name: "singularity"
 
 [前回の記事](https://zenn.dev/singularity/articles/firebase-functions-performance)で調査したように、Firebase Functionsからfirebase-adminを使ってFirebaseの他サービス(FirestoreやAuthentication)を呼び出す場合、コールドスタート時にgRPCの初期化が走りその処理にかなり時間がかかかる問題があります。特に対策をしていないFunctionsの関数を使うと、この条件のときにFunctionsの応答に4秒くらいかかるケースが有りました。
 
-この問題は2020年ころには課題として認識されていましたが、長い間対策方法はない状況でした。[この問題について議論しているチケット](https://issuetracker.google.com/issues/158014637?pli=1) ではgRPCではなくREST APIを使って他サービスを呼び出す方法が回避策として提案されていました。2022年にこの方法が正式な対策として取り込まれれたようです。
+この問題は2020年ころには課題として認識されていましたが、長い間対策方法はない状況でした。[この問題について議論しているチケット](https://issuetracker.google.com/issues/158014637?pli=1) ではgRPCではなくREST APIを使って他サービスを呼び出す方法が回避策として提案されていました。2022年にこの方法が正式な対策として取り込まれたようです。
 
 
 firebase-adminの[document](https://firebase.google.com/docs/reference/admin/node/firebase-admin.firestore.firestoresettings.md?hl=ja#firestoresettings_interface)を見ると、この対策を有効にするには、Firestoreの初期化時にpreferRestをoptionとして渡す必要があります。

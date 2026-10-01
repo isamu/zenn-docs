@@ -71,7 +71,7 @@ export const dataFilterAgentFilter: AgentFilterFunction = async (context, next) 
 };
 ```
 
-途中で処理を止める. cacheにヒットしたら、agent filter内で処理を完了してagentは呼ばない。
+途中で処理を止めます。cacheにヒットしたら、agent filter内で処理を完了してagentは呼びません。
 
 ```javascript
 export const cacheFilter: AgentFilterFunction = async (context, next) => {

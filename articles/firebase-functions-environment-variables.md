@@ -112,12 +112,12 @@ i  No active secret versions left. Destroying secret TEST
 firebase functions:secrets:get TEST
 Error: HTTP Error: 404, Secret [projects/998434940151/secrets/TEST] not found.
 ```
-削除したのでない。
+削除したので、もう存在しません。
 
 
 
 
-`functions:config`で管理していた情報は、やはめに`functions:secrets:set`に移行したほうが良さそうです
+`functions:config`で管理していた情報は、早めに`functions:secrets:set`に移行したほうが良さそうです。
 使わなくなった config内の変数は`firebase functions:config:unset paramname`で削除する必要があるのでお忘れなく。
 
 
