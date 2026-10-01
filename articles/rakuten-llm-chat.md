@@ -18,12 +18,12 @@ Usageにあるコードをコピーして実行。このコードはcudaに限�
 ```
 TypeError: BFloat16 is not supported on MPS
 ```
-となる。
+となります。
 
 ```
 torch_dtype=torch.float16
 ```
-に変更したところ動いた！！
+に変更したところ、動きました！
 
 ```
 USER:

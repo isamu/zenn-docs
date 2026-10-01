@@ -13,7 +13,7 @@ SakanaAIが公開したSakanaAI/EvoLLM-JP-A-v1-7BをMacで使ってみます。
 
 https://huggingface.co/SakanaAI/EvoLLM-JP-A-v1-7B
 
-を参考に、サンプルコードをコピペして動かしましたが動かず。
+を参考に、サンプルコードをコピペして動かしましたが、動きませんでした。
 
 いくつか他のサンプルを参考に改良したところ、動くようになりました。
 

@@ -137,7 +137,7 @@ sub-directory(通常はfunctions)はtypescriptとします。
 ✔  Wrote functions/src/index.ts
 ? File functions/.gitignore already exists. Overwrite? (y/N) 
 ```
-諸々のファイルが作成される。
+諸々のファイルが作成されます。
 
 これで完了です。
 
