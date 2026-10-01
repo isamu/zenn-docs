@@ -6,16 +6,11 @@ topics: ["MulmoClaude", "Zenn", "ClaudeCode", "生成AI"]
 published: true
 ---
 
-MulmoClaude でやった作業を、そのまま Zenn の技術記事にして共有したい——という動機から、
-「作業 → Zenn 記事」を自動化するスキルを作った。さらにそれを MulmoClaude **本体に同梱される
-システムスキル**へ昇格させ、PR まで出した。この記事はその一連の流れと、途中で分かった
-スキルの仕組みをまとめたもの（実際この記事自体、作ったスキルで書いている）。
+MulmoClaude でやった作業を、そのまま Zenn の技術記事にして共有したい——という動機から、「作業 → Zenn 記事」を自動化するスキルを作った。さらにそれを MulmoClaude **本体に同梱されるシステムスキル**へ昇格させ、PR まで出した。この記事はその一連の流れと、途中で分かったスキルの仕組みをまとめたもの（実際この記事自体、作ったスキルで書いている）。
 
 ## スキルとは（MulmoClaude / Claude Code）
 
-スキルは `SKILL.md` 一枚で定義する。frontmatter に `name` と `description`、本文は
-「いつ・何をするか」を二人称で書いた手順書だ。`description` が呼び出しのトリガになるので、
-動詞＋名詞で始め、ユーザーが言いそうなフレーズを入れておくのがコツ。
+スキルは `SKILL.md` 一枚で定義する。frontmatter に `name` と `description`、本文は「いつ・何をするか」を二人称で書いた手順書だ。`description` が呼び出しのトリガになるので、動詞＋名詞で始め、ユーザーが言いそうなフレーズを入れておくのがコツ。
 
 ```md
 ---
@@ -26,9 +21,7 @@ description: 作業内容を Zenn 技術記事(md)に変換して保存する。
 # 本文（二人称の手順書）
 ```
 
-MulmoClaude のワークスペースでは、`data/skills/<slug>/SKILL.md` に書くと
-`.claude/skills/<slug>/` へ**自動ミラー**されて即ディスカバリ対象になる。ボタン一つの
-登録作業もいらない。
+MulmoClaude のワークスペースでは、`data/skills/<slug>/SKILL.md` に書くと`.claude/skills/<slug>/` へ**自動ミラー**されて即ディスカバリ対象になる。ボタン一つの登録作業もいらない。
 
 ## まず workspace スキルを 2 つ作る
 
@@ -37,8 +30,7 @@ MulmoClaude のワークスペースでは、`data/skills/<slug>/SKILL.md` に�
 - **`zenn-article`** — 今の会話・成果物を題材に Zenn 記事 md を生成して `articles/` に保存
 - **`zenn-setup`** — Zenn 連携リポジトリの検出・最新化・clone・新規作成
 
-frontmatter は Zenn の house style に合わせる。ポイントは `topics` に必ず `MulmoClaude`
-タグを入れること（Zenn のトピックは自由語なので、新しいタグもそのまま生やせる）。
+frontmatter は Zenn の house style に合わせる。ポイントは `topics` に必ず `MulmoClaude`タグを入れること（Zenn のトピックは自由語なので、新しいタグもそのまま生やせる）。
 
 ```yaml
 ---
@@ -51,22 +43,17 @@ published: true
 ```
 
 Zenn のスラッグ規約も押さえておく。**12〜50 文字、`^[a-z0-9_-]{12,50}$`**。
-そして **公開後はスラッグ＝記事 URL なので変更不可**。タイトルの英単語から読みやすい
-kebab-case を作り、短ければ日付や hex を足して伸ばす。
+そして **公開後はスラッグ＝記事 URL なので変更不可**。タイトルの英単語から読みやすいkebab-case を作り、短ければ日付や hex を足して伸ばす。
 
 ## 本体のシステム（プリセット）スキルに昇格させる
 
-ここからが本題。「個人スキルではなく、MulmoClaude に最初から入っている `mc-` 系の
-システムスキルにしたい」という話になり、配布の仕組みを調べた。分かったのはこう。
+ここからが本題。「個人スキルではなく、MulmoClaude に最初から入っている `mc-` 系のシステムスキルにしたい」という話になり、配布の仕組みを調べた。分かったのはこう。
 
-- プリセットスキルは本体リポの
-  `packages/services/workspace-setup/assets/skills-preset/mc-<name>/SKILL.md` に置く
+- プリセットスキルは本体リポの`packages/services/workspace-setup/assets/skills-preset/mc-<name>/SKILL.md` に置く
 - 同期処理（`syncPresetSkills`）が **このディレクトリを走査**し、`mc-` プレフィックス＋
   `SKILL.md` を持つ各ディレクトリをワークスペースへコピーする
-- **マニフェストへの登録は不要**。`preset-list.ts` はあくまで**プラグイン**（MCP ツールや
-  Vue View を持つ npm パッケージ）用で、スキルには関係しない
-- 旧 `server/workspace/skills-preset.ts` は `@mulmoclaude/workspace-setup` への
-  薄い shim になっていて、正本はパッケージ側の `assets/` に移っていた
+- **マニフェストへの登録は不要**。`preset-list.ts` はあくまで**プラグイン**（MCP ツールやVue View を持つ npm パッケージ）用で、スキルには関係しない
+- 旧 `server/workspace/skills-preset.ts` は `@mulmoclaude/workspace-setup` への薄い shim になっていて、正本はパッケージ側の `assets/` に移っていた
 
 つまり、**`mc-zenn/SKILL.md` を 1 枚足すだけ**で配布される。コードもテストもいじらない。
 初期化・記事作成・公開の 3 ワークフローを 1 つに統合した `mc-zenn` を書いた。
@@ -74,8 +61,7 @@ kebab-case を作り、短ければ日付や hex を足して伸ばす。
 ## 冪等な初期化を設計する
 
 要件として「初期化済みなら何もしない／記事を書こうとして未初期化なら初期化する」という
-**冪等性**が欲しかった。判定はシンプルに、ワークスペース内の `github/zenn/articles/` が
-あるかどうかを marker にする。
+**冪等性**が欲しかった。判定はシンプルに、ワークスペース内の `github/zenn/articles/` があるかどうかを marker にする。
 
 - ある → 準備済み。再初期化しない
 - ない → **git clone**（既存リポ）か **`npx zenn init`**（新規）で初期化
@@ -87,10 +73,8 @@ mkdir -p github/zenn
 cd github/zenn && npm init --yes && npm install zenn-cli && npx zenn init
 ```
 
-記事作成ワークフローの先頭（Step 0）でこの初期化判定を呼ぶので、ユーザーは
-「Zenn にまとめて」から始めても、裏で勝手にセットアップされてそのまま執筆に入れる。
-なお zenn.dev 側の「GitHub からのデプロイ」連携だけはブラウザ操作なので、そこは
-自動化せず手順を案内する設計にした。
+記事作成ワークフローの先頭（Step 0）でこの初期化判定を呼ぶので、ユーザーは「Zenn にまとめて」から始めても、裏で勝手にセットアップされてそのまま執筆に入れる。
+なお zenn.dev 側の「GitHub からのデプロイ」連携だけはブラウザ操作なので、そこは自動化せず手順を案内する設計にした。
 
 ## PR を出すまで
 
@@ -102,8 +86,7 @@ cd github/zenn && npm init --yes && npm install zenn-cli && npx zenn init
 4. `feat:` プレフィックスでコミット → push → PR 作成
 
 `format` / `lint` / `build` / `typecheck` は対象が `ts/json/yaml/vue` のみ。今回は
-**markdown だけの追加**なのでコンパイル対象はなく、ビルド系ゲートは素通り——という確認も
-込みで進めた。
+**markdown だけの追加**なのでコンパイル対象はなく、ビルド系ゲートは素通り——という確認も込みで進めた。
 
 ## まとめ・学び
 
