@@ -1,5 +1,5 @@
 ---
-title: "GitHub Actions の OIDC 連携は安全なのか — GitHub・Google Cloud・Firebase の公式資料から読み解く"
+title: "GitHub Actions の OIDC 連携は安全か — GitHub・Google Cloud・Firebase の公式資料から読む"
 emoji: "🔑"
 type: "tech"
 topics: ["githubactions", "oidc", "googlecloud", "aws", "firebase"]
