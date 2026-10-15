@@ -18,13 +18,11 @@ publication_name: "singularity"
 
 **ステップ 1 で作る動画**（効果音つきのスライド）
 
-<!-- TODO: YouTube にアップロードしたら ID を入れる（step1_jingle_ja.mp4） -->
-@[youtube](STEP1_VIDEO_ID)
+@[youtube](hxGCeUVFmrA)
 
 **ステップ 2 で作る動画**（しゃべるアバター）
 
-<!-- TODO: YouTube にアップロードしたら ID を入れる（step2_avatar_ja.mp4） -->
-@[youtube](STEP2_VIDEO_ID)
+@[youtube](OiESBpJOciw)
 
 ![アバターがスライドの上でしゃべっている様子](/images/mulmocast-avatar-jingle-beginner/step2-avatar.png)
 
