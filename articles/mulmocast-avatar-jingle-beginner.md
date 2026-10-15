@@ -3,7 +3,7 @@ title: "MulmoCast で、しゃべるアバターと効果音つきの動画を�
 emoji: "🎙️"
 type: "tech"
 topics: ["mulmocast", "ai", "tts", "nodejs", "avatar"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
