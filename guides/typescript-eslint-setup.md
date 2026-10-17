@@ -229,7 +229,44 @@ export default [
 
 **全 SFC がパースできなくなります。** ルールだけのブロックに分けるのが正解です。
 
-⚠️ **`<template>` の中は、これをやっても typescript-eslint のルールが走りません。** 届くのは `<script>` までです。テンプレートに式を書きすぎず、`<script>` の computed に出してください。
+**③ `<template>` の中には、①②をやっても typescript-eslint のルールが届きません**
+
+`vue-eslint-parser` はテンプレートを**別の AST として公開**しており、typescript-eslint はそこを走査しません。届くのは `<script>` までです。
+
+**ただし埋められます。** `vue/no-restricted-syntax` がその AST を歩く唯一のルールなので、同じ禁止をセレクタとして書きます。**Vue のプロジェクトでは必ず入れてください。**
+
+```js
+{
+  files: ["**/*.vue"],
+  rules: {
+    "vue/no-restricted-syntax": [
+      "error",
+      { selector: "TSAsExpression", message: "テンプレートで as を使わない。<script> で絞って渡すこと" },
+      { selector: "TSNonNullExpression", message: "テンプレートで ! を使わない。<script> で絞って渡すこと" },
+    ],
+  },
+}
+```
+
+**入れないと、`consistent-type-assertions` を `error` にしていてもテンプレートの `as` は1件も報告されません。** `receptron/mulmoclaude` に入れたとき、`error` 運用下で **16件**が出てきました（うち6件は `v-if` が既に絞っていて不要だったもの）。
+
+直し方は、DOM のチェックを `<script>` の名前付きハンドラに移すことです。
+
+```vue
+<!-- before -->
+@input="onChange(($event.target as HTMLInputElement).value)"
+<!-- after -->
+@input="onInput"
+```
+
+```ts
+function onInput(e: Event) {
+  if (!(e.target instanceof HTMLInputElement)) return;   // 外れたら早期 return
+  onChange(e.target.value);
+}
+```
+
+⚠️ `vue/no-restricted-syntax` は**構文セレクタ**なので、埋められるのは「書き方」までです。型情報を要するルール（`no-unsafe-*` / `no-floating-promises`）はテンプレートでは依然として走りません。**テンプレートに式を書かない**方針は引き続き有効です。
 
 ### React / Solid / Preact（`.tsx`）
 
@@ -352,7 +389,20 @@ export const e8 = `${{}}`;                                    // no-base-to-stri
 
 ★は型情報が必要なので、`parserOptions` の設定なしでは反応しません。
 
-⚠️ Vue のプロジェクトでは、**同じコードを `.vue` の `<template>` に貼っても反応しません**。これは仕様なので、テンプレート内は別途注意します。
+⚠️ Vue のプロジェクトでは、**同じコードを `.vue` の `<template>` に貼っても1件も反応しません**。テンプレート用は別に貼ってください。
+
+```vue
+<script setup lang="ts">
+const m = new Map<string, { a: string }>();
+</script>
+
+<template>
+  <div>{{ m.get("y")!.a }}</div>                                   <!-- TSNonNullExpression -->
+  <input @input="f(($event.target as HTMLInputElement).value)" />  <!-- TSAsExpression -->
+</template>
+```
+
+`vue/no-restricted-syntax` が入っていれば2件とも落ちます。**落ちなければ、`consistent-type-assertions` を `error` にしていても、テンプレートは無防備です。**
 
 ---
 
@@ -376,11 +426,14 @@ export const e8 = `${{}}`;                                    // no-base-to-stri
 - [ ] `no-floating-promises` / `no-misused-promises` / `await-thenable` / `no-base-to-string`
 - [ ] テストは型情報ブロックの `ignores` に入っている
 - [ ] Vue なら**2ブロックに分かれている**
+- [ ] Vue なら **`vue/no-restricted-syntax`** が入っている（テンプレートは他の全ルールが届かない）
 - [ ] 例外はインライン disable ではなく allowlist に理由付き
 
 ### 運用
 - [ ] `yarn typecheck` が**全 tsconfig を1コマンドで**カバーしている
+- [ ] **`yarn lint` の対象に `scripts/` `config/` などのビルド系ディレクトリが入っている**（CI を動かすコードがゲートの外にいがち）
 - [ ] CI で lint と typecheck の両方が走る
+- [ ] **緑になったら、わざと壊して落ちることを確かめた**（`const x: number = "nope"` を各領域に1つずつ）
 - [ ] warn のものが「返すべきバックログ」として認識されている
 
 ---
