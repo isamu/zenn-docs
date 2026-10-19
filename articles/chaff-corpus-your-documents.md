@@ -3,7 +3,7 @@ title: "プログラミングのように文書も機械で確かめる — chaf
 emoji: "🗂️"
 type: "tech"
 topics: ["chaffjs", "日本語", "文章校正", "OSS", "AI"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
