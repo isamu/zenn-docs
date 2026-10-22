@@ -173,7 +173,7 @@ CSS Grid と Flexbox なので、思いついたら数分で試せる。コー�
 
 ## 関連記事
 
-AI に思い切り書かせるための9本です。どこから読んでも大丈夫ですが、この順に並んでいます。
+AI に思い切り書かせるための10本です。どこから読んでも大丈夫ですが、この順に並んでいます。
 
 1. **ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話** ← **いまここ**
 2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
@@ -184,3 +184,4 @@ AI に思い切り書かせるための9本です。どこから読んでも大�
 7. [AIに大きな仕様書を渡して一気に作らせるのは、宝くじを買うようなものです](https://zenn.dev/singularity/articles/small-teams-ai) — そもそも作る前に、どこまで決めておくのか
 8. [1日500コミットを日常にするツールを作りました ── これを使えばだれでも余裕です](https://zenn.dev/singularity/articles/ever-better-pm2) — その足回りを作る道具。★43,000のOSSで実測した記録つき
 9. [1日500コミットを続けたら、Macが熱で落ちるようになりました](https://zenn.dev/singularity/articles/bottleneck-descends) — 速くしたら何が壊れたか。認知から物理まで、詰まる場所が降りていく話
+10. [バイブコーディングを6週間続けたら、Mac の起動が20分かかるようになった](https://zenn.dev/singularity/articles/vibe-coding-mac-boot-20min) — 壊れたのは Mac ではなかった。溜め続けた一時ファイルの話
