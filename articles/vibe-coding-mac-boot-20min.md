@@ -224,3 +224,24 @@ Claude Code をたくさん回している人向けに、分かったことを�
 その開発自体も MulmoTerminal の上でやっています。ブラウザに複数のセッションを並べて、製品ごとに担当させる形です。どれかが考えている間に別のどれかが動いているので、手が止まる時間がほとんどありません。
 
 つまり、どのセッションも同時にファイルを作り続けています。作業用ディレクトリはセッションごとに作られるので、溜まり方も製品の数ではなくセッションの数に比例します。9時間半で約99万という数は、そういう使い方の結果です。
+
+## 関連記事
+
+この記事は、速く書くために足してきた仕組みの、副作用のほうです。その仕組み自体を書いた9本があります。どこから読んでも大丈夫ですが、この順に並んでいます。
+
+1. [ターミナルを自作したら、1日のコミット数が500を超えて、生産性がバグった話](https://zenn.dev/singularity/articles/diy-terminal-500-commits) — 並列運用の始まり。道具そのものを作った話
+2. [1日500コミットは、もう読めない ── だからコードレビューをやめた](https://zenn.dev/singularity/articles/stopped-reviewing-my-code) — 読まなくても壊れない仕組みの全体像
+3. [ユーザーの困りごとは、その日のうちに直す ── 中央値1.2時間、最速9分](https://zenn.dev/singularity/articles/issue-median-one-hour) — 機械に移せなかったものは何か
+4. [strict を入れても as は止まらない ── ESLint と tsconfig の「入れたつもり」を数える](https://zenn.dev/singularity/articles/what-else-was-off) — 規約に書いても、機械が止めていなければ守られない
+5. [AIでがんがん書く時代の「きれいなコード」の守り方](https://zenn.dev/singularity/articles/clean-code-ci-for-ai-era) — ESLint / SonarJS / jscpd / knip を CI に置く実装編
+6. [jscpd で重複コードを機械的に潰す](https://zenn.dev/singularity/articles/jscpd-dry-detection-mono) — 重複検出の詳細。定期監査と CI 差分チェックの二段構え
+7. [AIに大きな仕様書を渡して一気に作らせるのは、宝くじを買うようなものです](https://zenn.dev/singularity/articles/small-teams-ai) — 小さく切って並列に走らせる
+8. [1日500コミットを日常にするツールを作りました](https://zenn.dev/singularity/articles/ever-better-pm2) — その足回りを作る道具
+9. [1日500コミットを続けたら、Macが熱で落ちるようになりました](https://zenn.dev/singularity/articles/bottleneck-descends) — 速くしたら、熱で止まるようになった
+10. この記事 — 速くしたら、起動が止まるようになった
+
+9本目が熱で、10本目が起動です。どちらも、速く書くために足した仕組みが、別のところに出てきたものでした。
+
+上に書いた使い方のほうを詳しく知りたい方は、こちらです。
+
+- [Claude Code と Codex を並列で動かす — MulmoTerminal 日本語ガイド](https://zenn.dev/singularity/articles/mulmoterminal-guide-ja)
