@@ -3,7 +3,8 @@ title: "Strix × Ollama で自分のサイトの穴を AI に探させる"
 emoji: "🦉"
 type: "tech"
 topics: ["security", "pentest", "ollama", "llm", "strix"]
-published: false
+published: true
+publication_name: "singularity"
 ---
 
 ## この記事でやること
