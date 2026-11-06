@@ -9,7 +9,7 @@ publication_name: "singularity"
 
 日本語の読み上げ（TTS）でいちばん困るのは、声の質より**読み間違い**です。「一日から三日まで休みです。」の「一日」は「ついたち」なのか「いちにち」なのか。「上手」は「じょうず」か「うわて」か。日本語では、同じ書き方に読みが何通りもある言葉がたくさんあります。
 
-[yomiscript](https://github.com/receptron/yomiscript) は、この問題を「**文を書いた LLM に、読み方も書かせる**」ことで解決します。音を出すのは、無料で公開されている音声合成モデル **Kokoro-82M** で、Mac の中だけで動きます。API キーも、音声合成の利用料もいりません。
+[yomiscript](https://github.com/receptron/yomiscript) は、この問題を「**文を書いた LLM に、読み方も書かせる**」ことで解決します。音を出すのは、無料で公開されている音声合成モデル **Kokoro-82M** で、手元の Mac の中で動きます。音声合成のための API キーも利用料もいりません。読み方を書く LLM（Claude Code など）は、ふだん使っているものをそのまま使います。その利用料は別にかかります。
 
 この記事は、次の一次資料と、手元の Mac で実際に動かした結果だけをもとに書いています。
 
@@ -69,7 +69,7 @@ Claude の 1 問の失敗は、読みではなく表記の問題でした（「�
 ## なぜ無料なのか
 
 - **Kokoro-82M** は Apache 2.0 で公開されているモデルで、Mac の CPU で動きます
-- yomiscript のコードも Apache 2.0 です
+- yomiscript のコードも Apache 2.0 です。日本語のピッチ予測モデルは CC BY-SA 4.0 です
 - 読み方を書く LLM は、ふだん使っている Claude Code などがそのまま兼ねます。TTS 側に LLM はありません
 
 ただし、LLM の出力は増えます。README によると、YomiScript は元の日本語の約 3 倍の文字数で、`<t:…>` を付けると約 6 倍です。従量課金の API で使う場合は、この分の料金がかかります。
@@ -84,7 +84,7 @@ claude mcp add yomiscript -- npx -y @yomiscript/mcp
 
 これで Claude に `speak` というツールが 1 つ増えます。あとは「〇〇を読み上げて」と頼むだけです。Claude が YomiScript を書いてツールを呼び、Mac のスピーカーから声が出ます。
 
-仕組みのポイントは、**ツールの説明文そのものが YomiScript の書き方になっている**ことです。音素の表、`<t:…>` の付け方、例文が説明文に入っているので、Claude は何も教わらなくても YomiScript を書けます。書き間違えると、サーバーがパーサーのエラーを返し、Claude が直して呼び直します。その場合、音は出ません。
+仕組みのポイントは、**ツールの説明文そのものが YomiScript の書き方になっている**ことです。音素の表、`<t:…>` の付け方、例文が説明文に入っているので、Claude は何も教わらなくても YomiScript を書けます。書き間違えると、サーバーがパーサーのエラーを返すので、Claude はそれを見て直し、呼び直せます。その場合、音は出ません。
 
 Claude Desktop なら `claude_desktop_config.json` に次を足します。
 
@@ -127,8 +127,8 @@ Supertonic 3 の重みは OpenRAIL-M で、用途に制限があります。無�
 MCP を使わず、コマンドで直接鳴らすこともできます。
 
 ```bash
-yarn global add yomiscript
-# または npx yomiscript ...
+npm install -g yomiscript
+# 入れずに使うなら、各コマンドの先頭を npx yomiscript に
 ```
 
 ```bash
@@ -153,7 +153,7 @@ YomiScript を手で書く必要はありません。次のコマンドで、**L
 yomiscript instructions
 ```
 
-これを ChatGPT や Claude などのプロンプトに貼り、「次の文を YomiScript にして」と頼めば、そのまま `yomiscript speak` に渡せる文字列が返ってきます。MCP に対応していない LLM でも使える方法です。
+これを ChatGPT や Claude などのプロンプトに貼り、「次の文を YomiScript にして」と頼めば、YomiScript が返ってきます。説明文やコードの囲み（```）が付いていたら取り除いて、`yomiscript speak` に渡します。MCP に対応していない LLM でも使える方法です。
 
 ## 手元で動かした結果
 
@@ -185,4 +185,4 @@ MCP サーバーも、標準入出力から `speak` を直接呼んで確かめ�
 
 - yomiscript は、**読み方を LLM が決め、Kokoro はそのとおりに読むだけ**、という分担で日本語の読み間違いを減らします
 - 公開されている実験では、読み間違えやすい 70 文で、LLM が書いた読みは 98.6〜100% 正しく、Kokoro に元から付いている読みは 32.9% でした
-- Mac なら `claude mcp add yomiscript -- npx -y @yomiscript/mcp` の 1 行で、Claude Code に話させられます。モデルはローカルで動き、音声合成の料金はかかりません
+- Mac なら `claude mcp add yomiscript -- npx -y @yomiscript/mcp` の 1 行で、Claude Code に話させられます。音声合成はローカルで動き、その料金はかかりません。かかるのは、読み方を書く LLM の利用料だけです
