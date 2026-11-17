@@ -3,7 +3,7 @@ title: "ICP（Internet Computer）について調べてみた ── 公式ド�
 emoji: "🌐"
 type: "idea"
 topics: ["InternetComputer", "ICP", "blockchain", "web3", "クラウド"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
