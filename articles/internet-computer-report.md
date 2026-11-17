@@ -1,5 +1,5 @@
 ---
-title: "ICP（Internet Computer）について調べてみた ── 公式ドキュメントと公開データで AWS・Ethereum・Solana と比べる"
+title: "ICP（Internet Computer）について調べてみた ── 公式資料と公開データで AWS・Ethereum・Solana と比較"
 emoji: "🌐"
 type: "idea"
 topics: ["InternetComputer", "ICP", "blockchain", "web3", "クラウド"]
