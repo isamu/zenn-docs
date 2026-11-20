@@ -21,7 +21,8 @@ AI でアプリを作れるようになって、「動くもの」はすぐに�
 
 | 使っているもの | 気になること | スキル |
 | --- | --- | --- |
-| Firebase | 他人のデータを読み書きされないか | `firebase-security-rules-auditor` |
+| Firebase | 他人のデータを読み書きされないか | `firebase-security-rules-auditor` / `firestore-rules-creation` |
+| Cloud Functions for Firebase | サーバー側の処理に穴がないか | 汎用スキル（`owasp-security` など）に Firebase の注意点を伝える |
 | Supabase | テーブルの中身が誰にでも見えていないか | `supabase-postgres-best-practices` |
 | Stripe | 決済の設定や APIキーの扱いは大丈夫か | `stripe-best-practices` |
 | AWS | 権限を与えすぎていないか | `aws-iam` / `aws-well-architected-review` |
@@ -80,6 +81,57 @@ Firebase では、「誰がどのデータを読み書きしてよいか」を�
 - 一般ユーザーが管理者の権限を手に入れられてしまう
 - 新しく作るときは厳しいのに、更新するときのチェックが抜けている
 - 送られてくるデータの型や大きさを確かめていない
+
+:::message
+このスキルが見るのは **Firestore と Cloud Storage のセキュリティルールだけ** です。Cloud Functions や Authentication の設定など、Firebase のほかの部分は見てくれません。Functions の確かめ方は後で紹介します。
+:::
+
+### ルールをこれから書く・作り直すなら → `firestore-rules-creation`
+
+- **提供元**: Google（[firebase/agent-skills](https://github.com/firebase/agent-skills)）
+- **このスキルがすること**: コードを読んで、安全な Firestore のセキュリティルールを作る
+
+AI にアプリを作らせると、「とりあえず誰でも読み書きできる」ルールのまま公開してしまいがちです。このスキルは、次の順でルールを作り直してくれます。
+
+1. コード全体を読んで、どのデータを、誰が、どう読み書きしているかを洗い出す
+2. 「まず全部禁止し、必要なものだけ許可する」方針でルールを書く
+3. 攻撃者になったつもりで、書いたルールを破れないか試す
+4. ルールの書き方に誤りがないかを確かめる
+
+できたルールは「たたき台」として出てくるので、最後に `firebase-security-rules-auditor` で監査する、という組み合わせがおすすめです。
+
+```text
+firestore-rules-creation スキルで、このアプリの Firestore のセキュリティルールを作り直して
+```
+
+### ほかの Firebase 公式スキルにも、セキュリティの注意が入っている
+
+同じリポジトリのスキルは、監査専用ではなく「書くときの手引き」ですが、使っている機能に合わせて入れておくと、AI が危ない書き方をしにくくなります。
+
+| スキル | セキュリティに関係するところ |
+| --- | --- |
+| `firebase-app-hosting-basics` | APIキーなどの秘密の情報を、設定ファイルに直接書かず、秘密情報として登録して渡す |
+| `firebase-ai-logic-basics` | アプリから直接 Gemini を呼ぶなら、正規のアプリ以外からの呼び出しを防ぐ App Check を必ず設定する |
+| `firebase-data-connect-basics` | 誰がどのデータを扱えるかを、`@auth` や `@check` で決める |
+
+### Cloud Functions を使っている → 汎用スキルに、Firebase の注意点を伝えて頼む
+
+Firebase の公式スキル集には、Cloud Functions のセキュリティを見るスキルはありません。Functions はふつうのサーバーのプログラムなので、後で紹介する `owasp-security` や、Sentry の `security-review` などの汎用スキルで確かめます。
+
+ただし、Firebase ならではの見落としやすい点があります。頼むときに、次の三つをはっきり伝えましょう。
+
+- **Functions の中ではセキュリティルールが効かない**: Functions で使う Admin SDK は、ルールを素通りしてどのデータにも触れます。「この人がこのデータを触ってよいか」のチェックを、Functions のコードの中で自分で書く必要があります
+- **呼び出した人を確かめているか**: `onCall` の関数でログインしているかを確かめているか。`onRequest` の関数は誰でも URL を叩けるので、認証と、どのサイトから呼べるか（CORS）の設定が必要です
+- **秘密の情報をコードに書いていないか**: APIキーなどは、コードに直接書かず `defineSecret` で扱います
+
+たとえば、こう頼みます。
+
+```text
+owasp-security スキルで functions/ フォルダを監査して。特に次の三つを確認して。
+1. Admin SDK はセキュリティルールを素通りするので、各関数で権限チェックをしているか
+2. onCall で認証を確かめているか、onRequest に認証と CORS の設定があるか
+3. APIキーなどをコードに直接書かず defineSecret を使っているか
+```
 
 ---
 
