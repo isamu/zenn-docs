@@ -3,7 +3,7 @@ title: "Firebase を使っているなら、このスキル ── 使ってい�
 emoji: "🔐"
 type: "tech"
 topics: ["ClaudeCode", "セキュリティ", "vibecoding", "Firebase", "Supabase"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
