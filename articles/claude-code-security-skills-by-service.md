@@ -1,5 +1,5 @@
 ---
-title: "Firebase を使っているなら、このスキル ── 使っているサービス別、Claude Code のセキュリティ監査スキル"
+title: "Vibe Coding で使うサービス・ツール別 Claude Code のセキュリティ監査スキル"
 emoji: "🔐"
 type: "tech"
 topics: ["ClaudeCode", "セキュリティ", "vibecoding", "Firebase", "Supabase"]
