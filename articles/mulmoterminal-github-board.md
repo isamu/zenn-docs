@@ -3,7 +3,7 @@ title: "誰もカードを動かさないカンバン — MulmoTerminal の GitH
 emoji: "📋"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["ClaudeCode", "GitHub", "Codex", "MulmoTerminal", "kanban"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
