@@ -3,7 +3,7 @@ title: "見積書の検算、計画の相談、動画の切り出し — MulmoTe
 emoji: "🧰"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["ClaudeCode", "MulmoTerminal", "AI", "ffmpeg", "chaff"]
-published: false
+published: true
 publication_name: "singularity"
 ---
 
