@@ -460,7 +460,7 @@ Claude Code には、ほかにも測る道具があります。
 - 確かめるための組の点数が**厳密に上がったときだけ**採用する。同点は却下する
 - **却下した編集を記録**して、同じ案を繰り返し出さないようにする
 
-この作法で、人が書いたスキルより平均 +5.4 ポイント良くなったと報告しています。
+論文では、6 つの課題の平均がスキルなしの 58.8% から 82.3% に上がり、課題ごとに一番良かった比較相手（人が書いたスキルや GEPA など）より平均 +5.4 ポイント高かったと報告しています。
 
 **半自動で回すときの指示文：**
 
@@ -493,6 +493,48 @@ pip install "gepa[gskill]"   # Docker も必要
 前提として、**答え合わせのできる課題**が数百件必要です（ガイドの例では、直すための組 200 件、確かめるための組 50 件、試験用 100 件）。採点の関数は、点数に加えて**理由の文章**を返すようにします。GEPA は、その理由を読んで書き直すからです。手順は [gskill のガイド](https://gepa.dev/guides/gskill) にあります。
 
 コーディング以外の業務では課題を自動で作れないので、3.1 節の場面のファイルを増やしていくところから始めます。
+
+### 4.3 GEPA 以外の手法と選び方
+
+自動で直す手法は、GEPA のほかにもたくさんあります。
+
+**スキル（SKILL.md）向けに作られた手法（2026 年）**
+
+| 手法 | やり方 | 向いている場面 |
+|---|---|---|
+| [SkillOpt](https://arxiv.org/abs/2605.23904) | 部分的な追加・置換・削除だけで直し、1 回の編集数に上限を設ける。確かめるための組で点数が厳密に上がったときだけ採用する | 自作するときの基本形（4.1 節の作法） |
+| [SkillGrad](https://arxiv.org/abs/2605.27760) | 複数の実行から繰り返し出る問題をためてから、成功と失敗を比べて原因を診断し、スキルの層ごとに直す | 失敗の種類が多く、1 回ごとの失敗に振り回されたくないとき |
+| [SkillAdam](https://arxiv.org/abs/2609.08944) | 過去に見つけた問題と試した修正の結果を覚えておき、改善のばらつきに応じて編集量を変える | 長く回し続けるとき |
+| [Self-Supervised Skill Optimization](https://arxiv.org/abs/2607.28777) | **正解なし**で直す。スキルの実行結果を 2 つずつ AI に比べさせ、根拠の多い違いから反映する | 答え合わせが作れない業務（文章、企画など） |
+| [SkillReducer](https://arxiv.org/abs/2603.29919) | スキルを圧縮する。説明文を発火が保てる最小限に削り、本文を種類ごとに圧縮する。本文のトークンを平均 39% 削り、86% の課題で元と同等以上の出来を保った | 長くなったスキルの整理 |
+| [`skill-creator` の `run_loop.py`](https://github.com/anthropics/skills/tree/main/skills/skill-creator) | 説明文だけを、発火率で直す（3.2 節） | 使われないことだけが問題のとき |
+
+**プロンプトの最適化の手法（スキルにも当てられる）**
+
+| 手法 | やり方 | 使い方 |
+|---|---|---|
+| [GEPA](https://arxiv.org/abs/2507.19457) | 実行の記録と採点の理由を読ませて書き直させ、問題ごとに最高点を取った案を残す | `gepa`、DSPy の `dspy.GEPA` |
+| [ACE](https://arxiv.org/abs/2510.04618) | 全文を書き直さず、手引きに項目単位で追記・整理していく | 論文の方式を自作（2.3 節） |
+| [MIPROv2](https://arxiv.org/abs/2406.11695) | 指示文とお手本の組み合わせを、点数を頼りに探す | DSPy の `MIPROv2` |
+| [TextGrad](https://arxiv.org/abs/2406.07496) | AI の批評を「勾配」に見立て、逆向きに伝えて直す | `textgrad` |
+| [ProTeGi](https://arxiv.org/abs/2305.03495) | 失敗から批評（文章の勾配）を作り、候補を絞り込みながら直す | 論文の方式を自作 |
+| [OPRO](https://arxiv.org/abs/2309.03409) | 過去の案と点数を並べて見せ、より良い案を書かせる | 自作が容易 |
+| [EvoPrompt](https://arxiv.org/abs/2309.08532) / [Promptbreeder](https://arxiv.org/abs/2309.16797) | 案を交配・変異させて進化させる | 論文の方式を自作 |
+| [APE](https://arxiv.org/abs/2211.01910) | 例から案をたくさん作らせ、一番点数の良いものを選ぶ | 自作が容易 |
+
+総説（Agent Skill Evaluation and Evolution）は、スキル改善の手法を「実行のフィードバックで直す」「実行記録から抜き出す」「圧縮する」「強化学習」の 4 つに分けています。GEPA と SkillOpt は 1 つ目、ACE は 2 つ目、SkillReducer は 3 つ目です。
+
+**選び方**
+
+| いまの状況 | 選ぶもの |
+|---|---|
+| 答え合わせができる（テストがある） | GEPA（gskill）か、SkillOpt の作法で自作（4.1 節） |
+| 答え合わせができない | Self-Supervised Skill Optimization の考え方（2 つの結果を比べさせる） |
+| 使われないのが問題 | `skill-creator` の `run_loop.py`、または 3.2 節のスクリプト |
+| 長すぎるのが問題 | 圧縮。手でやるなら 1.3 節の指示文 |
+| 失敗のたびに少しずつ足したい | ACE の項目単位の追記（2.3 節） |
+
+どの手法でも、効き目は手法の違いより、**採点の質**と「**確かめるための組で上がったときだけ採用する**」という縛りで決まります。汎用の最適化器をそのまま回しても、手書きの初期版とほとんど変わらなかったという報告（4.1 節の BiPA）を忘れないでください。
 
 ## 5. 出典どうしの食い違い
 
@@ -578,3 +620,9 @@ pip install "gepa[gskill]"   # Docker も必要
 - [BiPA](https://arxiv.org/abs/2610.37201) — 汎用の最適化器による改善の過大評価
 - [Agentic Context Engineering（ACE）](https://arxiv.org/abs/2510.04618) — 簡潔さへの偏りと文脈の崩壊
 - [Agent Skill Evaluation and Evolution](https://arxiv.org/abs/2606.11435) — スキルの評価と改善の総説
+- [SkillGrad](https://arxiv.org/abs/2605.27760) — 繰り返し出る問題をためてから直す
+- [SkillAdam](https://arxiv.org/abs/2609.08944) — 修正の記憶と、ばらつきに応じた編集量
+- [Self-Supervised Skill Optimization](https://arxiv.org/abs/2607.28777) — 正解なしでの改善
+- [SkillReducer](https://arxiv.org/abs/2603.29919) — スキルの圧縮
+- [GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning](https://arxiv.org/abs/2507.19457)
+- [MIPROv2](https://arxiv.org/abs/2406.11695)、[TextGrad](https://arxiv.org/abs/2406.07496)、[ProTeGi](https://arxiv.org/abs/2305.03495)、[OPRO](https://arxiv.org/abs/2309.03409)、[EvoPrompt](https://arxiv.org/abs/2309.08532)、[Promptbreeder](https://arxiv.org/abs/2309.16797)、[APE](https://arxiv.org/abs/2211.01910) — プロンプトの最適化の手法
