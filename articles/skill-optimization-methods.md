@@ -1,5 +1,5 @@
 ---
-title: "スキル（SKILL.md）を自動で直す手法の中身 ── SkillOpt・SkillAdam・SSO・SkillReducer・GEPA と、それを疑う BiPA"
+title: "スキルを自動で直す手法 ── SkillOpt・SkillAdam・SSO・SkillReducer・GEPA と、それを疑う BiPA"
 emoji: "🔬"
 type: "tech"
 topics: ["ClaudeCode", "AgentSkills", "LLM", "GEPA", "プロンプト"]
