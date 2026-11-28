@@ -627,3 +627,4 @@ pip install "gepa[gskill]"   # Docker も必要
 - [GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning](https://arxiv.org/abs/2507.19457)
 - [MIPROv2](https://arxiv.org/abs/2406.11695)、[TextGrad](https://arxiv.org/abs/2406.07496)、[ProTeGi](https://arxiv.org/abs/2305.03495)、[OPRO](https://arxiv.org/abs/2309.03409)、[EvoPrompt](https://arxiv.org/abs/2309.08532)、[Promptbreeder](https://arxiv.org/abs/2309.16797)、[APE](https://arxiv.org/abs/2211.01910) — プロンプトの最適化の手法
 
+
